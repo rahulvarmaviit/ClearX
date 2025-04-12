@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Dashboard - Discount Marketplace</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#4F46E5", secondary: "" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #1f2937;
+      }
+      .delete-confirm-dialog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      }
+      .delete-confirm-dialog.show {
+      display: flex;
+      }
+      .delete-confirm-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      }
+      .hero-slider {
+      position: relative;
+      overflow: hidden;
+      height: 400px;
+      }
+      .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      }
+      .slide.active {
+      opacity: 1;
+      }
+      .price-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: #e5e7eb;
+      outline: none;
+      border-radius: 4px;
+      }
+      .price-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #4F46E5;
+      cursor: pointer;
+      }
+      .price-slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #4F46E5;
+      cursor: pointer;
+      }
+      .custom-checkbox {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      }
+      .custom-checkbox input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+      }
+      .checkmark {
+      height: 18px;
+      width: 18px;
+      background-color: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      }
+      .custom-checkbox input:checked ~ .checkmark {
+      background-color: #4F46E5;
+      }
+      .checkmark:after {
+      content: "";
+      display: none;
+      }
+      .custom-checkbox input:checked ~ .checkmark:after {
+      display: block;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      }
+      .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 400px;
+      height: 100vh;
+      background-color: #ffffff;
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .cart-sidebar.open {
+      right: 0;
+      }
+      .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+      }
+      .cart-overlay.open {
+      display: block;
+      }
+      .category-strip {
+      overflow-x: auto;
+      scrollbar-width: none;
+      }
+      .category-strip::-webkit-scrollbar {
+      display: none;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      }
+      input[type="number"] {
+      -moz-appearance: textfield;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 w-full bg-white shadow-sm z-50">
+      <div
+        class="container mx-auto px-4 h-[70px] flex items-center justify-between"
+      >
+        <div class="flex items-center">
+          <a href="index.html" class="text-2xl font-['Pacifico'] text-primary mr-8"
+            >ClearX</a
+          >
+        </div>
+        <div class="flex-1 max-w-3xl mx-4 relative">
+          <div class="flex">
+            <div class="relative w-full">
+              <input
+                type="text"
+                placeholder="Search products..."
+                class="w-full bg-gray-50 border border-gray-200 rounded-l-button text-gray-700 pl-4 pr-10 py-2 focus:outline-none focus:ring-1 focus:ring-primary text-sm"
+              />
+              <div
+                class="absolute right-0 top-0 h-full flex items-center justify-center pr-3"
+              >
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-400"
+                >
+                  <i class="ri-search-line"></i>
+                </div>
+              </div>
+            </div>
+            <div class="relative">
+              <button
+                class="bg-gray-100 text-gray-700 border border-gray-200 px-4 py-2 rounded-r-button text-sm whitespace-nowrap !rounded-button flex items-center"
+              >
+                All Categories
+                <div class="w-4 h-4 flex items-center justify-center ml-1">
+                  <i class="ri-arrow-down-s-line"></i>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-5">
+          <div
+            class="relative w-10 h-10 flex items-center justify-center cursor-pointer text-gray-300 hover:text-primary"
+          >
+            <i class="ri-heart-line ri-xl"></i>
+            <span
+              class="absolute -top-1 -right-1 bg-gray-700 text-xs text-white rounded-full w-5 h-5 flex items-center justify-center"
+              >3</span
+            >
+          </div>
+          <div
+            id="cartToggle"
+            class="relative w-10 h-10 flex items-center justify-center cursor-pointer text-gray-300 hover:text-primary"
+          >
+            <i class="ri-shopping-cart-line ri-xl"></i>
+            <span
+              class="absolute -top-1 -right-1 bg-primary text-xs text-white rounded-full w-5 h-5 flex items-center justify-center"
+              >5</span
+            >
+          </div>
+          <div
+            class="relative w-10 h-10 flex items-center justify-center cursor-pointer text-gray-300 hover:text-primary"
+          >
+            <i class="ri-user-line ri-xl"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Main Content -->
+    <main class="pt-[70px]">
+      <!-- Hero Slider -->
+      <section class="hero-slider">
+        <div
+          class="slide active"
+          style="background-image: url('https://readdy.ai/api/search-image?query=modern%20e-commerce%20banner%20with%20text%20Spring%20Clearance%20Sale%20overlaid%20on%20a%20dark%20luxury%20background%20with%20elegant%20product%20displays%2C%20premium%20lifestyle%20products%20arranged%20artistically%20with%20soft%20lighting%20and%20dramatic%20shadows%2C%20text%20placement%20on%20left%20side%20with%20clean%20typography&width=1280&height=400&seq=1&orientation=landscape'); background-size: cover; background-position: center;"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"
+          >
+            <div class="container mx-auto h-full px-4 flex items-center">
+              <div class="max-w-xl">
+                <h1 class="text-4xl font-bold text-white mb-4">
+                  Spring Clearance Sale
+                </h1>
+                <p class="text-lg text-gray-200 mb-6">
+                  Up to 70% off on near-expiry products. Save money while
+                  reducing food waste!
+                </p>
+                <button
+                  class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap !rounded-button"
+                >
+                  Shop Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="slide"
+          style="background-image: url('https://readdy.ai/api/search-image?query=modern%20e-commerce%20banner%20with%20text%20Fresh%20Produce%20Deals%20overlaid%20on%20a%20dark%20luxury%20background%20with%20elegant%20fresh%20fruits%20and%20vegetables%20arranged%20artistically%2C%20premium%20organic%20produce%20with%20soft%20lighting%20and%20dramatic%20shadows%2C%20text%20placement%20on%20left%20side%20with%20clean%20typography&width=1280&height=400&seq=2&orientation=landscape'); background-size: cover; background-position: center;"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"
+          >
+            <div class="container mx-auto h-full px-4 flex items-center">
+              <div class="max-w-xl">
+                <h1 class="text-4xl font-bold text-white mb-4">
+                  Fresh Produce Deals
+                </h1>
+                <p class="text-lg text-gray-200 mb-6">
+                  Save up to 50% on fresh fruits and vegetables. Limited time
+                  offers!
+                </p>
+                <button
+                  class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap !rounded-button"
+                >
+                  Explore Deals
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="slide"
+          style="background-image: url('https://readdy.ai/api/search-image?query=modern%20e-commerce%20banner%20with%20text%20Household%20Essentials%20overlaid%20on%20a%20dark%20luxury%20background%20with%20elegant%20home%20appliances%20and%20electronics%20arranged%20artistically%2C%20premium%20lifestyle%20products%20with%20soft%20lighting%20and%20dramatic%20shadows%2C%20text%20placement%20on%20left%20side%20with%20clean%20typography&width=1280&height=400&seq=3&orientation=landscape'); background-size: cover; background-position: center;"
+        >
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"
+          >
+            <div class="container mx-auto h-full px-4 flex items-center">
+              <div class="max-w-xl">
+                <h1 class="text-4xl font-bold text-white mb-4">
+                  Household Essentials
+                </h1>
+                <p class="text-lg text-gray-200 mb-6">
+                  Stock up and save on everyday essentials with discounts up to
+                  40%!
+                </p>
+                <button
+                  class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap !rounded-button"
+                >
+                  View Offers
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Slider Controls -->
+        <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-primary cursor-pointer"></span>
+          <span class="w-3 h-3 rounded-full bg-gray-400 cursor-pointer"></span>
+          <span class="w-3 h-3 rounded-full bg-gray-400 cursor-pointer"></span>
+        </div>
+        <button
+          class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/30 rounded-full flex items-center justify-center text-white hover:bg-black/50"
+        >
+          <i class="ri-arrow-left-s-line ri-xl"></i>
+        </button>
+        <button
+          class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/30 rounded-full flex items-center justify-center text-white hover:bg-black/50"
+        >
+          <i class="ri-arrow-right-s-line ri-xl"></i>
+        </button>
+      </section>
+      <!-- Categories Strip -->
+      <section class="py-8 bg-gray-50">
+        <div class="container mx-auto px-4">
+          <h2 class="text-xl font-semibold mb-4">Shop by Category</h2>
+          <div class="category-strip flex gap-4 pb-2 relative">
+            <div
+              class="min-w-[140px] bg-white rounded shadow-sm p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50 transition"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-2 text-primary"
+              >
+                <i class="ri-shopping-basket-line ri-xl"></i>
+              </div>
+              <span class="text-sm font-medium">Groceries</span>
+            </div>
+            <div
+              class="min-w-[140px] bg-white rounded shadow-sm p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50 transition"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-2 text-primary"
+              >
+                <i class="ri-t-shirt-line ri-xl"></i>
+              </div>
+              <span class="text-sm font-medium">Fashion</span>
+            </div>
+            <div
+              class="min-w-[140px] bg-white rounded shadow-sm p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50 transition"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-2 text-primary"
+              >
+                <i class="ri-home-line ri-xl"></i>
+              </div>
+              <span class="text-sm font-medium">Home</span>
+            </div>
+            <div
+              class="min-w-[140px] bg-white rounded shadow-sm p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50 transition"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-2 text-primary"
+              >
+                <i class="ri-computer-line ri-xl"></i>
+              </div>
+              <span class="text-sm font-medium">Electronics</span>
+            </div>
+            <div
+              class="min-w-[140px] bg-white rounded shadow-sm p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50 transition"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-2 text-primary"
+              >
+                <i class="ri-medicine-bottle-line ri-xl"></i>
+              </div>
+              <span class="text-sm font-medium">Health</span>
+            </div>
+            <div
+              class="min-w-[140px] bg-white rounded shadow-sm p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50 transition"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-2 text-primary"
+              >
+                <i class="ri-gamepad-line ri-xl"></i>
+              </div>
+              <span class="text-sm font-medium">Toys</span>
+            </div>
+            <div
+              class="min-w-[140px] bg-white rounded shadow-sm p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50 transition"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-2 text-primary"
+              >
+                <i class="ri-restaurant-line ri-xl"></i>
+              </div>
+              <span class="text-sm font-medium">Food</span>
+            </div>
+            <div
+              class="min-w-[140px] bg-white rounded shadow-sm p-4 flex flex-col items-center cursor-pointer hover:bg-gray-50 transition"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-2 text-primary"
+              >
+                <i class="ri-book-line ri-xl"></i>
+              </div>
+              <span class="text-sm font-medium">Books</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Main Content Grid -->
+      <section class="py-8 bg-white">
+        <div class="container mx-auto px-4">
+          <div class="flex flex-wrap">
+            <!-- Sidebar Filters -->
+            <aside class="w-full md:w-1/4 pr-0 md:pr-6 mb-6 md:mb-0">
+              <div class="bg-white rounded shadow-sm p-5">
+                <h3 class="text-lg font-semibold mb-4">Filters</h3>
+                <!-- Price Range Filter -->
+                <div class="mb-6">
+                  <h4 class="text-sm font-medium mb-3">Price Range</h4>
+                  <div class="mb-4">
+                    <input
+                      type="range"
+                      min="0"
+                      max="1000"
+                      value="500"
+                      class="price-slider"
+                    />
+                  </div>
+                  <div class="flex justify-between">
+                    <div class="bg-gray-50 rounded px-3 py-2 text-sm">₹0</div>
+                    <div class="bg-gray-50 rounded px-3 py-2 text-sm">₹5000</div>
+                  </div>
+                </div>
+                <!-- Category Filter -->
+                <div class="mb-6">
+                  <h4 class="text-sm font-medium mb-3">Categories</h4>
+                  <div class="space-y-2">
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" checked />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Groceries</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Dairy Products</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Bakery</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Beverages</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Snacks</span>
+                    </label>
+                  </div>
+                </div>
+                <!-- Expiry Date Filter -->
+                <div class="mb-6">
+                  <h4 class="text-sm font-medium mb-3">Expiry Date</h4>
+                  <div class="space-y-2">
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" checked />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Within 7 days</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Within 15 days</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Within 30 days</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">More than 30 days</span>
+                    </label>
+                  </div>
+                </div>
+                <!-- Brand Filter -->
+                <div class="mb-6">
+                  <h4 class="text-sm font-medium mb-3">Brands</h4>
+                  <div class="space-y-2">
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Organic Farms</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" checked />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Nature's Best</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Fresh Daily</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Green Valley</span>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <span class="text-sm">Healthy Choice</span>
+                    </label>
+                  </div>
+                </div>
+                <!-- Rating Filter -->
+                <div>
+                  <h4 class="text-sm font-medium mb-3">Rating</h4>
+                  <div class="space-y-2">
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" checked />
+                      <span class="checkmark"></span>
+                      <div class="flex text-yellow-400 text-sm">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                      </div>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <div class="flex text-yellow-400 text-sm">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-line"></i>
+                      </div>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <div class="flex text-yellow-400 text-sm">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-line"></i>
+                        <i class="ri-star-line"></i>
+                      </div>
+                    </label>
+                    <label class="custom-checkbox flex items-center gap-2">
+                      <input type="checkbox" />
+                      <span class="checkmark"></span>
+                      <div class="flex text-yellow-400 text-sm">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-line"></i>
+                        <i class="ri-star-line"></i>
+                        <i class="ri-star-line"></i>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </aside>
+            <!-- Product Grid -->
+            <div class="w-full md:w-3/4">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold">Featured Products</h2>
+                <div class="flex items-center gap-2">
+                  <span class="text-sm">Sort by:</span>
+                  <div class="relative">
+                    <button
+                      class="bg-gray-900 text-gray-200 border-none px-4 py-2 rounded-button text-sm flex items-center whitespace-nowrap !rounded-button"
+                    >
+                      Discount: High to Low
+                      <div
+                        class="w-4 h-4 flex items-center justify-center ml-1"
+                      >
+                        <i class="ri-arrow-down-s-line"></i>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Product Card 1 -->
+                <div class="bg-white rounded shadow-sm overflow-hidden">
+                  <div class="relative">
+                    <img
+                      src="https://readdy.ai/api/search-image?query=organic%20fresh%20apples%20in%20a%20basket%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting%2C%20showing%20red%20apples%20with%20some%20green%20leaves%2C%20perfect%20for%20online%20grocery%20shopping&width=400&height=300&seq=4&orientation=landscape"
+                      alt="Organic Apples"
+                      class="w-full h-48 object-cover object-top"
+                    />
+                    <div
+                      class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded"
+                    >
+                      -40%
+                    </div>
+                    <button
+                      class="absolute top-2 right-2 w-8 h-8 bg-gray-800/80 rounded-full flex items-center justify-center text-gray-200 hover:text-primary"
+                    >
+                      <i class="ri-heart-line"></i>
+                    </button>
+                  </div>
+                  <div class="p-4">
+                    <div class="flex text-yellow-400 text-sm mb-1">
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-half-line"></i>
+                      <span class="text-gray-400 ml-1">(128)</span>
+                    </div>
+                    <h3 class="font-medium mb-1">Organic Red Apples</h3>
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="text-primary font-bold">₹359</span>
+                      <span class="text-gray-400 line-through text-sm"
+                        >₹599</span
+                      >
+                    </div>
+                    <div class="flex items-center text-xs text-gray-400 mb-3">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>Expires in 5 days</span>
+                    </div>
+                    <div class="flex gap-2">
+                      <button
+                        class="flex-1 bg-gray-800 hover:bg-primary text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        onclick="showCheckout()"
+                        class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Checkout Modal -->
+                  <div
+                    id="checkoutModal"
+                    class="fixed inset-0 bg-black/50 z-[1000] hidden"
+                  >
+                    <div
+                      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-lg p-6"
+                    >
+                      <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold">Checkout</h2>
+                        <button
+                          onclick="hideCheckout()"
+                          class="text-gray-400 hover:text-white"
+                        >
+                          <i class="ri-close-line ri-lg"></i>
+                        </button>
+                      </div>
+                      <!-- Delivery Address -->
+                      <div class="mb-6">
+                        <h3 class="text-lg font-medium mb-4">
+                          Delivery Address
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4">
+                          <div>
+                            <label class="block text-sm text-gray-400 mb-1"
+                              >Full Name</label
+                            >
+                            <input
+                              type="text"
+                              class="w-full bg-gray-50 border border-gray-200 rounded p-2 text-sm"
+                              placeholder="Enter your full name"
+                            />
+                          </div>
+                          <div>
+                            <label class="block text-sm text-gray-400 mb-1"
+                              >Phone Number</label
+                            >
+                            <input
+                              type="tel"
+                              class="w-full bg-gray-50 border border-gray-200 rounded p-2 text-sm"
+                              placeholder="Enter phone number"
+                            />
+                          </div>
+                          <div class="col-span-2">
+                            <label class="block text-sm text-gray-400 mb-1"
+                              >Address</label
+                            >
+                            <input
+                              type="text"
+                              class="w-full bg-gray-50 border border-gray-200 rounded p-2 text-sm"
+                              placeholder="Enter delivery address"
+                            />
+                          </div>
+                          <div>
+                            <label class="block text-sm text-gray-400 mb-1"
+                              >City</label
+                            >
+                            <input
+                              type="text"
+                              class="w-full bg-gray-50 border border-gray-200 rounded p-2 text-sm"
+                              placeholder="Enter city"
+                            />
+                          </div>
+                          <div>
+                            <label class="block text-sm text-gray-400 mb-1"
+                              >Postal Code</label
+                            >
+                            <input
+                              type="text"
+                              class="w-full bg-gray-50 border border-gray-200 rounded p-2 text-sm"
+                              placeholder="Enter postal code"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Payment Method -->
+                      <div class="mb-6">
+                        <h3 class="text-lg font-medium mb-4">Payment Method</h3>
+                        <div class="mb-4">
+                          <input
+                            type="text"
+                            class="w-full bg-gray-50 border border-gray-200 rounded p-2 text-sm"
+                            placeholder="Enter UPI ID (for UPI payment)"
+                          />
+                        </div>
+                        <div class="grid grid-cols-3 gap-4">
+                          <label
+                            class="flex items-center justify-center gap-2 p-3 bg-gray-50 rounded cursor-pointer hover:bg-gray-100"
+                          >
+                            <input
+                              type="radio"
+                              name="payment"
+                              class="hidden"
+                              checked
+                            />
+                            <i class="ri-bank-card-line text-xl"></i>
+                            <span>Credit Card</span>
+                          </label>
+                          <label
+                            class="flex items-center justify-center gap-2 p-3 bg-gray-50 rounded cursor-pointer hover:bg-gray-100"
+                          >
+                            <input type="radio" name="payment" class="hidden" />
+                            <i class="ri-phone-fill text-xl"></i>
+                            <span>PhonePe</span>
+                          </label>
+                          <label
+                            class="flex items-center justify-center gap-2 p-3 bg-gray-50 rounded cursor-pointer hover:bg-gray-100"
+                          >
+                            <input type="radio" name="payment" class="hidden" />
+                            <i class="ri-bank-fill text-xl"></i>
+                            <span>UPI</span>
+                          </label>
+                          <label
+                            class="flex items-center justify-center gap-2 p-3 bg-gray-50 rounded cursor-pointer hover:bg-gray-100"
+                          >
+                            <input type="radio" name="payment" class="hidden" />
+                            <i class="ri-alipay-fill text-xl"></i>
+                            <span>Alipay</span>
+                          </label>
+                          <label
+                            class="flex items-center justify-center gap-2 p-3 bg-gray-50 rounded cursor-pointer hover:bg-gray-100"
+                          >
+                            <input type="radio" name="payment" class="hidden" />
+                            <i class="ri-wechat-pay-fill text-xl"></i>
+                            <span>WeChat Pay</span>
+                          </label>
+                        </div>
+                      </div>
+                      <!-- Order Summary -->
+                      <div class="mb-6">
+                        <h3 class="text-lg font-medium mb-4">Order Summary</h3>
+                        <div class="bg-gray-50 rounded p-4">
+                          <div class="flex justify-between mb-2">
+                            <span class="text-gray-500"
+                              >Organic Red Apples</span
+                            >
+                            <span>₹359</span>
+                          </div>
+                          <div class="flex justify-between mb-2">
+                            <span class="text-gray-500">Delivery Fee</span>
+                            <span>₹299</span>
+                          </div>
+                          <div class="border-t border-gray-200 my-2"></div>
+                          <div class="flex justify-between font-medium">
+                            <span>Total</span>
+                            <span>₹658</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        onclick="processPayment()"
+                        class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-button font-medium transition whitespace-nowrap !rounded-button"
+                      >
+                        Place Order
+                      </button>
+                    </div>
+                  </div>
+                  <script>
+                    function showCheckout() {
+                      document.getElementById("checkoutModal").classList.remove("hidden");
+                      document.body.style.overflow = "hidden";
+                    }
+                    function hideCheckout() {
+                      document.getElementById("checkoutModal").classList.add("hidden");
+                      document.body.style.overflow = "";
+                    }
+                    function processPayment() {
+                      // Show loading state
+                      const button = event.target;
+                      const originalText = button.textContent;
+                      button.disabled = true;
+                      button.innerHTML =
+                        '<i class="ri-loader-4-line animate-spin"></i> Processing...';
+                      // Simulate payment processing
+                      setTimeout(() => {
+                        // Show success message
+                        button.innerHTML =
+                          '<i class="ri-check-line"></i> Order Placed Successfully!';
+                        button.classList.add("bg-green-600");
+                        // Close modal after delay
+                        setTimeout(() => {
+                          hideCheckout();
+                          // Reset button state
+                          button.disabled = false;
+                          button.textContent = originalText;
+                          button.classList.remove("bg-green-600");
+                        }, 2000);
+                      }, 2000);
+                    }
+                  </script>
+                </div>
+                <!-- Product Card 2 -->
+                <div class="bg-white rounded shadow-sm overflow-hidden">
+                  <div class="relative">
+                    <img
+                      src="https://readdy.ai/api/search-image?query=fresh%20organic%20milk%20in%20glass%20bottles%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting%2C%20showing%20milk%20bottles%20with%20cream%20on%20top%2C%20perfect%20for%20online%20grocery%20shopping&width=400&height=300&seq=5&orientation=landscape"
+                      alt="Organic Milk"
+                      class="w-full h-48 object-cover object-top"
+                    />
+                    <div
+                      class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded"
+                    >
+                      -25%
+                    </div>
+                    <button
+                      class="absolute top-2 right-2 w-8 h-8 bg-gray-800/80 rounded-full flex items-center justify-center text-gray-200 hover:text-primary"
+                    >
+                      <i class="ri-heart-line"></i>
+                    </button>
+                  </div>
+                  <div class="p-4">
+                    <div class="flex text-yellow-400 text-sm mb-1">
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-line"></i>
+                      <span class="text-gray-400 ml-1">(86)</span>
+                    </div>
+                    <h3 class="font-medium mb-1">Organic Whole Milk</h3>
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="text-primary font-bold">₹299</span>
+                      <span class="text-gray-400 line-through text-sm"
+                        >₹399</span
+                      >
+                    </div>
+                    <div class="flex items-center text-xs text-gray-400 mb-3">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>Expires in 3 days</span>
+                    </div>
+                    <div class="flex gap-2">
+                      <button
+                        class="flex-1 bg-gray-800 hover:bg-primary text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        onclick="showCheckout()"
+                        class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Product Card 3 -->
+                <div class="bg-white rounded shadow-sm overflow-hidden">
+                  <div class="relative">
+                    <img
+                      src="https://readdy.ai/api/search-image?query=artisan%20bread%20loaf%2C%20freshly%20baked%20sourdough%20bread%20with%20crispy%20crust%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting%2C%20perfect%20for%20online%20bakery%20shopping&width=400&height=300&seq=6&orientation=landscape"
+                      alt="Artisan Bread"
+                      class="w-full h-48 object-cover object-top"
+                    />
+                    <div
+                      class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded"
+                    >
+                      -30%
+                    </div>
+                    <button
+                      class="absolute top-2 right-2 w-8 h-8 bg-gray-800/80 rounded-full flex items-center justify-center text-gray-200 hover:text-primary"
+                    >
+                      <i class="ri-heart-line"></i>
+                    </button>
+                  </div>
+                  <div class="p-4">
+                    <div class="flex text-yellow-400 text-sm mb-1">
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <span class="text-gray-400 ml-1">(215)</span>
+                    </div>
+                    <h3 class="font-medium mb-1">Artisan Sourdough Bread</h3>
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="text-primary font-bold">₹419</span>
+                      <span class="text-gray-400 line-through text-sm"
+                        >₹599</span
+                      >
+                    </div>
+                    <div class="flex items-center text-xs text-gray-400 mb-3">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>Expires in 2 days</span>
+                    </div>
+                    <div class="flex gap-2">
+                      <button
+                        class="flex-1 bg-gray-800 hover:bg-primary text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        onclick="showCheckout()"
+                        class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Product Card 4 -->
+                <div class="bg-white rounded shadow-sm overflow-hidden">
+                  <div class="relative">
+                    <img
+                      src="https://readdy.ai/api/search-image?query=organic%20yogurt%20in%20glass%20jars%20with%20berries%20on%20top%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting%2C%20showing%20creamy%20yogurt%20with%20fresh%20berries%2C%20perfect%20for%20online%20grocery%20shopping&width=400&height=300&seq=7&orientation=landscape"
+                      alt="Organic Yogurt"
+                      class="w-full h-48 object-cover object-top"
+                    />
+                    <div
+                      class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded"
+                    >
+                      -35%
+                    </div>
+                    <button
+                      class="absolute top-2 right-2 w-8 h-8 bg-gray-800/80 rounded-full flex items-center justify-center text-gray-200 hover:text-primary"
+                    >
+                      <i class="ri-heart-line"></i>
+                    </button>
+                  </div>
+                  <div class="p-4">
+                    <div class="flex text-yellow-400 text-sm mb-1">
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-line"></i>
+                      <span class="text-gray-400 ml-1">(94)</span>
+                    </div>
+                    <h3 class="font-medium mb-1">Greek Yogurt with Berries</h3>
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="text-primary font-bold">₹259</span>
+                      <span class="text-gray-400 line-through text-sm"
+                        >₹399</span
+                      >
+                    </div>
+                    <div class="flex items-center text-xs text-gray-400 mb-3">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>Expires in 4 days</span>
+                    </div>
+                    <div class="flex gap-2">
+                      <button
+                        class="flex-1 bg-gray-800 hover:bg-primary text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        onclick="showCheckout()"
+                        class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Product Card 5 -->
+                <div class="bg-white rounded shadow-sm overflow-hidden">
+                  <div class="relative">
+                    <img
+                      src="https://readdy.ai/api/search-image?query=organic%20fresh%20vegetables%20assortment%20including%20carrots%2C%20broccoli%20and%20bell%20peppers%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting%2C%20perfect%20for%20online%20grocery%20shopping&width=400&height=300&seq=8&orientation=landscape"
+                      alt="Fresh Vegetables"
+                      class="w-full h-48 object-cover object-top"
+                    />
+                    <div
+                      class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded"
+                    >
+                      -45%
+                    </div>
+                    <button
+                      class="absolute top-2 right-2 w-8 h-8 bg-gray-800/80 rounded-full flex items-center justify-center text-gray-200 hover:text-primary"
+                    >
+                      <i class="ri-heart-line"></i>
+                    </button>
+                  </div>
+                  <div class="p-4">
+                    <div class="flex text-yellow-400 text-sm mb-1">
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-half-line"></i>
+                      <i class="ri-star-line"></i>
+                      <span class="text-gray-400 ml-1">(76)</span>
+                    </div>
+                    <h3 class="font-medium mb-1">Organic Vegetable Mix</h3>
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="text-primary font-bold">₹439</span>
+                      <span class="text-gray-400 line-through text-sm"
+                        >₹799</span
+                      >
+                    </div>
+                    <div class="flex items-center text-xs text-gray-400 mb-3">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>Expires in 6 days</span>
+                    </div>
+                    <div class="flex gap-2">
+                      <button
+                        class="flex-1 bg-gray-800 hover:bg-primary text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        onclick="showCheckout()"
+                        class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Product Card 6 -->
+                <div class="bg-white rounded shadow-sm overflow-hidden">
+                  <div class="relative">
+                    <img
+                      src="https://readdy.ai/api/search-image?query=premium%20chocolate%20bar%20with%20nuts%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting%2C%20showing%20dark%20chocolate%20with%20almonds%2C%20perfect%20for%20online%20grocery%20shopping&width=400&height=300&seq=9&orientation=landscape"
+                      alt="Chocolate Bar"
+                      class="w-full h-48 object-cover object-top"
+                    />
+                    <div
+                      class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded"
+                    >
+                      -20%
+                    </div>
+                    <button
+                      class="absolute top-2 right-2 w-8 h-8 bg-gray-800/80 rounded-full flex items-center justify-center text-gray-200 hover:text-primary"
+                    >
+                      <i class="ri-heart-line"></i>
+                    </button>
+                  </div>
+                  <div class="p-4">
+                    <div class="flex text-yellow-400 text-sm mb-1">
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-fill"></i>
+                      <i class="ri-star-half-line"></i>
+                      <span class="text-gray-400 ml-1">(143)</span>
+                    </div>
+                    <h3 class="font-medium mb-1">
+                      Dark Chocolate with Almonds
+                    </h3>
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="text-primary font-bold">₹319</span>
+                      <span class="text-gray-400 line-through text-sm"
+                        >₹399</span
+                      >
+                    </div>
+                    <div class="flex items-center text-xs text-gray-400 mb-3">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>Expires in 30 days</span>
+                    </div>
+                    <div class="flex gap-2">
+                      <button
+                        class="flex-1 bg-gray-800 hover:bg-primary text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        onclick="showCheckout()"
+                        class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 rounded-button transition whitespace-nowrap !rounded-button"
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Pagination -->
+              <div class="flex justify-center mt-8">
+                <div class="flex items-center gap-2">
+                  <button
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-900 text-gray-400 hover:bg-gray-700"
+                  >
+                    <i class="ri-arrow-left-s-line"></i>
+                  </button>
+                  <button
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white"
+                  >
+                    1
+                  </button>
+                  <button
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-900 text-gray-200 hover:bg-gray-700"
+                  >
+                    2
+                  </button>
+                  <button
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-900 text-gray-200 hover:bg-gray-700"
+                  >
+                    3
+                  </button>
+                  <span class="text-gray-400">...</span>
+                  <button
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-900 text-gray-200 hover:bg-gray-700"
+                  >
+                    12
+                  </button>
+                  <button
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-900 text-gray-400 hover:bg-gray-700"
+                  >
+                    <i class="ri-arrow-right-s-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Shopping Cart Sidebar -->
+    <div id="cartOverlay" class="cart-overlay"></div>
+    <div id="cartSidebar" class="cart-sidebar">
+      <div class="p-4 border-b border-gray-700">
+        <div class="flex justify-between items-center">
+          <h3 class="text-lg font-semibold">Your Cart (5)</h3>
+          <button
+            id="closeCart"
+            class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-white"
+          >
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div class="overflow-y-auto h-[calc(100vh-180px)] p-4 bg-white">
+        <!-- Cart Item 1 -->
+        <div class="flex gap-3 mb-4 pb-4 border-b border-gray-700">
+          <img
+            src="https://readdy.ai/api/search-image?query=organic%20red%20apples%20in%20a%20basket%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting&width=80&height=80&seq=10&orientation=squarish"
+            alt="Organic Apples"
+            class="w-20 h-20 object-cover rounded"
+          />
+          <div class="flex-1">
+            <h4 class="font-medium mb-1">Organic Red Apples</h4>
+            <div class="flex items-center text-sm text-gray-400 mb-2">
+              <span>₹359 x 2</span>
+            </div>
+            <div class="flex items-center">
+              <button
+                class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-l-sm text-gray-300"
+              >
+                <i class="ri-subtract-line"></i>
+              </button>
+              <input
+                type="number"
+                value="2"
+                class="w-8 h-6 bg-gray-800 border-none text-center text-sm text-gray-200"
+              />
+              <button
+                class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-r-sm text-gray-300"
+              >
+                <i class="ri-add-line"></i>
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-col justify-between items-end">
+            <button class="text-gray-400 hover:text-primary delete-item-btn">
+              <i class="ri-delete-bin-line"></i>
+            </button>
+            <span class="font-medium">₹718</span>
+          </div>
+        </div>
+        <!-- Cart Item 2 -->
+        <div class="flex gap-3 mb-4 pb-4 border-b border-gray-700">
+          <img
+            src="https://readdy.ai/api/search-image?query=organic%20whole%20milk%20in%20glass%20bottle%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting&width=80&height=80&seq=11&orientation=squarish"
+            alt="Organic Milk"
+            class="w-20 h-20 object-cover rounded"
+          />
+          <div class="flex-1">
+            <h4 class="font-medium mb-1">Organic Whole Milk</h4>
+            <div class="flex items-center text-sm text-gray-400 mb-2">
+              <span>₹299 x 1</span>
+            </div>
+            <div class="flex items-center">
+              <button
+                class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-l-sm text-gray-300"
+              >
+                <i class="ri-subtract-line"></i>
+              </button>
+              <input
+                type="number"
+                value="1"
+                class="w-8 h-6 bg-gray-800 border-none text-center text-sm text-gray-200"
+              />
+              <button
+                class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-r-sm text-gray-300"
+              >
+                <i class="ri-add-line"></i>
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-col justify-between items-end">
+            <button class="text-gray-400 hover:text-primary delete-item-btn">
+              <i class="ri-delete-bin-line"></i>
+            </button>
+            <span class="font-medium">₹299</span>
+          </div>
+        </div>
+        <!-- Cart Item 3 -->
+        <div class="flex gap-3 mb-4 pb-4 border-b border-gray-700">
+          <img
+            src="https://readdy.ai/api/search-image?query=artisan%20sourdough%20bread%20loaf%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting&width=80&height=80&seq=12&orientation=squarish"
+            alt="Sourdough Bread"
+            class="w-20 h-20 object-cover rounded"
+          />
+          <div class="flex-1">
+            <h4 class="font-medium mb-1">Artisan Sourdough Bread</h4>
+            <div class="flex items-center text-sm text-gray-400 mb-2">
+              <span>₹419 x 1</span>
+            </div>
+            <div class="flex items-center">
+              <button
+                class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-l-sm text-gray-300"
+              >
+                <i class="ri-subtract-line"></i>
+              </button>
+              <input
+                type="number"
+                value="1"
+                class="w-8 h-6 bg-gray-800 border-none text-center text-sm text-gray-200"
+              />
+              <button
+                class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-r-sm text-gray-300"
+              >
+                <i class="ri-add-line"></i>
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-col justify-between items-end">
+            <button class="text-gray-400 hover:text-primary delete-item-btn">
+              <i class="ri-delete-bin-line"></i>
+            </button>
+            <span class="font-medium">₹419</span>
+          </div>
+        </div>
+        <!-- Cart Item 4 -->
+        <div class="flex gap-3 mb-4 pb-4 border-b border-gray-700">
+          <img
+            src="https://readdy.ai/api/search-image?query=greek%20yogurt%20with%20fresh%20berries%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting&width=80&height=80&seq=13&orientation=squarish"
+            alt="Greek Yogurt"
+            class="w-20 h-20 object-cover rounded"
+          />
+          <div class="flex-1">
+            <h4 class="font-medium mb-1">Greek Yogurt with Berries</h4>
+            <div class="flex items-center text-sm text-gray-400 mb-2">
+              <span>$2.59 x 2</span>
+            </div>
+            <div class="flex items-center">
+              <button
+                class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-l-sm text-gray-300"
+              >
+                <i class="ri-subtract-line"></i>
+              </button>
+              <input
+                type="number"
+                value="2"
+                class="w-8 h-6 bg-gray-800 border-none text-center text-sm text-gray-200"
+              />
+              <button
+                class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-r-sm text-gray-300"
+              >
+                <i class="ri-add-line"></i>
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-col justify-between items-end">
+            <button class="text-gray-400 hover:text-primary delete-item-btn">
+              <i class="ri-delete-bin-line"></i>
+            </button>
+            <span class="font-medium">₹518</span>
+          </div>
+        </div>
+        <!-- Cart Item 5 -->
+        <div class="flex gap-3 mb-4">
+          <img
+            src="https://readdy.ai/api/search-image?query=dark%20chocolate%20bar%20with%20almonds%2C%20high%20quality%20product%20photography%20with%20dark%20background%2C%20professional%20e-commerce%20product%20image%20with%20clean%20lighting&width=80&height=80&seq=14&orientation=squarish"
+            alt="Chocolate Bar"
+            class="w-20 h-20 object-cover rounded"
+          />
+          <div class="flex-1">
+            <h4 class="font-medium mb-1">Dark Chocolate with Almonds</h4>
+            <div class="flex items-center text-sm text-gray-400 mb-2">
+              <span>₹319 x 1</span>
+              
+            </div>
+            <div class="flex items-center">
+              <button
+                class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-l-sm text-gray-300"
+              >
+                <i class="ri-subtract-line"></i>
+              </button>
+              <input
+                type="number"
+                value="1"
+                class="w-8 h-6 bg-gray-800 border-none text-center text-sm text-gray-200"
+              />
+              <button
+                class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-r-sm text-gray-300"
+              >
+                <i class="ri-add-line"></i>
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-col justify-between items-end">
+            <button class="text-gray-400 hover:text-primary delete-item-btn">
+              <i class="ri-delete-bin-line"></i>
+            </button>
+            <span class="font-medium">₹319</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 border-t border-gray-700 bg-gray-900">
+        <div class="space-y-2 mb-4">
+          <div class="flex justify-between">
+            <span class="text-gray-400">Subtotal:</span>
+            <span class="font-medium">₹2273</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Delivery Fee:</span>
+            <span class="font-medium">₹399</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Service Charge (2%):</span>
+            <span class="font-medium">₹45</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Tax (8%):</span>
+            <span class="font-medium">₹182</span>
+          </div>
+          <div class="border-t border-gray-700 my-2"></div>
+          <div class="flex justify-between text-lg font-semibold">
+            <span>Total:</span>
+            <span>₹2899</span>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <button
+            onclick="showCheckout()"
+            class="w-full bg-primary text-white py-3 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap !rounded-button flex items-center justify-center gap-2"
+          >
+            <i class="ri-secure-payment-line"></i>
+            Proceed to Payment
+          </button>
+          <div class="flex items-center justify-center gap-4 text-gray-400">
+            <i class="ri-visa-line text-xl"></i>
+            <i class="ri-mastercard-line text-xl"></i>
+            <i class="ri-paypal-line text-xl"></i>
+            <i class="ri-alipay-line text-xl"></i>
+            <i class="ri-wechat-pay-line text-xl"></i>
+          </div>
+          <p class="text-xs text-gray-500 text-center">
+            Secure Payment • SSL Encrypted • Money Back Guarantee
+          </p>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Hero Slider Functionality
+        const slides = document.querySelectorAll(".slide");
+        let currentSlide = 0;
+        function showSlide(index) {
+          slides.forEach((slide) => slide.classList.remove("active"));
+          if (index >= slides.length) {
+            currentSlide = 0;
+          } else if (index < 0) {
+            currentSlide = slides.length - 1;
+          } else {
+            currentSlide = index;
+          }
+          slides[currentSlide].classList.add("active");
+          // Update dots
+          const dots = document.querySelectorAll(".hero-slider .bottom-4 span");
+          dots.forEach((dot, i) => {
+            if (i === currentSlide) {
+              dot.classList.remove("bg-gray-400");
+              dot.classList.add("bg-primary");
+            } else {
+              dot.classList.remove("bg-primary");
+              dot.classList.add("bg-gray-400");
+            }
+          });
+        }
+        // Auto slide
+        setInterval(() => {
+          showSlide(currentSlide + 1);
+        }, 5000);
+        // Click events for dots and arrows
+        const dots = document.querySelectorAll(".hero-slider .bottom-4 span");
+        dots.forEach((dot, index) => {
+          dot.addEventListener("click", () => {
+            showSlide(index);
+          });
+        });
+        const prevButton = document.querySelector(".hero-slider button.left-4");
+        const nextButton = document.querySelector(".hero-slider button.right-4");
+        prevButton.addEventListener("click", () => {
+          showSlide(currentSlide - 1);
+        });
+        nextButton.addEventListener("click", () => {
+          showSlide(currentSlide + 1);
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Shopping Cart Functionality
+        const cartToggle = document.getElementById("cartToggle");
+        const closeCart = document.getElementById("closeCart");
+        const cartSidebar = document.getElementById("cartSidebar");
+        const cartOverlay = document.getElementById("cartOverlay");
+        cartToggle.addEventListener("click", () => {
+          cartSidebar.classList.add("open");
+          cartOverlay.classList.add("open");
+          document.body.style.overflow = "hidden";
+        });
+        function closeCartSidebar() {
+          cartSidebar.classList.remove("open");
+          cartOverlay.classList.remove("open");
+          document.body.style.overflow = "";
+        }
+        closeCart.addEventListener("click", closeCartSidebar);
+        cartOverlay.addEventListener("click", closeCartSidebar);
+        // Quantity buttons
+        const decreaseButtons = document.querySelectorAll(
+          ".cart-sidebar button:has(.ri-subtract-line)",
+        );
+        const increaseButtons = document.querySelectorAll(
+          ".cart-sidebar button:has(.ri-add-line)",
+        );
+        decreaseButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const input = button.nextElementSibling;
+            let value = parseInt(input.value);
+            if (value > 1) {
+              input.value = value - 1;
+            }
+          });
+        });
+        increaseButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const input = button.previousElementSibling;
+            let value = parseInt(input.value);
+            input.value = value + 1;
+          });
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Price Range Slider
+        const priceSlider = document.querySelector(".price-slider");
+        const priceDisplay = document.querySelector(
+          ".price-slider + div div:last-child",
+        );
+        priceSlider.addEventListener("input", function () {
+          priceDisplay.textContent = "$" + this.value;
+        });
+        // Add to Cart Buttons
+        const addToCartButtons = document.querySelectorAll(
+          'button:contains("Add to Cart")',
+        );
+        addToCartButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const cartToggle = document.getElementById("cartToggle");
+            const cartBadge = cartToggle.querySelector("span");
+            const cartSidebar = document.getElementById("cartSidebar");
+            const cartOverlay = document.getElementById("cartOverlay");
+            // Get product details
+            const productCard = button.closest(".bg-white");
+            const productName = productCard.querySelector("h3").textContent;
+            const productPrice =
+              productCard.querySelector(".text-primary").textContent;
+            const productImage = productCard.querySelector("img").src;
+            // Animate the button
+            button.innerHTML = '<i class="ri-check-line"></i> Added!';
+            button.classList.add("bg-primary");
+            setTimeout(() => {
+              button.innerHTML = "Add to Cart";
+              button.classList.remove("bg-primary");
+            }, 1000);
+            // Update cart count
+            let count = parseInt(cartBadge.textContent);
+            cartBadge.textContent = count + 1;
+            // Open cart sidebar
+            cartSidebar.classList.add("open");
+            cartOverlay.classList.add("open");
+            document.body.style.overflow = "hidden";
+            // Add new item to cart
+            const cartItems = document.querySelector(
+              ".cart-sidebar .overflow-y-auto",
+            );
+            const newItem = document.createElement("div");
+            newItem.className = "flex gap-3 mb-4 pb-4 border-b border-gray-700";
+            newItem.innerHTML = `
+      <img src="${productImage}" alt="${productName}" class="w-20 h-20 object-cover rounded">
+      <div class="flex-1">
+      <h4 class="font-medium mb-1">${productName}</h4>
+      <div class="flex items-center text-sm text-gray-400 mb-2">
+      <span>${productPrice} x 1</span>
+      </div>
+      <div class="flex items-center">
+      <button class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-l-sm text-gray-300">
+      <i class="ri-subtract-line"></i>
+      </button>
+      <input type="number" value="1" class="w-8 h-6 bg-gray-800 border-none text-center text-sm text-gray-200">
+      <button class="w-6 h-6 flex items-center justify-center bg-gray-800 rounded-r-sm text-gray-300">
+      <i class="ri-add-line"></i>
+      </button>
+      </div>
+      </div>
+      <div class="flex flex-col justify-between items-end">
+      <button class="text-gray-400 hover:text-primary delete-item-btn">
+      <i class="ri-delete-bin-line"></i>
+      </button>
+      <span class="font-medium">${productPrice}</span>
+      </div>
+      `;
+            cartItems.insertBefore(newItem, cartItems.firstChild);
+            // Update quantity buttons for new item
+            const newDecreaseBtn = newItem.querySelector(
+              "button:has(.ri-subtract-line)",
+            );
+            const newIncreaseBtn = newItem.querySelector("button:has(.ri-add-line)");
+            const newInput = newItem.querySelector('input[type="number"]');
+            newDecreaseBtn.addEventListener("click", () => {
+              let value = parseInt(newInput.value);
+              if (value > 1) {
+                newInput.value = value - 1;
+                updateCartTotal();
+              }
+            });
+            newIncreaseBtn.addEventListener("click", () => {
+              let value = parseInt(newInput.value);
+              newInput.value = value + 1;
+              updateCartTotal();
+            });
+            // Add delete functionality
+            const deleteBtn = newItem.querySelector(
+              ".ri-delete-bin-line",
+            ).parentElement;
+            deleteBtn.addEventListener("click", () => {
+              const dialog = document.getElementById("deleteConfirmDialog");
+              const confirmBtn = document.getElementById("confirmDelete");
+              const cancelBtn = document.getElementById("cancelDelete");
+              dialog.classList.add("show");
+              const handleDelete = () => {
+                newItem.remove();
+                let count = parseInt(cartBadge.textContent);
+                cartBadge.textContent = count - 1;
+                updateCartTotal();
+                dialog.classList.remove("show");
+                // Remove event listeners
+                confirmBtn.removeEventListener("click", handleDelete);
+                cancelBtn.removeEventListener("click", handleCancel);
+              };
+              const handleCancel = () => {
+                dialog.classList.remove("show");
+                // Remove event listeners
+                confirmBtn.removeEventListener("click", handleDelete);
+                cancelBtn.removeEventListener("click", handleCancel);
+              };
+              confirmBtn.addEventListener("click", handleDelete);
+              cancelBtn.addEventListener("click", handleCancel);
+            });
+            updateCartTotal();
+          });
+        });
+        // Function to update cart total
+        function updateCartTotal() {
+          const cartItems = document.querySelectorAll(
+            ".cart-sidebar .overflow-y-auto > div",
+          );
+          let subtotal = 0;
+          const deliveryFee = 3.99;
+          cartItems.forEach((item) => {
+            const price = parseFloat(
+              item.querySelector(".font-medium").textContent.replace("$", ""),
+            );
+            const quantity = parseInt(
+              item.querySelector('input[type="number"]').value,
+            );
+            subtotal += price * quantity;
+          });
+          const subtotalElement = document.querySelector(
+            ".cart-sidebar .bg-gray-900 div:first-child .font-medium",
+          );
+          const totalElement = document.querySelector(
+            ".cart-sidebar .bg-gray-900 .text-lg.font-semibold span:last-child",
+          );
+          subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+          totalElement.textContent = `$${(subtotal + deliveryFee).toFixed(2)}`;
+        }
+      });
+    </script>
+    <!-- Delete Confirmation Dialog -->
+    <div id="deleteConfirmDialog" class="delete-confirm-dialog">
+      <div class="delete-confirm-content">
+        <h3 class="text-xl font-semibold mb-4">Remove Item</h3>
+        <p class="text-gray-600 mb-6">
+          Are you sure you want to remove this item from your cart?
+        </p>
+        <div class="flex justify-center gap-4">
+          <button
+            id="cancelDelete"
+            class="px-6 py-2 bg-gray-200 text-gray-800 rounded-button hover:bg-gray-300 transition whitespace-nowrap !rounded-button"
+          >
+            Cancel
+          </button>
+          <button
+            id="confirmDelete"
+            class="px-6 py-2 bg-red-600 text-white rounded-button hover:bg-red-700 transition whitespace-nowrap !rounded-button"
+          >
+            Remove Item
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

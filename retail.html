@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClearX - Products Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#5b46e5", secondary: "#10b981" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+        background-color: #f9fafb;
+        min-height: 100vh;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .custom-checkbox {
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+      }
+      .custom-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #fff;
+        border: 2px solid #e5e7eb;
+        border-radius: 4px;
+      }
+      .custom-checkbox:hover input ~ .checkmark {
+        border-color: #d1d5db;
+      }
+      .custom-checkbox input:checked ~ .checkmark {
+        background-color: #5b46e5;
+        border-color: #5b46e5;
+      }
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      .custom-checkbox input:checked ~ .checkmark:after {
+        display: block;
+      }
+      .custom-checkbox .checkmark:after {
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+      .custom-switch {
+        position: relative;
+        display: inline-block;
+        width: 48px;
+        height: 24px;
+      }
+      .custom-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .switch-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #e5e7eb;
+        transition: .4s;
+        border-radius: 24px;
+      }
+      .switch-slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+      }
+      input:checked + .switch-slider {
+        background-color: #5b46e5;
+      }
+      input:checked + .switch-slider:before {
+        transform: translateX(24px);
+      }
+      .table-container {
+        overflow-x: auto;
+        scrollbar-width: thin;
+      }
+      .table-container::-webkit-scrollbar {
+        height: 8px;
+      }
+      .table-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+      .table-container::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 4px;
+      }
+      .table-container::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+      }
+      .pagination-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .pagination-button:hover {
+        background-color: #f3f4f6;
+      }
+      .pagination-button.active {
+        background-color: #5b46e5;
+        color: white;
+      }
+      .pagination-button.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .sort-icon {
+        opacity: 0.3;
+        transition: opacity 0.2s;
+      }
+      th:hover .sort-icon {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <a
+          href="index.html"
+          data-readdy="true"
+          class="text-primary text-2xl font-['Pacifico']"
+          >ClearX</a
+        >
+        <nav class="hidden md:flex space-x-8">
+          <a
+            href="retail.html"
+            data-readdy="true"
+            class="text-primary font-medium flex items-center"
+          >
+            <i class="ri-store-2-line mr-2"></i>
+            Products
+          </a>
+          <a
+            href="#"
+            class="text-gray-600 hover:text-primary flex items-center"
+          >
+            <i class="ri-shopping-cart-2-line mr-2"></i>
+            Orders
+          </a>
+          <a
+            href="#"
+            class="text-gray-600 hover:text-primary flex items-center"
+          >
+            <i class="ri-line-chart-line mr-2"></i>
+            Analytics
+          </a>
+          <a
+            href="#"
+            class="text-gray-600 hover:text-primary flex items-center"
+          >
+            <i class="ri-settings-4-line mr-2"></i>
+            Settings
+          </a>
+        </nav>
+        <div class="flex items-center space-x-6">
+          <button
+            class="relative w-10 h-10 flex items-center justify-center text-gray-600 hover:text-primary"
+          >
+            <i class="ri-notification-3-line ri-lg"></i>
+            <span
+              class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
+            ></span>
+          </button>
+          <div class="relative group">
+            <button class="w-10 h-10 flex items-center justify-center">
+              <img
+                src="https://readdy.ai/api/search-image?query=professional%2520business%2520person%2520headshot%2520portrait%252C%2520modern%2520corporate%2520style%252C%2520neutral%2520background&width=40&height=40&seq=1&orientation=squarish"
+                class="w-8 h-8 rounded-full object-cover"
+              />
+            </button>
+            <div
+              class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block"
+            >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >My Profile</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Account Settings</a
+              >
+              <div class="border-t border-gray-100 my-1"></div>
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                >Sign Out</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+      <!-- Page Title & Actions -->
+      <div
+        class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+      >
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Products Management</h1>
+          <p class="text-gray-500 mt-1">
+            Manage your inventory, prices, and product information
+          </p>
+        </div>
+        <button
+          id="add-product-btn"
+          class="bg-primary text-white px-6 py-3 rounded-button flex items-center font-medium hover:bg-primary/90 transition whitespace-nowrap"
+        >
+          <i class="ri-add-line mr-2"></i>
+          Add New Product
+        </button>
+      </div>
+
+      <!-- Filter & Search Bar -->
+      <div class="bg-white rounded-xl shadow-sm p-4 mb-6">
+        <div class="flex flex-col md:flex-row gap-4">
+          <div class="flex-1 flex flex-col md:flex-row gap-4">
+            <!-- Category Filter -->
+            <div class="w-full md:w-48">
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Category</label
+              >
+              <div class="relative">
+                <select
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none pr-8 text-sm"
+                >
+                  <option value="">All Categories</option>
+                  <option value="fresh_produce">Fresh Produce</option>
+                  <option value="bakery">Bakery</option>
+                  <option value="dairy">Dairy</option>
+                  <option value="meat">Meat & Seafood</option>
+                  <option value="pantry">Pantry</option>
+                </select>
+                <div
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none w-5 h-5 flex items-center justify-center"
+                >
+                  <i class="ri-arrow-down-s-line text-gray-500"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stock Status Filter -->
+            <div class="w-full md:w-48">
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Stock Status</label
+              >
+              <div class="relative">
+                <select
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none pr-8 text-sm"
+                >
+                  <option value="">All Statuses</option>
+                  <option value="in_stock">In Stock</option>
+                  <option value="low_stock">Low Stock</option>
+                  <option value="out_of_stock">Out of Stock</option>
+                  <option value="expired">Expired</option>
+                </select>
+                <div
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none w-5 h-5 flex items-center justify-center"
+                >
+                  <i class="ri-arrow-down-s-line text-gray-500"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Expiry Date Filter -->
+            <div class="w-full md:w-48">
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Expiry Date</label
+              >
+              <div class="relative">
+                <select
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none pr-8 text-sm"
+                >
+                  <option value="">All Dates</option>
+                  <option value="today">Expiring Today</option>
+                  <option value="this_week">This Week</option>
+                  <option value="next_week">Next Week</option>
+                  <option value="this_month">This Month</option>
+                </select>
+                <div
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none w-5 h-5 flex items-center justify-center"
+                >
+                  <i class="ri-arrow-down-s-line text-gray-500"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-1">
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Search Products</label
+              >
+              <div class="relative">
+                <input
+                  type="text"
+                  class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none text-sm"
+                  placeholder="Search by name, SKU, or barcode"
+                />
+                <div
+                  class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center"
+                >
+                  <i class="ri-search-line text-gray-500"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- View Toggle -->
+          <div class="flex items-end">
+            <div class="border border-gray-300 rounded-lg flex overflow-hidden">
+              <button
+                class="px-3 py-2.5 bg-primary text-white flex items-center justify-center"
+              >
+                <i class="ri-table-line ri-lg"></i>
+              </button>
+              <button
+                class="px-3 py-2.5 bg-white text-gray-500 flex items-center justify-center"
+              >
+                <i class="ri-grid-line ri-lg"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bulk Actions Bar (Hidden by default, shown when items are selected) -->
+      <div id="bulk-actions" class="bg-gray-100 rounded-xl p-4 mb-6 hidden">
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="text-sm font-medium text-gray-700"
+            >5 items selected</span
+          >
+          <div class="flex-1"></div>
+          <button
+            class="px-4 py-2 text-sm text-gray-700 bg-white rounded-button shadow-sm hover:bg-gray-50 flex items-center whitespace-nowrap"
+          >
+            <i class="ri-price-tag-3-line mr-1.5"></i>
+            Update Price
+          </button>
+          <button
+            class="px-4 py-2 text-sm text-gray-700 bg-white rounded-button shadow-sm hover:bg-gray-50 flex items-center whitespace-nowrap"
+          >
+            <i class="ri-stock-line mr-1.5"></i>
+            Update Stock
+          </button>
+          <button
+            class="px-4 py-2 text-sm text-gray-700 bg-white rounded-button shadow-sm hover:bg-gray-50 flex items-center whitespace-nowrap"
+          >
+            <i class="ri-archive-line mr-1.5"></i>
+            Archive
+          </button>
+          <button
+            class="px-4 py-2 text-sm text-red-600 bg-white rounded-button shadow-sm hover:bg-gray-50 flex items-center whitespace-nowrap"
+          >
+            <i class="ri-delete-bin-line mr-1.5"></i>
+            Delete
+          </button>
+        </div>
+      </div>
+
+      <!-- Products Table -->
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
+        <div class="table-container">
+          <table class="w-full min-w-[1024px]">
+            <thead>
+              <tr class="bg-gray-50">
+                <th class="px-6 py-4 text-left">
+                  <label
+                    class="custom-checkbox pl-7 text-sm text-gray-700 flex items-center"
+                  >
+                    <input type="checkbox" id="select-all" />
+                    <span class="checkmark"></span>
+                  </label>
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  <div class="flex items-center space-x-1">
+                    <span>Product</span>
+                    <div
+                      class="w-4 h-4 flex items-center justify-center sort-icon"
+                    >
+                      <i class="ri-arrow-up-down-line text-gray-400"></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  <div class="flex items-center space-x-1">
+                    <span>Category</span>
+                    <div
+                      class="w-4 h-4 flex items-center justify-center sort-icon"
+                    >
+                      <i class="ri-arrow-up-down-line text-gray-400"></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  <div class="flex items-center space-x-1">
+                    <span>Price</span>
+                    <div
+                      class="w-4 h-4 flex items-center justify-center sort-icon"
+                    >
+                      <i class="ri-arrow-up-down-line text-gray-400"></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  <div class="flex items-center space-x-1">
+                    <span>Stock</span>
+                    <div
+                      class="w-4 h-4 flex items-center justify-center sort-icon"
+                    >
+                      <i class="ri-arrow-up-down-line text-gray-400"></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  <div class="flex items-center space-x-1">
+                    <span>Expiry Date</span>
+                    <div
+                      class="w-4 h-4 flex items-center justify-center sort-icon"
+                    >
+                      <i class="ri-arrow-up-down-line text-gray-400"></i>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Status
+                </th>
+                <th
+                  class="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <!-- Product Row 1 -->
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <label class="custom-checkbox pl-7 text-sm text-gray-700">
+                    <input type="checkbox" class="product-checkbox" />
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="h-12 w-12 flex-shrink-0 mr-4">
+                      <img
+                        class="h-12 w-12 rounded-md object-cover"
+                        src="https://readdy.ai/api/search-image?query=organic%2520vegetables%2520bundle%2520with%2520carrots%252C%2520broccoli%252C%2520and%2520leafy%2520greens%2520on%2520white%2520background%252C%2520professional%2520food%2520photography&width=100&height=100&seq=10&orientation=squarish"
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-900">
+                        Organic Vegetable Bundle
+                      </div>
+                      <div class="text-xs text-gray-500">#PRD-5872</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
+                    >Fresh Produce</span
+                  >
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">₹2299</div>
+                  <div class="text-xs text-green-600">15% off</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">142 units</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">Apr 15, 2025</div>
+                  <div class="text-xs text-gray-500">4 days left</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
+                    >In Stock</span
+                  >
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                >
+                  <div class="flex justify-end space-x-2">
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-eye-line"></i>
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-edit-line"></i>
+                    </button>
+                    <div class="relative group">
+                      <button
+                        class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
+                      >
+                        <i class="ri-more-2-fill"></i>
+                      </button>
+                      <div
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 hidden group-hover:block"
+                      >
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Duplicate
+                        </button>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Archive
+                        </button>
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Product Row 2 -->
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <label class="custom-checkbox pl-7 text-sm text-gray-700">
+                    <input type="checkbox" class="product-checkbox" />
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="h-12 w-12 flex-shrink-0 mr-4">
+                      <img
+                        class="h-12 w-12 rounded-md object-cover"
+                        src="https://readdy.ai/api/search-image?query=artisan%2520bread%2520selection%2520with%2520sourdough%2520and%2520baguettes%2520on%2520wooden%2520surface%252C%2520professional%2520bakery%2520photography&width=100&height=100&seq=11&orientation=squarish"
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-900">
+                        Artisan Bread Selection
+                      </div>
+                      <div class="text-xs text-gray-500">#PRD-3415</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full"
+                    >Bakery</span
+                  >
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">₹1699</div>
+                  <div class="text-xs text-green-600">10% off</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">8 units</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">Apr 12, 2025</div>
+                  <div class="text-xs text-red-500">1 day left</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full"
+                    >Low Stock</span
+                  >
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                >
+                  <div class="flex justify-end space-x-2">
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-eye-line"></i>
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-edit-line"></i>
+                    </button>
+                    <div class="relative group">
+                      <button
+                        class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
+                      >
+                        <i class="ri-more-2-fill"></i>
+                      </button>
+                      <div
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 hidden group-hover:block"
+                      >
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Duplicate
+                        </button>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Archive
+                        </button>
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Product Row 3 -->
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <label class="custom-checkbox pl-7 text-sm text-gray-700">
+                    <input type="checkbox" class="product-checkbox" />
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="h-12 w-12 flex-shrink-0 mr-4">
+                      <img
+                        class="h-12 w-12 rounded-md object-cover"
+                        src="https://readdy.ai/api/search-image?query=dairy%2520products%2520assortment%2520with%2520milk%252C%2520cheese%252C%2520and%2520yogurt%2520on%2520white%2520background%252C%2520professional%2520food%2520photography&width=100&height=100&seq=12&orientation=squarish"
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-900">
+                        Fresh Dairy Pack
+                      </div>
+                      <div class="text-xs text-gray-500">#PRD-7291</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full"
+                    >Dairy</span
+                  >
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">₹3099</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">56 units</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">Apr 14, 2025</div>
+                  <div class="text-xs text-gray-500">3 days left</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
+                    >In Stock</span
+                  >
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                >
+                  <div class="flex justify-end space-x-2">
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-eye-line"></i>
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-edit-line"></i>
+                    </button>
+                    <div class="relative group">
+                      <button
+                        class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
+                      >
+                        <i class="ri-more-2-fill"></i>
+                      </button>
+                      <div
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 hidden group-hover:block"
+                      >
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Duplicate
+                        </button>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Archive
+                        </button>
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Product Row 4 -->
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <label class="custom-checkbox pl-7 text-sm text-gray-700">
+                    <input type="checkbox" class="product-checkbox" />
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="h-12 w-12 flex-shrink-0 mr-4">
+                      <img
+                        class="h-12 w-12 rounded-md object-cover"
+                        src="https://readdy.ai/api/search-image?query=premium%2520seafood%2520selection%2520with%2520fresh%2520fish%2520and%2520shellfish%2520on%2520ice%252C%2520professional%2520food%2520photography&width=100&height=100&seq=13&orientation=squarish"
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-900">
+                        Premium Seafood Selection
+                      </div>
+                      <div class="text-xs text-gray-500">#PRD-9438</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full"
+                    >Meat & Seafood</span
+                  >
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">₹4599</div>
+                  <div class="text-xs text-green-600">20% off</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">0 units</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">Apr 11, 2025</div>
+                  <div class="text-xs text-red-500">Today</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full"
+                    >Out of Stock</span
+                  >
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                >
+                  <div class="flex justify-end space-x-2">
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-eye-line"></i>
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-edit-line"></i>
+                    </button>
+                    <div class="relative group">
+                      <button
+                        class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
+                      >
+                        <i class="ri-more-2-fill"></i>
+                      </button>
+                      <div
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 hidden group-hover:block"
+                      >
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Duplicate
+                        </button>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Archive
+                        </button>
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Product Row 5 -->
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <label class="custom-checkbox pl-7 text-sm text-gray-700">
+                    <input type="checkbox" class="product-checkbox" />
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="h-12 w-12 flex-shrink-0 mr-4">
+                      <img
+                        class="h-12 w-12 rounded-md object-cover"
+                        src="https://readdy.ai/api/search-image?query=organic%2520fruit%2520basket%2520with%2520apples%252C%2520oranges%252C%2520and%2520berries%2520on%2520white%2520background%252C%2520professional%2520food%2520photography&width=100&height=100&seq=14&orientation=squarish"
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-900">
+                        Organic Fruit Basket
+                      </div>
+                      <div class="text-xs text-gray-500">#PRD-6127</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
+                    >Fresh Produce</span
+                  >
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">₹2799</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">87 units</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">Apr 13, 2025</div>
+                  <div class="text-xs text-gray-500">2 days left</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
+                    >In Stock</span
+                  >
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                >
+                  <div class="flex justify-end space-x-2">
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-eye-line"></i>
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-edit-line"></i>
+                    </button>
+                    <div class="relative group">
+                      <button
+                        class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
+                      >
+                        <i class="ri-more-2-fill"></i>
+                      </button>
+                      <div
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 hidden group-hover:block"
+                      >
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Duplicate
+                        </button>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Archive
+                        </button>
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Product Row 6 -->
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <label class="custom-checkbox pl-7 text-sm text-gray-700">
+                    <input type="checkbox" class="product-checkbox" />
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="h-12 w-12 flex-shrink-0 mr-4">
+                      <img
+                        class="h-12 w-12 rounded-md object-cover"
+                        src="https://readdy.ai/api/search-image?query=gourmet%2520pasta%2520selection%2520with%2520various%2520shapes%2520and%2520colors%2520on%2520wooden%2520surface%252C%2520professional%2520food%2520photography&width=100&height=100&seq=15&orientation=squarish"
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-900">
+                        Gourmet Pasta Selection
+                      </div>
+                      <div class="text-xs text-gray-500">#PRD-2854</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded-full"
+                    >Pantry</span
+                  >
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">₹1399</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">124 units</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">Oct 11, 2025</div>
+                  <div class="text-xs text-gray-500">6 months left</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span
+                    class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
+                    >In Stock</span
+                  >
+                </td>
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                >
+                  <div class="flex justify-end space-x-2">
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-eye-line"></i>
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary hover:bg-gray-100 rounded"
+                    >
+                      <i class="ri-edit-line"></i>
+                    </button>
+                    <div class="relative group">
+                      <button
+                        class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
+                      >
+                        <i class="ri-more-2-fill"></i>
+                      </button>
+                      <div
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 hidden group-hover:block"
+                      >
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Duplicate
+                        </button>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Archive
+                        </button>
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <button
+                          class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div
+          class="px-6 py-4 flex items-center justify-between border-t border-gray-200"
+        >
+          <div class="flex-1 flex justify-between sm:hidden">
+            <button
+              class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+            >
+              Previous
+            </button>
+            <button
+              class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+            >
+              Next
+            </button>
+          </div>
+          <div
+            class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between"
+          >
+            <div>
+              <p class="text-sm text-gray-700">
+                Showing <span class="font-medium">1</span> to
+                <span class="font-medium">6</span> of
+                <span class="font-medium">24</span> results
+              </p>
+            </div>
+            <div>
+              <nav
+                class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                aria-label="Pagination"
+              >
+                <button class="pagination-button disabled">
+                  <i class="ri-arrow-left-s-line"></i>
+                </button>
+                <button class="pagination-button active">1</button>
+                <button class="pagination-button">2</button>
+                <button class="pagination-button">3</button>
+                <button class="pagination-button">4</button>
+                <button class="pagination-button">
+                  <i class="ri-arrow-right-s-line"></i>
+                </button>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Add Product Modal -->
+    <div
+      id="add-product-modal"
+      class="fixed inset-0 bg-gray-900/50 flex items-center justify-center hidden z-50"
+    >
+      <div
+        class="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+      >
+        <div
+          class="p-6 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10"
+        >
+          <h2 class="text-xl font-bold text-gray-900">Add New Product</h2>
+          <button
+            id="close-modal-btn"
+            class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
+          >
+            <i class="ri-close-line ri-lg"></i>
+          </button>
+        </div>
+        <form id="add-product-form" class="p-6 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Product Name</label
+              >
+              <input
+                type="text"
+                id="product-name"
+                class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                placeholder="Enter product name"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Category</label
+              >
+              <div class="relative">
+                <select
+                  id="product-category"
+                  class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none pr-8"
+                  required
+                >
+                  <option value="">Select category</option>
+                  <option value="fresh_produce">Fresh Produce</option>
+                  <option value="bakery">Bakery</option>
+                  <option value="dairy">Dairy</option>
+                  <option value="meat">Meat & Seafood</option>
+                  <option value="pantry">Pantry</option>
+                </select>
+                <div
+                  class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                >
+                  <i class="ri-arrow-down-s-line text-gray-500"></i>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Regular Price (₹)</label
+              >
+              <input
+                type="number"
+                id="product-price"
+                step="0.01"
+                min="0"
+                class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Sale Price (₹)</label
+              >
+              <input
+                type="number"
+                id="product-sale-price"
+                step="0.01"
+                min="0"
+                class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                placeholder="0.00"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Stock Quantity</label
+              >
+              <input
+                type="number"
+                id="product-quantity"
+                min="0"
+                class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                placeholder="Enter quantity"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >SKU</label
+              >
+              <input
+                type="text"
+                id="product-sku"
+                class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                placeholder="Enter SKU"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Expiration Date</label
+              >
+              <input
+                type="date"
+                id="product-expiry"
+                class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Weight (kg)</label
+              >
+              <input
+                type="number"
+                id="product-weight"
+                step="0.01"
+                min="0"
+                class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Description</label
+            >
+            <textarea
+              id="product-description"
+              rows="3"
+              class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+              placeholder="Enter product description"
+              required
+            ></textarea>
+          </div>
+
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="block text-sm font-medium text-gray-700"
+                >Product Images</label
+              >
+              <span class="text-xs text-gray-500">Up to 5 images</span>
+            </div>
+            <div
+              id="product-image-upload"
+              class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center"
+            >
+              <div
+                class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-primary/10 rounded-full"
+              >
+                <i class="ri-upload-2-line text-primary ri-xl"></i>
+              </div>
+              <p class="text-gray-600 mb-2">
+                Drag and drop your product images here
+              </p>
+              <p class="text-sm text-gray-500">or</p>
+              <input
+                type="file"
+                id="product-images"
+                multiple
+                accept="image/*"
+                class="hidden"
+              />
+              <button
+                type="button"
+                id="browse-images-btn"
+                class="mt-2 px-4 py-2 text-sm text-primary border border-primary rounded-button hover:bg-primary/10 transition whitespace-nowrap"
+              >
+                Browse Files
+              </button>
+            </div>
+            <div id="image-preview" class="grid grid-cols-5 gap-4 mt-4 hidden">
+              <!-- Image previews will be added here -->
+            </div>
+          </div>
+
+          <div>
+            <label
+              class="flex items-center justify-between text-sm font-medium text-gray-700 mb-1"
+            >
+              <span>Product Status</span>
+              <label class="custom-switch">
+                <input type="checkbox" checked />
+                <span class="switch-slider"></span>
+              </label>
+            </label>
+            <p class="text-xs text-gray-500">
+              Active products are visible to customers
+            </p>
+          </div>
+
+          <div class="flex justify-end space-x-4 pt-4 border-t">
+            <button
+              type="button"
+              id="cancel-add-product"
+              class="px-6 py-3 text-gray-700 hover:text-gray-900 font-medium rounded-button whitespace-nowrap"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap"
+            >
+              Save Product
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Select All Checkbox
+        const selectAllCheckbox = document.getElementById("select-all");
+        const productCheckboxes = document.querySelectorAll(".product-checkbox");
+        const bulkActionsBar = document.getElementById("bulk-actions");
+
+        selectAllCheckbox.addEventListener("change", function () {
+          const isChecked = this.checked;
+          productCheckboxes.forEach((checkbox) => {
+            checkbox.checked = isChecked;
+          });
+          updateBulkActionsBar();
+        });
+
+        productCheckboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", function () {
+            updateSelectAllCheckbox();
+            updateBulkActionsBar();
+          });
+        });
+
+        function updateSelectAllCheckbox() {
+          const checkedCount = document.querySelectorAll(
+            ".product-checkbox:checked",
+          ).length;
+          selectAllCheckbox.checked = checkedCount === productCheckboxes.length;
+        }
+
+        function updateBulkActionsBar() {
+          const checkedCount = document.querySelectorAll(
+            ".product-checkbox:checked",
+          ).length;
+          if (checkedCount > 0) {
+            bulkActionsBar.classList.remove("hidden");
+          } else {
+            bulkActionsBar.classList.add("hidden");
+          }
+        }
+
+        // Add Product Modal
+        const addProductBtn = document.getElementById("add-product-btn");
+        const modal = document.getElementById("add-product-modal");
+        const closeModalBtn = document.getElementById("close-modal-btn");
+        const cancelBtn = document.getElementById("cancel-add-product");
+        const addProductForm = document.getElementById("add-product-form");
+        const browseImagesBtn = document.getElementById("browse-images-btn");
+        const productImages = document.getElementById("product-images");
+        const imagePreview = document.getElementById("image-preview");
+        const productImageUpload = document.getElementById("product-image-upload");
+
+        function showModal() {
+          modal.classList.remove("hidden");
+          document.body.style.overflow = "hidden";
+        }
+
+        function hideModal() {
+          modal.classList.add("hidden");
+          document.body.style.overflow = "";
+          addProductForm.reset();
+          imagePreview.innerHTML = "";
+          imagePreview.classList.add("hidden");
+        }
+
+        addProductBtn.addEventListener("click", showModal);
+        closeModalBtn.addEventListener("click", hideModal);
+        cancelBtn.addEventListener("click", hideModal);
+
+        browseImagesBtn.addEventListener("click", () => {
+          productImages.click();
+        });
+
+        productImages.addEventListener("change", (e) => {
+          imagePreview.innerHTML = "";
+          if (e.target.files.length > 0) {
+            imagePreview.classList.remove("hidden");
+            Array.from(e.target.files).forEach((file) => {
+              const reader = new FileReader();
+              reader.onload = (event) => {
+                const img = document.createElement("div");
+                img.className = "relative group";
+                img.innerHTML = `
+                  <img src="${event.target.result}" class="w-full h-24 object-cover rounded" alt="Product preview">
+                  <button type="button" class="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                    <i class="ri-close-line"></i>
+                  </button>
+                `;
+                img.querySelector("button").addEventListener("click", () => {
+                  img.remove();
+                  if (imagePreview.children.length === 0) {
+                    imagePreview.classList.add("hidden");
+                  }
+                });
+                imagePreview.appendChild(img);
+              };
+              reader.readAsDataURL(file);
+            });
+          } else {
+            imagePreview.classList.add("hidden");
+          }
+        });
+
+        productImageUpload.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          productImageUpload.classList.add("border-primary");
+        });
+
+        productImageUpload.addEventListener("dragleave", () => {
+          productImageUpload.classList.remove("border-primary");
+        });
+
+        productImageUpload.addEventListener("drop", (e) => {
+          e.preventDefault();
+          productImageUpload.classList.remove("border-primary");
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            productImages.files = files;
+            const event = new Event("change");
+            productImages.dispatchEvent(event);
+          }
+        });
+
+        addProductForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          // Create success notification
+          const notification = document.createElement("div");
+          notification.className =
+            "fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50";
+          notification.innerHTML = `
+            <i class="ri-checkbox-circle-line ri-lg"></i>
+            <span>Product added successfully!</span>
+          `;
+          document.body.appendChild(notification);
+
+          // Hide modal
+          hideModal();
+
+          // Remove notification after 3 seconds
+          setTimeout(() => {
+            notification.remove();
+          }, 3000);
+        });
+      });
+    </script>
+  </body>
+</html>

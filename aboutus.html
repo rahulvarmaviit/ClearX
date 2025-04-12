@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClearX - Sign Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#5b46e5',secondary:'#10b981'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<style>
+#step1-form, #step2-form {
+transition: all 0.3s ease-in-out;
+}
+#step1-form.transform, #step2-form.transform {
+transition: all 0.3s ease-in-out;
+}
+.translate-x-\[-100\%\] {
+transform: translateX(-100%);
+}
+.translate-x-\[100\%\] {
+transform: translateX(100%);
+}
+.translate-x-0 {
+transform: translateX(0);
+}
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+background-color: #f9fafb;
+min-height: 100vh;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.auth-container {
+display: none;
+}
+.auth-container.active {
+display: block;
+}
+.tab-content {
+display: none;
+}
+.tab-content.active {
+display: block;
+}
+.custom-checkbox {
+position: relative;
+cursor: pointer;
+user-select: none;
+}
+.custom-checkbox input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+.checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 20px;
+width: 20px;
+background-color: #fff;
+border: 2px solid #e5e7eb;
+border-radius: 4px;
+}
+.custom-checkbox:hover input ~ .checkmark {
+border-color: #d1d5db;
+}
+.custom-checkbox input:checked ~ .checkmark {
+background-color: #5b46e5;
+border-color: #5b46e5;
+}
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+display: block;
+}
+.custom-checkbox .checkmark:after {
+left: 6px;
+top: 2px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.slide-in {
+transform: translateX(100%);
+transition: transform 0.3s ease-in-out;
+}
+.slide-in.active {
+transform: translateX(0);
+}
+</style>
+</head>
+<body class="bg-gray-50">
+<!-- Header -->
+<header class="bg-white shadow-sm">
+<div class="container mx-auto px-4 py-4 flex justify-between items-center">
+<a href="#" class="text-primary text-3xl font-['Pacifico']">ClearX</a>
+<nav class="hidden md:flex space-x-8">
+<a href="index.html" class="text-gray-600 hover:text-primary">Home</a>
+<a href="how-it-works.html" class="text-gray-600 hover:text-primary">How it Works</a>
+<a href="pricing.html" class="text-gray-600 hover:text-primary">Pricing</a>
+<a href="aboutus.html" class="text-gray-600 hover:text-primary">login</a>
+</nav>
+<button class="md:hidden w-10 h-10 flex items-center justify-center">
+<i class="ri-menu-line text-gray-700 ri-lg"></i>
+</button>
+</div>
+</header>
+<!-- Role Selection -->
+<div id="role-selection" class="container mx-auto px-4 py-12">
+<div class="bg-primary rounded-2xl p-8 md:p-12 text-center mb-12">
+<h1 class="text-white text-3xl md:text-4xl font-bold mb-4">Ready to Join the ClearX Community?</h1>
+<p class="text-white/90 text-lg max-w-3xl mx-auto">Choose your role and start making a difference today. Together, we can reduce waste and save money.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Retailer Card -->
+<div class="bg-white rounded-xl shadow-md p-8 flex flex-col items-center">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-4">
+<i class="ri-store-2-line text-primary ri-xl"></i>
+</div>
+<h2 class="text-2xl font-bold text-gray-800 mb-2">Retailers</h2>
+<p class="text-gray-600 text-center mb-6">List your excess inventory and recover costs</p>
+<button onclick="showAuth('retailer')" class="bg-primary text-white py-3 px-8 rounded-button w-full !rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">Sign Up</button>
+</div>
+<!-- Customer Card -->
+<div class="bg-white rounded-xl shadow-md p-8 flex flex-col items-center">
+<div class="w-16 h-16 flex items-center justify-center bg-secondary/10 rounded-full mb-4">
+<i class="ri-user-line text-secondary ri-xl"></i>
+</div>
+<h2 class="text-2xl font-bold text-gray-800 mb-2">Customers</h2>
+<p class="text-gray-600 text-center mb-6">Save money on quality products near you</p>
+<button onclick="showAuth('customer')" class="bg-secondary text-white py-3 px-8 rounded-button w-full !rounded-button font-medium hover:bg-secondary/90 transition whitespace-nowrap">Sign Up</button>
+</div>
+<!-- Delivery Agent Card -->
+<div class="bg-white rounded-xl shadow-md p-8 flex flex-col items-center">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-4">
+<i class="ri-truck-line text-primary ri-xl"></i>
+</div>
+<h2 class="text-2xl font-bold text-gray-800 mb-2">Delivery Agents</h2>
+<p class="text-gray-600 text-center mb-6">Earn money with flexible delivery work</p>
+<button onclick="showAuth('delivery')" class="bg-primary text-white py-3 px-8 rounded-button w-full !rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">Sign Up</button>
+</div>
+</div>
+</div>
+<!-- Retailer Authentication -->
+<div id="retailer-auth" class="auth-container container mx-auto px-4 py-12">
+<div class="max-w-4xl mx-auto">
+<div class="flex justify-between items-center mb-8">
+<button onclick="showRoleSelection()" class="flex items-center text-gray-600 hover:text-primary">
+<i class="ri-arrow-left-line mr-2"></i> Back to roles
+</button>
+<div class="text-xl font-bold text-gray-800">Retailer Account</div>
+</div>
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+<div class="flex border-b">
+<button class="tab-btn active py-4 px-6 font-medium flex-1 text-center border-b-2 border-primary" data-tab="retailer-signup">Sign Up</button>
+<button class="tab-btn py-4 px-6 font-medium flex-1 text-center text-gray-500 border-b-2 border-transparent" data-tab="retailer-login">Login</button>
+</div>
+<!-- Retailer Signup Form -->
+<div id="retailer-signup" class="tab-content active p-8">
+<div class="flex mb-6">
+<div class="w-full flex justify-between">
+<div class="flex items-center">
+<div id="step1-indicator" class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-medium">1</div>
+<span class="ml-2 font-medium">Business Information</span>
+</div>
+<div class="flex items-center">
+<div id="step2-indicator" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-medium">2</div>
+<span class="ml-2 text-gray-500">Store Details</span>
+</div>
+<div class="flex items-center">
+<div id="step3-indicator" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-medium">3</div>
+<span class="ml-2 text-gray-500">Verification</span>
+</div>
+</div>
+</div>
+<div id="step1-form" class="transition-all duration-300">
+<form id="retailer-signup-form-step1">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Your business name">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Business Type</label>
+<div class="relative">
+<select class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none pr-8">
+<option value="">Select business type</option>
+<option value="grocery">Grocery Store</option>
+<option value="restaurant">Restaurant</option>
+<option value="bakery">Bakery</option>
+<option value="supermarket">Supermarket</option>
+<option value="other">Other</option>
+</select>
+<div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none w-5 h-5 flex items-center justify-center">
+<i class="ri-arrow-down-s-line text-gray-500"></i>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+<input type="email" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="your@email.com">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+<input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Your phone number">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+<div class="relative">
+<input type="password" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Create a password">
+<button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
+<i class="ri-eye-line text-gray-500"></i>
+</button>
+</div>
+<div class="mt-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/2"></div>
+</div>
+<p class="text-xs text-gray-500 mt-1">Password strength: Medium</p>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+<div class="relative">
+<input type="password" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Confirm your password">
+<button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
+<i class="ri-eye-line text-gray-500"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="flex items-center mb-6">
+<label class="custom-checkbox pl-7 text-sm text-gray-700">
+<input type="checkbox">
+<span class="checkmark"></span>
+I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+</label>
+</div>
+<div class="flex justify-end">
+<button type="button" id="step1-continue" class="bg-primary text-white py-3 px-8 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">Continue</button>
+</div>
+</form>
+</div>
+<div id="step2-form" class="hidden transition-all duration-300">
+<form id="retailer-signup-form-step2">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Store Address</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter store address">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Store Phone</label>
+<input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Store contact number">
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-medium text-gray-700 mb-1">Operating Hours</label>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="text-sm text-gray-600">Opening Time</label>
+<input type="time" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+</div>
+<div>
+<label class="text-sm text-gray-600">Closing Time</label>
+<input type="time" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+</div>
+</div>
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-medium text-gray-700 mb-1">Types of Products Sold</label>
+<div class="flex flex-wrap gap-3">
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Fresh Produce</span>
+</label>
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Bakery</span>
+</label>
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Dairy</span>
+</label>
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Meat & Seafood</span>
+</label>
+</div>
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-medium text-gray-700 mb-1">Store Photos</label>
+<div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+<div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-gray-100 rounded-full">
+<i class="ri-upload-2-line text-gray-400 ri-2x"></i>
+</div>
+<p class="text-gray-600 mb-2">Drag and drop your store photos here</p>
+<p class="text-sm text-gray-500">or</p>
+<input type="file" id="file-input" multiple accept="image/*" class="hidden">
+<button type="button" id="browse-button" class="mt-2 px-4 py-2 text-sm text-primary border border-primary rounded-button hover:bg-primary/10 transition whitespace-nowrap">Browse Files</button>
+</div>
+<div id="preview-container" class="hidden mt-4 space-y-4"></div>
+<div id="upload-progress" class="hidden mt-4">
+<div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-primary transition-all duration-300" style="width: 0%"></div>
+</div>
+<p id="progress-text" class="text-sm text-gray-600 mt-2 text-center"></p>
+</div>
+</div>
+</div>
+<div class="flex justify-between">
+<button type="button" id="step2-back" class="text-gray-600 py-3 px-8 rounded-button font-medium hover:text-gray-800 transition whitespace-nowrap">Back</button>
+<button type="button" id="step2-continue" onclick="showRetailerDashboard()" class="bg-primary text-white py-3 px-8 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">Continue</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Retailer Login Form -->
+<div id="retailer-login" class="tab-content p-8">
+<form>
+<div class="mb-6">
+<label class="block text-sm font-medium text-gray-700 mb-1">Email or Phone</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter your email or phone">
+</div>
+<div class="mb-6">
+<label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+<div class="relative">
+<input type="password" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter your password">
+<button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
+<i class="ri-eye-line text-gray-500"></i>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-center mb-6">
+<label class="custom-checkbox pl-7 text-sm text-gray-700">
+<input type="checkbox">
+<span class="checkmark"></span>
+Remember me
+</label>
+<a href="#" class="text-primary text-sm">Forgot password?</a>
+</div>
+<button type="button" class="w-full bg-primary text-white py-3 px-8 rounded-button font-medium hover:bg-primary/90 transition mb-4 whitespace-nowrap">Login</button>
+<p class="text-center text-gray-600 text-sm">Don't have an account? <button type="button" class="text-primary font-medium" onclick="switchTab('retailer-signup')">Sign up</button></p>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- Customer Authentication -->
+<div id="customer-auth" class="auth-container container mx-auto px-4 py-12">
+<div class="max-w-md mx-auto">
+<div class="flex justify-between items-center mb-8">
+<button onclick="showRoleSelection()" class="flex items-center text-gray-600 hover:text-primary">
+<i class="ri-arrow-left-line mr-2"></i> Back to roles
+</button>
+<div class="text-xl font-bold text-gray-800">Customer Account</div>
+</div>
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+<div class="flex border-b">
+<button class="tab-btn active py-4 px-6 font-medium flex-1 text-center border-b-2 border-secondary" data-tab="customer-signup">Sign Up</button>
+<button class="tab-btn py-4 px-6 font-medium flex-1 text-center text-gray-500 border-b-2 border-transparent" data-tab="customer-login">Login</button>
+</div>
+<!-- Customer Signup Form -->
+<div id="customer-signup" class="tab-content active p-8">
+<div class="flex justify-center space-x-4 mb-6">
+<button id="google-signin-btn" class="flex items-center justify-center w-12 h-12 rounded-full border border-gray-300 hover:border-gray-400">
+<i class="ri-google-fill text-[#4285F4] ri-lg"></i>
+</button>
+<!-- Google OAuth Loading Modal -->
+<div id="oauth-loading-modal" class="fixed inset-0 bg-gray-900/50 flex items-center justify-center hidden z-50">
+<div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+<div class="flex items-center justify-center mb-4">
+<div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+</div>
+<p class="text-gray-600 text-center">Authenticating with Google...</p>
+</div>
+</div>
+<!-- Google OAuth Success Modal -->
+<div id="oauth-success-modal" class="fixed inset-0 bg-gray-900/50 flex items-center justify-center hidden z-50">
+<div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+<div class="flex items-center justify-center mb-4">
+<div class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-full">
+<i class="ri-checkbox-circle-line text-green-500 ri-xl"></i>
+</div>
+</div>
+<h3 class="text-xl font-bold text-gray-900 text-center mb-2">Successfully Signed In</h3>
+<p class="text-gray-600 text-center mb-6">Redirecting to your dashboard...</p>
+</div>
+</div>
+<!-- Google OAuth Error Modal -->
+<div id="oauth-error-modal" class="fixed inset-0 bg-gray-900/50 flex items-center justify-center hidden z-50">
+<div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+<div class="flex items-center justify-center mb-4">
+<div class="w-12 h-12 flex items-center justify-center bg-red-100 rounded-full">
+<i class="ri-error-warning-line text-red-500 ri-xl"></i>
+</div>
+</div>
+<h3 class="text-xl font-bold text-gray-900 text-center mb-2">Authentication Failed</h3>
+<p id="oauth-error-message" class="text-gray-600 text-center mb-6">Unable to sign in with Google. Please try again.</p>
+<button id="oauth-error-close" class="w-full bg-primary text-white py-3 px-8 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">Close</button>
+</div>
+</div>
+<button class="flex items-center justify-center w-12 h-12 rounded-full border border-gray-300 hover:border-gray-400">
+<i class="ri-facebook-fill text-[#1877F2] ri-lg"></i>
+</button>
+<button class="flex items-center justify-center w-12 h-12 rounded-full border border-gray-300 hover:border-gray-400">
+<i class="ri-apple-fill text-[#000000] ri-lg"></i>
+</button>
+</div>
+<div class="flex items-center mb-6">
+<div class="flex-grow h-px bg-gray-200"></div>
+<span class="px-4 text-sm text-gray-500">or sign up with email</span>
+<div class="flex-grow h-px bg-gray-200"></div>
+</div>
+<form>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="First name">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="Last name">
+</div>
+</div>
+<div class="mb-4">
+<label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+<input type="email" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="your@email.com">
+</div>
+<div class="mb-4">
+<label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+<input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="Your phone number">
+</div>
+<div class="mb-4">
+<label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+<div class="relative">
+<input type="password" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="Create a password">
+<button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
+<i class="ri-eye-line text-gray-500"></i>
+</button>
+</div>
+<div class="mt-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-3/4"></div>
+</div>
+<p class="text-xs text-gray-500 mt-1">Password strength: Strong</p>
+</div>
+<div class="mb-6">
+<label class="custom-checkbox pl-7 text-sm text-gray-700 block mb-2">
+<input type="checkbox">
+<span class="checkmark"></span>
+Allow location access for nearby deals
+</label>
+<label class="custom-checkbox pl-7 text-sm text-gray-700 block">
+<input type="checkbox">
+<span class="checkmark"></span>
+I agree to the <a href="#" class="text-secondary">Terms of Service</a> and <a href="#" class="text-secondary">Privacy Policy</a>
+</label>
+</div>
+
+</div>
+<!-- Customer Login Form --><div style="text-align: center; margin-top: 20px;">
+  <a href="customer1.html" 
+  style="background-color: #6c63ff; color: white; padding: 12px 12px; border-radius: 9999px; font-weight: 500; text-decoration: none; display: inline-block; transition: background-color 0.3s; white-space: nowrap;">
+ Create Account
+</a>
+</div>
+<p class="text-center text-gray-600 text-sm">Already have an account? <button type="button" class="text-secondary font-medium" onclick="switchTab('customer-login')">Login</button></p>
+</form>
+<div id="customer-login" class="tab-content p-8">
+<div class="flex justify-center space-x-4 mb-6">
+<button id="google-signin-btn" class="flex items-center justify-center w-12 h-12 rounded-full border border-gray-300 hover:border-gray-400">
+<i class="ri-google-fill text-[#4285F4] ri-lg"></i>
+</button>
+<!-- Google OAuth Loading Modal -->
+<div id="oauth-loading-modal" class="fixed inset-0 bg-gray-900/50 flex items-center justify-center hidden z-50">
+<div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+<div class="flex items-center justify-center mb-4">
+<div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+</div>
+<p class="text-gray-600 text-center">Authenticating with Google...</p>
+</div>
+</div>
+<!-- Google OAuth Success Modal -->
+<div id="oauth-success-modal" class="fixed inset-0 bg-gray-900/50 flex items-center justify-center hidden z-50">
+<div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+<div class="flex items-center justify-center mb-4">
+<div class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-full">
+<i class="ri-checkbox-circle-line text-green-500 ri-xl"></i>
+</div>
+</div>
+<h3 class="text-xl font-bold text-gray-900 text-center mb-2">Successfully Signed In</h3>
+<p class="text-gray-600 text-center mb-6">Redirecting to your dashboard...</p>
+</div>
+</div>
+<!-- Google OAuth Error Modal -->
+<div id="oauth-error-modal" class="fixed inset-0 bg-gray-900/50 flex items-center justify-center hidden z-50">
+<div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6">
+<div class="flex items-center justify-center mb-4">
+<div class="w-12 h-12 flex items-center justify-center bg-red-100 rounded-full">
+<i class="ri-error-warning-line text-red-500 ri-xl"></i>
+</div>
+</div>
+<h3 class="text-xl font-bold text-gray-900 text-center mb-2">Authentication Failed</h3>
+<p id="oauth-error-message" class="text-gray-600 text-center mb-6">Unable to sign in with Google. Please try again.</p>
+<button id="oauth-error-close" class="w-full bg-primary text-white py-3 px-8 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">Close</button>
+</div>
+</div>
+<button class="flex items-center justify-center w-12 h-12 rounded-full border border-gray-300 hover:border-gray-400">
+<i class="ri-facebook-fill text-[#1877F2] ri-lg"></i>
+</button>
+<button class="flex items-center justify-center w-12 h-12 rounded-full border border-gray-300 hover:border-gray-400">
+<i class="ri-apple-fill text-[#000000] ri-lg"></i>
+</button>
+</div>
+<div class="flex items-center mb-6">
+<div class="flex-grow h-px bg-gray-200"></div>
+<span class="px-4 text-sm text-gray-500">or login with email</span>
+<div class="flex-grow h-px bg-gray-200"></div>
+</div>
+<form>
+<div class="mb-4">
+<label class="block text-sm font-medium text-gray-700 mb-1">Email or Phone</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="Enter your email or phone">
+</div>
+<div class="mb-6">
+<label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+<div class="relative">
+<input type="password" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-secondary focus:border-secondary outline-none" placeholder="Enter your password">
+<button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
+<i class="ri-eye-line text-gray-500"></i>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-center mb-6">
+<label class="custom-checkbox pl-7 text-sm text-gray-700">
+<input type="checkbox">
+<span class="checkmark"></span>
+Remember me
+</label>
+<a href="#" class="text-secondary text-sm">Forgot password?</a>
+</div>
+<button type="button" class="w-full bg-secondary text-white py-3 px-8 rounded-button font-medium hover:bg-secondary/90 transition mb-4 whitespace-nowrap">Login</button>
+<p class="text-center text-gray-600 text-sm">Don't have an account? <button type="button" class="text-secondary font-medium" onclick="switchTab('customer-signup')">Sign up</button></p>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- Delivery Agent Authentication -->
+<div id="delivery-auth" class="auth-container container mx-auto px-4 py-12">
+<div class="max-w-4xl mx-auto">
+<div class="flex justify-between items-center mb-8">
+<button onclick="showRoleSelection()" class="flex items-center text-gray-600 hover:text-primary">
+<i class="ri-arrow-left-line mr-2"></i> Back to roles
+</button>
+<div class="text-xl font-bold text-gray-800">Delivery Agent Account</div>
+</div>
+<div class="bg-white rounded-xl shadow-md overflow-hidden">
+<div class="flex border-b">
+<button class="tab-btn active py-4 px-6 font-medium flex-1 text-center border-b-2 border-primary" data-tab="delivery-signup">Sign Up</button>
+<button class="tab-btn py-4 px-6 font-medium flex-1 text-center text-gray-500 border-b-2 border-transparent" data-tab="delivery-login">Login</button>
+</div>
+<!-- Delivery Agent Signup Form -->
+<div id="delivery-signup" class="tab-content active p-8">
+<div class="flex mb-6">
+<div class="w-full flex justify-between">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-medium">1</div>
+<span class="ml-2 font-medium">Personal Information</span>
+</div>
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-medium">2</div>
+<span class="ml-2 text-gray-500">Vehicle Details</span>
+</div>
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-medium">3</div>
+<span class="ml-2 text-gray-500">Documents</span>
+</div>
+</div>
+</div>
+<form>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Your first name">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Your last name">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+<input type="email" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="your@email.com">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+<input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Your phone number">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+<input type="date" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">City</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Your city">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+<div class="relative">
+<input type="password" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Create a password">
+<button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
+<i class="ri-eye-line text-gray-500"></i>
+</button>
+</div>
+<div class="mt-1 h-1 bg-gray-200 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-1/4"></div>
+</div>
+<p class="text-xs text-gray-500 mt-1">Password strength: Weak</p>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+<div class="relative">
+<input type="password" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Confirm your password">
+<button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
+<i class="ri-eye-line text-gray-500"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<label class="block text-sm font-medium text-gray-700 mb-2">Preferred Working Hours</label>
+<div class="flex flex-wrap gap-3">
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Morning (6AM-12PM)</span>
+</label>
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Afternoon (12PM-6PM)</span>
+</label>
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Evening (6PM-12AM)</span>
+</label>
+</div>
+</div>
+<div class="flex items-center mb-6">
+<label class="custom-checkbox pl-7 text-sm text-gray-700">
+<input type="checkbox">
+<span class="checkmark"></span>
+I agree to the <a href="#" class="text-primary">Terms of Service</a>, <a href="#" class="text-primary">Privacy Policy</a>, and consent to a background check
+</label>
+</div>
+<div class="flex justify-end">
+<button type="button" id="step1-continue" class="bg-primary text-white py-3 px-8 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">Continue</button>
+</div>
+</form>
+</div>
+<div id="step2-form" class="hidden transition-all duration-300">
+<form id="retailer-signup-form-step2">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Store Address</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter store address">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Store Phone</label>
+<input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Store contact number">
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-medium text-gray-700 mb-1">Operating Hours</label>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="text-sm text-gray-600">Opening Time</label>
+<input type="time" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+</div>
+<div>
+<label class="text-sm text-gray-600">Closing Time</label>
+<input type="time" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none">
+</div>
+</div>
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-medium text-gray-700 mb-1">Types of Products Sold</label>
+<div class="flex flex-wrap gap-3">
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Fresh Produce</span>
+</label>
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Bakery</span>
+</label>
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Dairy</span>
+</label>
+<label class="flex items-center px-4 py-2 border border-gray-300 rounded cursor-pointer hover:border-primary">
+<input type="checkbox" class="mr-2 accent-primary">
+<span>Meat & Seafood</span>
+</label>
+</div>
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-medium text-gray-700 mb-1">Store Photos</label>
+<div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+<div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-gray-100 rounded-full">
+<i class="ri-upload-2-line text-gray-400 ri-2x"></i>
+</div>
+<p class="text-gray-600 mb-2">Drag and drop your store photos here</p>
+<p class="text-sm text-gray-500">or</p>
+<input type="file" id="file-input" multiple accept="image/*" class="hidden">
+<button type="button" id="browse-button" class="mt-2 px-4 py-2 text-sm text-primary border border-primary rounded-button hover:bg-primary/10 transition whitespace-nowrap">Browse Files</button>
+</div>
+<div id="preview-container" class="hidden mt-4 space-y-4"></div>
+<div id="upload-progress" class="hidden mt-4">
+<div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+<div id="progress-bar" class="h-full bg-primary transition-all duration-300" style="width: 0%"></div>
+</div>
+<p id="progress-text" class="text-sm text-gray-600 mt-2 text-center"></p>
+</div>
+</div>
+</div>
+<div class="flex justify-between">
+<button type="button" id="step2-back" class="text-gray-600 py-3 px-8 rounded-button font-medium hover:text-gray-800 transition whitespace-nowrap">Back</button>
+<button type="button" id="step2-continue" onclick="showRetailerDashboard()" class="bg-primary text-white py-3 px-8 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">Continue</button>
+</div>
+</form>
+</div>
+<!-- Step 3 Form -->
+<div id="step3-form" class="hidden transition-all duration-300">
+<form id="retailer-signup-form-step3" class="p-8">
+<div class="space-y-8">
+<!-- Business License Section -->
+<div>
+<h3 class="text-lg font-medium text-gray-900 mb-4">Business License</h3>
+<div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-4">
+<i class="ri-file-upload-line text-primary ri-xl"></i>
+</div>
+<p class="text-sm text-gray-600 mb-2">Upload your business license (PDF, JPG, PNG)</p>
+<input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" id="business-license">
+<button type="button" onclick="document.getElementById('business-license').click()" class="mt-2 px-4 py-2 text-sm text-primary border border-primary rounded-button hover:bg-primary/10 transition whitespace-nowrap">Select File</button>
+</div>
+</div>
+</div>
+<!-- ID Verification Section -->
+<div>
+<h3 class="text-lg font-medium text-gray-900 mb-4">ID Verification</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-4">
+<i class="ri-id-card-line text-primary ri-xl"></i>
+</div>
+<p class="text-sm text-gray-600 mb-2">Front side of ID</p>
+<input type="file" accept=".jpg,.jpeg,.png" class="hidden" id="id-front">
+<button type="button" onclick="document.getElementById('id-front').click()" class="mt-2 px-4 py-2 text-sm text-primary border border-primary rounded-button hover:bg-primary/10 transition whitespace-nowrap">Upload Front</button>
+</div>
+</div>
+<div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
+<div class="flex flex-col items-center">
+<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-4">
+<i class="ri-id-card-line text-primary ri-xl"></i>
+</div>
+<p class="text-sm text-gray-600 mb-2">Back side of ID</p>
+<input type="file" accept=".jpg,.jpeg,.png" class="hidden" id="id-back">
+<button type="button" onclick="document.getElementById('id-back').click()" class="mt-2 px-4 py-2 text-sm text-primary border border-primary rounded-button hover:bg-primary/10 transition whitespace-nowrap">Upload Back</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Tax Information -->
+<div>
+<h3 class="text-lg font-medium text-gray-900 mb-4">Tax Information</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Tax ID Number</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter tax ID number">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Tax Classification</label>
+<select class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none pr-8">
+<option value="">Select classification</option>
+<option value="sole_proprietorship">Sole Proprietorship</option>
+<option value="partnership">Partnership</option>
+<option value="corporation">Corporation</option>
+<option value="llc">LLC</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Final Review -->
+<div>
+<h3 class="text-lg font-medium text-gray-900 mb-4">Final Review</h3>
+<div class="bg-gray-50 rounded-lg p-6">
+<div class="space-y-4">
+<label class="custom-checkbox pl-7 text-sm text-gray-700 block">
+<input type="checkbox">
+<span class="checkmark"></span>
+I confirm all provided information is accurate and complete
+</label>
+<label class="custom-checkbox pl-7 text-sm text-gray-700 block">
+<input type="checkbox">
+<span class="checkmark"></span>
+I understand that false information may result in application rejection
+</label>
+<label class="custom-checkbox pl-7 text-sm text-gray-700 block">
+<input type="checkbox">
+<span class="checkmark"></span>
+I agree to maintain compliance with all applicable regulations
+</label>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-between mt-8">
+<button type="button" id="step3-back" class="text-gray-600 py-3 px-8 rounded-button font-medium hover:text-gray-800 transition whitespace-nowrap">Back</button>
+<button type="submit" id="step3-submit" class="bg-primary text-white py-3 px-8 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">Submit Application</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Delivery Agent Login Form -->
+<div id="delivery-login" class="tab-content p-8">
+<form>
+<div class="mb-6">
+<label class="block text-sm font-medium text-gray-700 mb-1">Agent ID or Phone</label>
+<input type="text" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter your agent ID or phone">
+</div>
+<div class="mb-6">
+<label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+<div class="relative">
+<input type="password" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter your password">
+<button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center">
+<i class="ri-eye-line text-gray-500"></i>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-center mb-6">
+<label class="custom-checkbox pl-7 text-sm text-gray-700">
+<input type="checkbox">
+<span class="checkmark"></span>
+Remember me
+</label>
+<a href="#" class="text-primary text-sm">Forgot password?</a>
+</div>
+<button type="button" class="w-full bg-primary text-white py-3 px-8 rounded-button font-medium hover:bg-primary/90 transition mb-4 whitespace-nowrap">Login</button>
+<div class="flex items-center justify-center">
+<div class="w-10 h-10 flex items-center justify-center">
+<i class="ri-customer-service-2-line text-gray-500 ri-lg"></i>
+</div>
+<p class="text-gray-600 text-sm">Need help? <a href="#" class="text-primary font-medium">Contact Support</a></p>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+<script>
+function handleFileSelect(event) {
+const files = event.target.files;
+const previewContainer = document.getElementById('preview-container');
+const uploadProgress = document.getElementById('upload-progress');
+const progressBar = document.getElementById('progress-bar');
+const progressText = document.getElementById('progress-text');
+if (files.length > 0) {
+previewContainer.innerHTML = '';
+previewContainer.classList.remove('hidden');
+uploadProgress.classList.remove('hidden');
+Array.from(files).forEach((file, index) => {
+const reader = new FileReader();
+const preview = document.createElement('div');
+preview.className = 'flex items-center justify-between bg-gray-50 p-4 rounded-lg';
+reader.onload = function(e) {
+preview.innerHTML = `
+<div class="flex items-center space-x-4">
+<img src="${e.target.result}" class="w-16 h-16 object-cover rounded">
+<div>
+<p class="text-sm font-medium text-gray-900">${file.name}</p>
+<p class="text-xs text-gray-500">${(file.size / 1024).toFixed(1)} KB</p>
+</div>
+</div>
+<button type="button" class="text-red-500 hover:text-red-700" onclick="removeFile(this)">
+<i class="ri-delete-bin-line ri-lg"></i>
+</button>
+`;
+};
+reader.readAsDataURL(file);
+previewContainer.appendChild(preview);
+});
+// Simulate upload progress
+let progress = 0;
+const interval = setInterval(() => {
+progress += 5;
+progressBar.style.width = `${progress}%`;
+progressText.textContent = `Uploading... ${progress}%`;
+if (progress >= 100) {
+clearInterval(interval);
+progressText.innerHTML = `
+<span class="flex items-center justify-center text-primary">
+<i class="ri-checkbox-circle-line ri-lg mr-2"></i>
+Upload Complete
+</span>
+`;
+}
+}, 100);
+}
+}
+function removeFile(button) {
+button.closest('div').remove();
+const previewContainer = document.getElementById('preview-container');
+if (previewContainer.children.length === 0) {
+previewContainer.classList.add('hidden');
+document.getElementById('upload-progress').classList.add('hidden');
+document.getElementById('file-input').value = '';
+}
+}
+document.addEventListener('DOMContentLoaded', function() {
+const browseButton = document.getElementById('browse-button');
+const fileInput = document.getElementById('file-input');
+if (browseButton && fileInput) {
+browseButton.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', handleFileSelect);
+}
+});
+function validateStep1Form() {
+const form = document.getElementById('retailer-signup-form-step1');
+const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="password"], select');
+let isValid = true;
+const errors = [];
+inputs.forEach(input => {
+input.classList.remove('border-red-500');
+if (!input.value.trim()) {
+input.classList.add('border-red-500');
+isValid = false;
+errors.push(`${input.placeholder} is required`);
+}
+});
+const password = form.querySelector('input[type="password"]');
+const confirmPassword = form.querySelectorAll('input[type="password"]')[1];
+if (password.value !== confirmPassword.value) {
+password.classList.add('border-red-500');
+confirmPassword.classList.add('border-red-500');
+isValid = false;
+errors.push('Passwords do not match');
+}
+const checkbox = form.querySelector('input[type="checkbox"]');
+if (!checkbox.checked) {
+isValid = false;
+errors.push('Please agree to the Terms of Service');
+}
+if (!isValid) {
+const errorDiv = document.createElement('div');
+errorDiv.className = 'bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4';
+errorDiv.innerHTML = `
+<p class="font-bold">Please correct the following errors:</p>
+<ul class="list-disc list-inside">
+${errors.map(error => `<li>${error}</li>`).join('')}
+</ul>
+`;
+const existingError = form.querySelector('.bg-red-100');
+if (existingError) {
+existingError.remove();
+}
+form.insertBefore(errorDiv, form.firstChild);
+}
+return isValid;
+}
+function transitionToStep2() {
+const step1Form = document.getElementById('step1-form');
+const step2Form = document.getElementById('step2-form');
+const step1Indicator = document.getElementById('step1-indicator');
+const step2Indicator = document.getElementById('step2-indicator');
+step1Form.classList.add('transform', 'translate-x-[-100%]', 'opacity-0');
+setTimeout(() => {
+step1Form.classList.add('hidden');
+step2Form.classList.remove('hidden');
+step2Form.classList.add('transform', 'translate-x-0', 'opacity-100');
+step1Indicator.innerHTML = '<i class="ri-check-line"></i>';
+step2Indicator.classList.remove('bg-gray-200', 'text-gray-600');
+step2Indicator.classList.add('bg-primary', 'text-white');
+}, 300);
+}
+function transitionToStep3() {
+const step2Form = document.getElementById('step2-form');
+const step3Form = document.getElementById('step3-form');
+const step2Indicator = document.getElementById('step2-indicator');
+const step3Indicator = document.getElementById('step3-indicator');
+step2Form.classList.add('transform', 'translate-x-[-100%]', 'opacity-0');
+setTimeout(() => {
+step2Form.classList.add('hidden');
+step3Form.classList.remove('hidden');
+step3Form.classList.add('transform', 'translate-x-0', 'opacity-100');
+step2Indicator.innerHTML = '<i class="ri-check-line"></i>';
+step3Indicator.classList.remove('bg-gray-200', 'text-gray-600');
+step3Indicator.classList.add('bg-primary', 'text-white');
+}, 300);
+}
+document.addEventListener('DOMContentLoaded', function() {
+const step1ContinueBtn = document.getElementById('step1-continue');
+const step2ContinueBtn = document.getElementById('step2-continue');
+const step2BackBtn = document.getElementById('step2-back');
+const step3BackBtn = document.getElementById('step3-back');
+if (step1ContinueBtn) {
+step1ContinueBtn.addEventListener('click', function() {
+if (validateStep1Form()) {
+transitionToStep2();
+}
+});
+}
+if (step2ContinueBtn) {
+step2ContinueBtn.addEventListener('click', function() {
+transitionToStep3();
+});
+}
+if (step3BackBtn) {
+step3BackBtn.addEventListener('click', function() {
+const step2Form = document.getElementById('step2-form');
+const step3Form = document.getElementById('step3-form');
+const step2Indicator = document.getElementById('step2-indicator');
+const step3Indicator = document.getElementById('step3-indicator');
+step3Form.classList.add('transform', 'translate-x-[100%]', 'opacity-0');
+setTimeout(() => {
+step3Form.classList.add('hidden');
+step2Form.classList.remove('hidden', 'transform', 'translate-x-[-100%]', 'opacity-0');
+step2Indicator.innerHTML = '2';
+step3Indicator.classList.remove('bg-primary', 'text-white');
+step3Indicator.classList.add('bg-gray-200', 'text-gray-600');
+}, 300);
+});
+}
+if (step2BackBtn) {
+step2BackBtn.addEventListener('click', function() {
+const step1Form = document.getElementById('step1-form');
+const step2Form = document.getElementById('step2-form');
+const step1Indicator = document.getElementById('step1-indicator');
+const step2Indicator = document.getElementById('step2-indicator');
+step2Form.classList.add('transform', 'translate-x-[100%]', 'opacity-0');
+setTimeout(() => {
+step2Form.classList.add('hidden');
+step1Form.classList.remove('hidden', 'transform', 'translate-x-[-100%]', 'opacity-0');
+step1Indicator.innerHTML = '1';
+step2Indicator.classList.remove('bg-primary', 'text-white');
+step2Indicator.classList.add('bg-gray-200', 'text-gray-600');
+}, 300);
+});
+}
+// Tab switching functionality
+const tabBtns = document.querySelectorAll('.tab-btn');
+tabBtns.forEach(btn => {
+btn.addEventListener('click', function() {
+const tabId = this.getAttribute('data-tab');
+switchTab(tabId);
+});
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Password visibility toggle
+const toggleBtns = document.querySelectorAll('button[type="button"]');
+toggleBtns.forEach(btn => {
+if (btn.querySelector('.ri-eye-line')) {
+btn.addEventListener('click', function() {
+const input = this.parentElement.querySelector('input');
+const icon = this.querySelector('i');
+if (input.type === 'password') {
+input.type = 'text';
+icon.classList.remove('ri-eye-line');
+icon.classList.add('ri-eye-off-line');
+} else {
+input.type = 'password';
+icon.classList.remove('ri-eye-off-line');
+icon.classList.add('ri-eye-line');
+}
+});
+}
+});
+});
+function switchTab(tabId) {
+// Get the container of the tab (retailer, customer, or delivery)
+const container = document.getElementById(tabId).closest('.auth-container');
+// Get all tab buttons and content within this container
+const tabBtns = container.querySelectorAll('.tab-btn');
+const tabContents = container.querySelectorAll('.tab-content');
+// Remove active class from all tabs and contents
+tabBtns.forEach(btn => {
+btn.classList.remove('active');
+btn.classList.remove('border-primary', 'border-secondary');
+btn.classList.add('border-transparent', 'text-gray-500');
+});
+tabContents.forEach(content => {
+content.classList.remove('active');
+});
+// Add active class to selected tab and content
+const selectedBtn = container.querySelector(`[data-tab="${tabId}"]`);
+const selectedContent = document.getElementById(tabId);
+selectedBtn.classList.add('active');
+selectedBtn.classList.remove('border-transparent', 'text-gray-500');
+// Apply correct border color based on user type
+if (container.id === 'customer-auth') {
+selectedBtn.classList.add('border-secondary');
+} else {
+selectedBtn.classList.add('border-primary');
+}
+selectedContent.classList.add('active');
+}
+function showAuth(userType) {
+document.getElementById('role-selection').style.display = 'none';
+document.querySelectorAll('.auth-container').forEach(container => {
+container.classList.remove('active');
+});
+document.getElementById(`${userType}-auth`).classList.add('active');
+}
+function showRoleSelection() {
+document.getElementById('role-selection').style.display = 'block';
+document.querySelectorAll('.auth-container').forEach(container => {
+container.classList.remove('active');
+});
+}
+</script>
+<!-- Retailer Dashboard -->
+<div id="retailer-dashboard" class="hidden min-h-screen bg-gray-50">
+<!-- Header -->
+<header class="bg-white shadow-sm">
+<div class="container mx-auto px-4 py-4 flex justify-between items-center">
+<a href="index.html" class="text-primary text-2xl font-['Pacifico']">ClearX</a>
+<nav class="hidden md:flex space-x-8">
+<a href="retail.html" data-readdy="true" class="text-gray-600 hover:text-primary flex items-center">
+<i class="ri-store-2-line mr-2"></i>
+Products
+</a>
+<a href="#" class="text-gray-600 hover:text-primary flex items-center">
+<i class="ri-shopping-cart-2-line mr-2"></i>
+Orders
+</a>
+<a href="#" class="text-gray-600 hover:text-primary flex items-center">
+<i class="ri-line-chart-line mr-2"></i>
+Analytics
+</a>
+</nav>
+<div class="flex items-center space-x-6">
+<button class="relative w-10 h-10 flex items-center justify-center text-gray-600 hover:text-primary">
+<i class="ri-notification-3-line ri-lg"></i>
+<span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center">
+<img src="https://readdy.ai/api/search-image?query=professional%20business%20person%20headshot%20portrait%2C%20modern%20corporate%20style%2C%20neutral%20background&width=40&height=40&seq=1&orientation=squarish" class="w-8 h-8 rounded-full object-cover">
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8">
+<!-- Quick Action -->
+<div class="flex justify-between items-center mb-8">
+<h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+<button id="add-product-btn" class="bg-primary text-white px-6 py-3 rounded-button flex items-center font-medium hover:bg-primary/90 transition whitespace-nowrap">
+<i class="ri-add-line mr-2"></i>
+Add New Product
+</button>
+<!-- Add Product Modal -->
+<div id="add-product-modal" class="fixed inset-0 bg-gray-900/50 flex items-center justify-center hidden z-50">
+<div class="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+<div class="p-6 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white">
+<h2 class="text-xl font-bold text-gray-900">Add New Product</h2>
+<button id="close-modal-btn" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700">
+<i class="ri-close-line ri-lg"></i>
+</button>
+</div>
+<form id="add-product-form" class="p-6 space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+<input type="text" id="product-name" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter product name" required>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+<div class="relative">
+<select id="product-category" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none pr-8" required>
+<option value="">Select category</option>
+<option value="fresh_produce">Fresh Produce</option>
+<option value="bakery">Bakery</option>
+<option value="dairy">Dairy</option>
+<option value="meat">Meat & Seafood</option>
+<option value="pantry">Pantry</option>
+</select>
+<div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+<i class="ri-arrow-down-s-line text-gray-500"></i>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Price ($)</label>
+<input type="number" id="product-price" step="0.01" min="0" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="0.00" required>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+<input type="number" id="product-quantity" min="1" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter quantity" required>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Expiration Date</label>
+<input type="date" id="product-expiry" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" required>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Discount (%)</label>
+<input type="number" id="product-discount" min="0" max="100" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter discount percentage">
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+<textarea id="product-description" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter product description" required></textarea>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Product Images</label>
+<div id="product-image-upload" class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+<div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-primary/10 rounded-full">
+<i class="ri-upload-2-line text-primary ri-xl"></i>
+</div>
+<p class="text-gray-600 mb-2">Drag and drop your product images here</p>
+<p class="text-sm text-gray-500">or</p>
+<input type="file" id="product-images" multiple accept="image/*" class="hidden">
+<button type="button" id="browse-images-btn" class="mt-2 px-4 py-2 text-sm text-primary border border-primary rounded-button hover:bg-primary/10 transition">Browse Files</button>
+</div>
+<div id="image-preview" class="grid grid-cols-4 gap-4 mt-4"></div>
+</div>
+<div class="flex justify-end space-x-4 pt-4 border-t">
+<button type="button" id="cancel-add-product" class="px-6 py-3 text-gray-700 hover:text-gray-900 font-medium rounded-button whitespace-nowrap">Cancel</button>
+<button type="submit" class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-primary/90 transition whitespace-nowrap">Save Product</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- Statistics Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-white p-6 rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-gray-500">Total Sales</h3>
+<span class="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full">
+<i class="ri-money-dollar-circle-line text-primary ri-xl"></i>
+</span>
+</div>
+<p class="text-3xl font-bold text-gray-900">$12,845</p>
+<p class="text-sm text-green-500 flex items-center mt-2">
+<i class="ri-arrow-up-line mr-1"></i>
++12.5% from last month
+</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-gray-500">Active Products</h3>
+<span class="w-10 h-10 flex items-center justify-center bg-secondary/10 rounded-full">
+<i class="ri-shopping-bag-line text-secondary ri-xl"></i>
+</span>
+</div>
+<p class="text-3xl font-bold text-gray-900">284</p>
+<p class="text-sm text-green-500 flex items-center mt-2">
+<i class="ri-arrow-up-line mr-1"></i>
++8.2% from last month
+</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-gray-500">Low Stock Items</h3>
+<span class="w-10 h-10 flex items-center justify-center bg-red-100 rounded-full">
+<i class="ri-alert-line text-red-500 ri-xl"></i>
+</span>
+</div>
+<p class="text-3xl font-bold text-gray-900">12</p>
+<p class="text-sm text-red-500 flex items-center mt-2">
+<i class="ri-arrow-up-line mr-1"></i>
++3 since yesterday
+</p>
+</div>
+</div>
+<!-- Products Grid -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+<div class="p-6 border-b border-gray-200">
+<h2 class="text-xl font-bold text-gray-900">Products</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+<!-- Product Card 1 -->
+<div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=fresh%20organic%20vegetables%20and%20fruits%20arranged%20on%20white%20surface%2C%20professional%20product%20photography&width=400&height=300&seq=2&orientation=landscape" class="w-full h-48 object-cover" alt="Product">
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-medium text-gray-900">Organic Vegetable Bundle</h3>
+<p class="text-sm text-gray-500">Expires: Apr 15, 2025</p>
+</div>
+<span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">In Stock</span>
+</div>
+<div class="flex justify-between items-center">
+<p class="text-lg font-bold text-gray-900">$24.99</p>
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary">
+<i class="ri-edit-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-red-500">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=fresh%20baked%20bread%20and%20pastries%20arranged%20on%20wooden%20surface%2C%20professional%20bakery%20photography&width=400&height=300&seq=3&orientation=landscape" class="w-full h-48 object-cover" alt="Product">
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-medium text-gray-900">Artisan Bread Selection</h3>
+<p class="text-sm text-gray-500">Expires: Apr 12, 2025</p>
+</div>
+<span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Low Stock</span>
+</div>
+<div class="flex justify-between items-center">
+<p class="text-lg font-bold text-gray-900">$18.99</p>
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary">
+<i class="ri-edit-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-red-500">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=dairy%20products%20including%20cheese%2C%20milk%2C%20and%20yogurt%20arranged%20on%20white%20surface%2C%20professional%20food%20photography&width=400&height=300&seq=4&orientation=landscape" class="w-full h-48 object-cover" alt="Product">
+<div class="p-4">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-medium text-gray-900">Fresh Dairy Pack</h3>
+<p class="text-sm text-gray-500">Expires: Apr 14, 2025</p>
+</div>
+<span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">In Stock</span>
+</div>
+<div class="flex justify-between items-center">
+<p class="text-lg font-bold text-gray-900">$32.99</p>
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary">
+<i class="ri-edit-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-red-500">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+// Google OAuth Configuration
+const GOOGLE_CLIENT_ID = '1234567890-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com';
+const GOOGLE_REDIRECT_URI = 'https://ClearX.com/auth/google/callback';
+
+// Initialize Google OAuth
+function initGoogleOAuth() {
+  const googleSigninBtn = document.getElementById('google-signin-btn');
+  if (googleSigninBtn) {
+    googleSigninBtn.addEventListener('click', startGoogleOAuth);
+  }
+  
+  // Handle OAuth callback response
+  if (window.location.hash.includes('access_token')) {
+    handleOAuthResponse(window.location.hash);
+  }
+}
+
+// Start Google OAuth Flow
+function startGoogleOAuth() {
+  const loadingModal = document.getElementById('oauth-loading-modal');
+  loadingModal.classList.remove('hidden');
+  
+  const width = 500;
+  const height = 600;
+  const left = (window.innerWidth - width) / 2;
+  const top = (window.innerHeight - height) / 2;
+  
+  const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+    `client_id=${GOOGLE_CLIENT_ID}` +
+    `&redirect_uri=${encodeURIComponent(GOOGLE_REDIRECT_URI)}` +
+    `&response_type=token` +
+    `&scope=email profile` +
+    `&prompt=select_account`;
+    
+  const authWindow = window.open(
+    authUrl,
+    'Google Sign In',
+    `width=${width},height=${height},left=${left},top=${top}`
+  );
+  
+  // Check auth window status
+  const checkWindow = setInterval(() => {
+    if (authWindow.closed) {
+      clearInterval(checkWindow);
+      loadingModal.classList.add('hidden');
+    }
+  }, 500);
+  
+  window.addEventListener('message', (event) => {
+    if (event.origin === window.location.origin) {
+      handleOAuthResponse(event.data);
+    }
+  });
+}
+
+// Handle OAuth Response
+async function handleOAuthResponse(response) {
+  const loadingModal = document.getElementById('oauth-loading-modal');
+  const successModal = document.getElementById('oauth-success-modal');
+  const errorModal = document.getElementById('oauth-error-modal');
+  
+  try {
+    // Parse access token from response
+    const params = new URLSearchParams(response.replace('#', '?'));
+    const accessToken = params.get('access_token');
+    
+    if (!accessToken) {
+      throw new Error('No access token received');
+    }
+    
+    // Get user info using access token
+    const userInfo = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    }).then(res => res.json());
+    
+    // Store user data
+    localStorage.setItem('user', JSON.stringify({
+      id: userInfo.sub,
+      email: userInfo.email,
+      name: userInfo.name,
+      picture: userInfo.picture,
+      accessToken
+    }));
+    
+    // Show success modal
+    loadingModal.classList.add('hidden');
+    successModal.classList.remove('hidden');
+    
+    // Redirect to dashboard
+    setTimeout(() => {
+      window.location.href = '/customer/dashboard';
+    }, 1500);
+    
+  } catch (error) {
+    loadingModal.classList.add('hidden');
+    errorModal.classList.remove('hidden');
+    document.getElementById('oauth-error-message').textContent = error.message;
+  }
+}
+// Handle OAuth Error
+function handleOAuthError(error) {
+  const errorModal = document.getElementById('oauth-error-modal');
+  const errorMessage = document.getElementById('oauth-error-message');
+  const closeButton = document.getElementById('oauth-error-close');
+  
+  // Update error message
+  errorMessage.textContent = error.message || 'Unable to sign in with Google. Please try again.';
+  
+  // Show error modal
+  errorModal.classList.remove('hidden');
+  
+  // Handle close button click
+  const closeModal = () => {
+    errorModal.classList.add('hidden');
+    closeButton.removeEventListener('click', closeModal);
+  };
+  
+  closeButton.addEventListener('click', closeModal);
+  
+  // Auto hide after 5 seconds
+  setTimeout(closeModal, 5000);
+}
+
+// Handle OAuth Success
+function handleOAuthSuccess(userData) {
+  const successModal = document.getElementById('oauth-success-modal');
+  
+  // Store user session
+  sessionStorage.setItem('isAuthenticated', 'true');
+  localStorage.setItem('user', JSON.stringify(userData));
+  
+  // Show success modal
+  successModal.classList.remove('hidden');
+  
+  // Redirect to dashboard after delay
+  setTimeout(() => {
+    window.location.href = '/customer/dashboard';
+  }, 1500);
+}
+
+// Check Authentication Status
+function checkAuthStatus() {
+  const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
+  const userData = localStorage.getItem('user');
+  
+  if (isAuthenticated && userData) {
+    return JSON.parse(userData);
+  }
+  
+  return null;
+}
+
+// Initialize Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+  const closeButton = document.getElementById('oauth-error-close');
+  if (closeButton) {
+    closeButton.addEventListener('click', () => {
+      document.getElementById('oauth-error-modal').classList.add('hidden');
+    });
+  }
+  
+  // Check if user is already authenticated
+  const user = checkAuthStatus();
+  if (user) {
+    window.location.href = '/customer/dashboard';
+  }
+});
+// Initialize Google OAuth when DOM is loaded
+document.addEventListener('DOMContentLoaded', initGoogleOAuth);
+function showRetailerDashboard() {
+// Hide all other containers
+document.getElementById('retailer-auth').style.display = 'none';
+document.querySelector('header').style.display = 'none';
+// Show dashboard
+const dashboard = document.getElementById('retailer-dashboard');
+dashboard.classList.remove('hidden');
+}
+document.addEventListener('DOMContentLoaded', function() {
+const addProductBtn = document.getElementById('add-product-btn');
+const modal = document.getElementById('add-product-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const cancelBtn = document.getElementById('cancel-add-product');
+const addProductForm = document.getElementById('add-product-form');
+const browseImagesBtn = document.getElementById('browse-images-btn');
+const productImages = document.getElementById('product-images');
+const imagePreview = document.getElementById('image-preview');
+const productImageUpload = document.getElementById('product-image-upload');
+function showModal() {
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function hideModal() {
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+addProductForm.reset();
+imagePreview.innerHTML = '';
+}
+addProductBtn.addEventListener('click', showModal);
+closeModalBtn.addEventListener('click', hideModal);
+cancelBtn.addEventListener('click', hideModal);
+browseImagesBtn.addEventListener('click', () => {
+productImages.click();
+});
+productImages.addEventListener('change', (e) => {
+imagePreview.innerHTML = '';
+Array.from(e.target.files).forEach((file) => {
+const reader = new FileReader();
+reader.onload = (event) => {
+const img = document.createElement('div');
+img.className = 'relative group';
+img.innerHTML = `
+<img src="${event.target.result}" class="w-full h-24 object-cover rounded" alt="Product preview">
+<button type="button" class="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+<i class="ri-close-line"></i>
+</button>
+`;
+img.querySelector('button').addEventListener('click', () => {
+img.remove();
+});
+imagePreview.appendChild(img);
+};
+reader.readAsDataURL(file);
+});
+});
+productImageUpload.addEventListener('dragover', (e) => {
+e.preventDefault();
+productImageUpload.classList.add('border-primary');
+});
+productImageUpload.addEventListener('dragleave', () => {
+productImageUpload.classList.remove('border-primary');
+});
+productImageUpload.addEventListener('drop', (e) => {
+e.preventDefault();
+productImageUpload.classList.remove('border-primary');
+const files = e.dataTransfer.files;
+if (files.length > 0) {
+productImages.files = files;
+const event = new Event('change');
+productImages.dispatchEvent(event);
+}
+});
+addProductForm.addEventListener('submit', (e) => {
+e.preventDefault();
+const formData = new FormData(addProductForm);
+const productData = Object.fromEntries(formData.entries());
+// Create success notification
+const notification = document.createElement('div');
+notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 z-50';
+notification.innerHTML = `
+<i class="ri-checkbox-circle-line"></i>
+<span>Product added successfully!</span>
+`;
+document.body.appendChild(notification);
+// Hide modal
+hideModal();
+// Remove notification after 3 seconds
+setTimeout(() => {
+notification.remove();
+}, 3000);
+});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,2262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How It Works - ClearX</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#4F46E5", secondary: "#10B981" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+          font-family: 'Inter', sans-serif;
+          background-color: #f9fafb;
+          color: #1f2937;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+      }
+      .custom-checkbox {
+          position: relative;
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          border-radius: 4px;
+          border: 2px solid #d1d5db;
+          background-color: white;
+      }
+      .custom-checkbox.checked {
+          background-color: #4F46E5;
+          border-color: #4F46E5;
+      }
+      .custom-checkbox.checked::after {
+          content: "";
+          position: absolute;
+          top: 2px;
+          left: 6px;
+          width: 5px;
+          height: 10px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+      }
+      .custom-switch {
+          position: relative;
+          display: inline-block;
+          width: 44px;
+          height: 24px;
+      }
+      .custom-switch input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+      }
+      .switch-slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #e5e7eb;
+          transition: .4s;
+          border-radius: 34px;
+      }
+      .switch-slider:before {
+          position: absolute;
+          content: "";
+          height: 18px;
+          width: 18px;
+          left: 3px;
+          bottom: 3px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+      }
+      input:checked + .switch-slider {
+          background-color: #4F46E5;
+      }
+      input:checked + .switch-slider:before {
+          transform: translateX(20px);
+      }
+      .video-thumbnail {
+          position: relative;
+      }
+      .video-thumbnail::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.3);
+          border-radius: 8px;
+      }
+      .video-thumbnail::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 0;
+          height: 0;
+          border-top: 15px solid transparent;
+          border-bottom: 15px solid transparent;
+          border-left: 25px solid white;
+      }
+      .progress-line {
+          position: absolute;
+          top: 24px;
+          left: 24px;
+          right: 24px;
+          height: 2px;
+          background-color: #e5e7eb;
+          z-index: 0;
+      }
+      .process-step {
+          position: relative;
+          z-index: 1;
+      }
+      .sticky-nav {
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          background-color: white;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky-nav">
+      <div
+        class="container mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <div class="flex items-center">
+          <h1 class="text-2xl font-['Pacifico'] text-primary">ClearX</h1>
+          
+
+<nav class="hidden md:flex ml-10">
+  <a href="index.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">Home</a>
+  <a href="how-it-works.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">How it Works</a>
+  <a href="pricing.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">Pricing</a>
+  <a href="aboutus.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">login</a>
+</nav>
+
+
+        </div>
+        <div class="flex items-center space-x-4">
+          <a
+            href="aboutus.html"
+            class="text-gray-700 hover:text-primary font-medium whitespace-nowrap"
+            >Sign In</a
+          >
+          <a
+            href="aboutus.html"
+            class="bg-primary text-white px-4 py-2 rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap"
+            >Get Started</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="bg-gray-50 border-b border-gray-200">
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex items-center text-sm text-gray-600">
+          <a
+            href="#"
+            data-readdy="true"
+            class="hover:text-primary"
+            >Home</a
+          >
+          <i class="ri-arrow-right-s-line mx-2"></i>
+          <span class="text-gray-900 font-medium">How it Works</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section
+      class="relative w-full"
+      style="background-image: url('https://readdy.ai/api/search-image?query=A%2520modern%2520e-commerce%2520platform%2520showing%2520the%2520complete%2520journey%2520of%2520food%2520products%2520from%2520retailer%2520to%2520customer.%2520The%2520left%2520side%2520has%2520a%2520gradient%2520from%2520light%2520blue%2520to%2520white%252C%2520creating%2520a%2520perfect%2520space%2520for%2520text.%2520The%2520image%2520shows%2520three%2520connected%2520elements%253A%2520a%2520store%2520with%2520excess%2520inventory%252C%2520a%2520mobile%2520app%2520interface%252C%2520and%2520a%2520delivery%2520person.%2520The%2520transition%2520between%2520text%2520area%2520and%2520image%2520is%2520seamless%2520and%2520natural.%2520The%2520overall%2520aesthetic%2520is%2520professional%2520with%2520soft%2520lighting.&width=1600&height=600&seq=2&orientation=landscape'); background-size: cover; background-position: center;"
+    >
+      <div class="container mx-auto px-4 py-20 w-full">
+        <div class="flex flex-col md:flex-row items-center">
+          <div
+            class="w-full md:w-1/2 text-left z-10 bg-white bg-opacity-90 p-8 rounded-lg shadow-lg"
+          >
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+              How ClearX Works
+            </h1>
+            <p class="text-lg md:text-xl text-gray-700 mb-8">
+              Our innovative platform connects retailers with excess inventory
+              to budget-conscious shoppers through efficient delivery agents,
+              creating a seamless ecosystem that benefits everyone.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a
+                href="#process-flow"
+                class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-opacity-90 transition text-center !rounded-button whitespace-nowrap"
+                >View Process Flow</a
+              >
+              <a
+                href="#faq"
+                class="bg-white text-primary border border-primary px-6 py-3 rounded-button font-medium hover:bg-gray-50 transition text-center !rounded-button whitespace-nowrap"
+                >Common Questions</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Three-Step Overview -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">The ClearX Ecosystem</h2>
+          <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+            Our platform connects three key stakeholders in a seamless process
+            that reduces waste and saves money.
+          </p>
+        </div>
+
+        <div
+          class="flex flex-col md:flex-row items-center justify-center gap-8 mb-16"
+        >
+          <div class="w-full md:w-1/3 max-w-md relative">
+            <div
+              class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition h-full"
+            >
+              <div
+                class="w-16 h-16 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6"
+              >
+                <i class="ri-store-2-line ri-xl text-primary"></i>
+              </div>
+              <h3 class="text-xl font-bold mb-3">1. Retailers</h3>
+              <p class="text-gray-700 mb-4">
+                Retailers list excess or near-expiry products at discounted
+                prices, helping reduce waste while recovering costs.
+              </p>
+            </div>
+            <div
+              class="hidden md:block absolute -right-12 top-1/2 transform -translate-y-1/2 z-10"
+            >
+              <i class="ri-arrow-right-line text-4xl text-primary"></i>
+            </div>
+          </div>
+
+          <div class="w-full md:w-1/3 max-w-md relative">
+            <div
+              class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition h-full"
+            >
+              <div
+                class="w-16 h-16 flex items-center justify-center bg-secondary bg-opacity-10 rounded-full mb-6"
+              >
+                <i class="ri-user-3-line ri-xl text-secondary"></i>
+              </div>
+              <h3 class="text-xl font-bold mb-3">2. Customers</h3>
+              <p class="text-gray-700 mb-4">
+                Customers browse and purchase discounted products through our
+                app, saving money while helping reduce food waste.
+              </p>
+            </div>
+            <div
+              class="hidden md:block absolute -right-12 top-1/2 transform -translate-y-1/2 z-10"
+            >
+              <i class="ri-arrow-right-line text-4xl text-primary"></i>
+            </div>
+          </div>
+
+          <div class="w-full md:w-1/3 max-w-md">
+            <div
+              class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition h-full"
+            >
+              <div
+                class="w-16 h-16 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6"
+              >
+                <i class="ri-truck-line ri-xl text-primary"></i>
+              </div>
+              <h3 class="text-xl font-bold mb-3">3. Delivery Agents</h3>
+              <p class="text-gray-700 mb-4">
+                Delivery agents connect retailers and customers by providing
+                efficient, timely delivery of purchased products.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8">
+            This three-way ecosystem creates a sustainable solution that
+            benefits all parties while addressing the critical issue of food
+            waste.
+          </p>
+          <a
+            href="#detailed-process"
+            class="inline-flex items-center text-primary font-medium"
+          >
+            Learn more about each role
+            <i class="ri-arrow-down-line ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed Process Section -->
+    <section id="detailed-process" class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">
+            Detailed Process for Each User
+          </h2>
+          <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+            Explore the step-by-step process for retailers, customers, and
+            delivery agents.
+          </p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex justify-center mb-8">
+          <div class="inline-flex bg-white p-1 rounded-full shadow-sm">
+            <button
+              class="user-tab-btn px-6 py-2 rounded-full bg-primary text-white font-medium !rounded-full whitespace-nowrap"
+              data-tab="retailer"
+            >
+              Retailer
+            </button>
+            <button
+              class="user-tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap"
+              data-tab="customer"
+            >
+              Customer
+            </button>
+            <button
+              class="user-tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap"
+              data-tab="delivery"
+            >
+              Delivery Agent
+            </button>
+          </div>
+        </div>
+
+        <!-- Retailer Tab Content -->
+        <div class="user-tab-content" id="retailer-content">
+          <div class="bg-white rounded-lg shadow-md overflow-hidden p-8">
+            <div class="flex flex-col lg:flex-row gap-12">
+              <div class="w-full lg:w-1/2">
+                <h3 class="text-2xl font-bold mb-6">Retailer Journey</h3>
+                <div class="space-y-8 relative">
+                  <div class="progress-line"></div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-primary rounded-full text-white font-bold"
+                      >
+                        1
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">
+                        Sign Up & Verification
+                      </h4>
+                      <p class="text-gray-700 mb-3">
+                        Create an account as a retailer, provide business
+                        details, and complete the verification process to ensure
+                        authenticity.
+                      </p>
+                      <div class="flex items-center text-sm text-gray-500">
+                        <i class="ri-time-line mr-2"></i>
+                        <span>Typical time: 24-48 hours for verification</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-primary rounded-full text-white font-bold"
+                      >
+                        2
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Set Up Inventory</h4>
+                      <p class="text-gray-700 mb-3">
+                        Add products to your inventory with details including
+                        regular price, expiration date, available quantity, and
+                        product images.
+                      </p>
+                      <div class="flex items-center text-sm text-gray-500">
+                        <i
+                          class="ri-checkbox-circle-line mr-2 text-green-500"
+                        ></i>
+                        <span>Bulk upload available for large inventories</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-primary rounded-full text-white font-bold"
+                      >
+                        3
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Set Discount Rates</h4>
+                      <p class="text-gray-700 mb-3">
+                        Define discount percentages based on expiration dates.
+                        Our system can automatically adjust prices as products
+                        approach expiry.
+                      </p>
+                      <div
+                        class="flex items-center text-sm text-green-600 font-medium"
+                      >
+                        <i class="ri-line-chart-line mr-2"></i>
+                        <span>Average recovery: 40-60% of original price</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-primary rounded-full text-white font-bold"
+                      >
+                        4
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Manage Orders</h4>
+                      <p class="text-gray-700 mb-3">
+                        Receive notifications for new orders, prepare items for
+                        pickup, and coordinate with delivery agents through the
+                        platform.
+                      </p>
+                      <div class="flex items-center text-sm text-gray-500">
+                        <i class="ri-smartphone-line mr-2"></i>
+                        <span
+                          >Mobile notifications ensure you never miss an
+                          order</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-primary rounded-full text-white font-bold"
+                      >
+                        5
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Track Performance</h4>
+                      <p class="text-gray-700 mb-3">
+                        Access detailed analytics on sales, inventory turnover,
+                        waste reduction metrics, and customer satisfaction
+                        ratings.
+                      </p>
+                      <div
+                        class="flex items-center text-sm text-primary font-medium"
+                      >
+                        <i class="ri-pie-chart-line mr-2"></i>
+                        <span
+                          >Average waste reduction: 35% within first 3
+                          months</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="w-full lg:w-1/2">
+                <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                  <h4 class="text-xl font-bold mb-4">Retailer Benefits</h4>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i
+                          class="ri-money-dollar-circle-line text-green-600"
+                        ></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Recover Costs</h5>
+                        <p class="text-sm text-gray-700">
+                          Recoup up to 60% on items that would otherwise be
+                          discarded
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i class="ri-recycle-line text-blue-600"></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Reduce Waste</h5>
+                        <p class="text-sm text-gray-700">
+                          Minimize environmental impact by reducing food waste
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i class="ri-user-heart-line text-purple-600"></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">New Customers</h5>
+                        <p class="text-sm text-gray-700">
+                          Attract budget-conscious shoppers to your business
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-yellow-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i class="ri-store-2-line text-yellow-600"></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Brand Image</h5>
+                        <p class="text-sm text-gray-700">
+                          Enhance reputation as a socially responsible business
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="video-thumbnail w-full h-64 bg-gray-200 rounded-lg mb-4"
+                  style="background-image: url('https://readdy.ai/api/search-image?query=A%2520professional%2520retailer%2520using%2520a%2520tablet%2520to%2520manage%2520inventory%2520in%2520a%2520modern%2520grocery%2520store.%2520The%2520retailer%2520is%2520scanning%2520products%2520and%2520updating%2520their%2520status%2520in%2520the%2520ClearX%2520app.%2520The%2520image%2520shows%2520a%2520clean%252C%2520well-lit%2520store%2520with%2520food%2520products%2520on%2520shelves.%2520The%2520retailer%2520looks%2520professional%2520and%2520focused.&width=800&height=450&seq=3&orientation=landscape'); background-size: cover; background-position: center;"
+                ></div>
+
+                <div class="text-center">
+                  <h4 class="font-medium mb-2">
+                    Video Tutorial: Retailer Dashboard
+                  </h4>
+                  <p class="text-sm text-gray-700 mb-4">
+                    Learn how to effectively manage your inventory and maximize
+                    sales
+                  </p>
+                  <div class="flex justify-center gap-4">
+                    <button
+                      class="flex items-center text-gray-700 hover:text-primary"
+                    >
+                      <i class="ri-download-line mr-2"></i>
+                      <span>Download</span>
+                    </button>
+                    <button
+                      class="flex items-center text-gray-700 hover:text-primary"
+                    >
+                      <i class="ri-file-text-line mr-2"></i>
+                      <span>Transcript</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Tab Content -->
+        <div class="user-tab-content hidden" id="customer-content">
+          <div class="bg-white rounded-lg shadow-md overflow-hidden p-8">
+            <div class="flex flex-col lg:flex-row gap-12">
+              <div class="w-full lg:w-1/2">
+                <h3 class="text-2xl font-bold mb-6">Customer Journey</h3>
+                <div class="space-y-8 relative">
+                  <div class="progress-line"></div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-secondary rounded-full text-white font-bold"
+                      >
+                        1
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Create an Account</h4>
+                      <p class="text-gray-700 mb-3">
+                        Sign up with your email or social media accounts, set
+                        delivery preferences, and add payment methods.
+                      </p>
+                      <div class="flex items-center text-sm text-gray-500">
+                        <i class="ri-time-line mr-2"></i>
+                        <span>Takes less than 2 minutes to complete</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-secondary rounded-full text-white font-bold"
+                      >
+                        2
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">
+                        Browse Discounted Products
+                      </h4>
+                      <p class="text-gray-700 mb-3">
+                        Explore available products by category, discount
+                        percentage, or expiration date. Filter by location to
+                        find nearby options.
+                      </p>
+                      <div class="flex items-center text-sm text-gray-500">
+                        <i class="ri-filter-3-line mr-2"></i>
+                        <span
+                          >Advanced filters help find exactly what you
+                          need</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-secondary rounded-full text-white font-bold"
+                      >
+                        3
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">
+                        Add to Cart & Checkout
+                      </h4>
+                      <p class="text-gray-700 mb-3">
+                        Select desired items, review your cart, choose delivery
+                        time, and complete payment through our secure checkout
+                        system.
+                      </p>
+                      <div
+                        class="flex items-center text-sm text-green-600 font-medium"
+                      >
+                        <i class="ri-secure-payment-line mr-2"></i>
+                        <span>Multiple payment options available</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-secondary rounded-full text-white font-bold"
+                      >
+                        4
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Track Your Order</h4>
+                      <p class="text-gray-700 mb-3">
+                        Follow your order's progress in real-time, from
+                        preparation at the retailer to delivery at your
+                        doorstep.
+                      </p>
+                      <div class="flex items-center text-sm text-gray-500">
+                        <i class="ri-map-pin-line mr-2"></i>
+                        <span>Real-time GPS tracking of your delivery</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-secondary rounded-full text-white font-bold"
+                      >
+                        5
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Receive & Rate</h4>
+                      <p class="text-gray-700 mb-3">
+                        Accept your delivery, provide feedback on the products
+                        and delivery service, and earn loyalty points for future
+                        discounts.
+                      </p>
+                      <div
+                        class="flex items-center text-sm text-primary font-medium"
+                      >
+                        <i class="ri-star-line mr-2"></i>
+                        <span>Earn points with every purchase and review</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="w-full lg:w-1/2">
+                <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                  <h4 class="text-xl font-bold mb-4">Customer Benefits</h4>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i
+                          class="ri-money-dollar-circle-line text-green-600"
+                        ></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Save Money</h5>
+                        <p class="text-sm text-gray-700">
+                          Enjoy discounts of 30-70% on quality products
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i class="ri-earth-line text-blue-600"></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Reduce Waste</h5>
+                        <p class="text-sm text-gray-700">
+                          Help prevent food waste and support sustainability
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i class="ri-truck-line text-purple-600"></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Convenient Delivery</h5>
+                        <p class="text-sm text-gray-700">
+                          Products delivered directly to your door
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-yellow-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i class="ri-community-line text-yellow-600"></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Support Local</h5>
+                        <p class="text-sm text-gray-700">
+                          Help local businesses reduce losses
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="video-thumbnail w-full h-64 bg-gray-200 rounded-lg mb-4"
+                  style="background-image: url('https://readdy.ai/api/search-image?query=A%2520person%2520using%2520a%2520smartphone%2520to%2520browse%2520the%2520ClearX%2520app%252C%2520selecting%2520discounted%2520grocery%2520items.%2520The%2520phone%2520screen%2520shows%2520a%2520clean%252C%2520modern%2520interface%2520with%2520food%2520products%2520and%2520discount%2520tags.%2520The%2520person%2520is%2520sitting%2520at%2520home%2520in%2520a%2520well-lit%2520living%2520room%2520with%2520a%2520relaxed%2520expression.&width=800&height=450&seq=4&orientation=landscape'); background-size: cover; background-position: center;"
+                ></div>
+
+                <div class="text-center">
+                  <h4 class="font-medium mb-2">
+                    Video Tutorial: Finding the Best Deals
+                  </h4>
+                  <p class="text-sm text-gray-700 mb-4">
+                    Learn how to find and purchase the best discounted products
+                  </p>
+                  <div class="flex justify-center gap-4">
+                    <button
+                      class="flex items-center text-gray-700 hover:text-primary"
+                    >
+                      <i class="ri-download-line mr-2"></i>
+                      <span>Download</span>
+                    </button>
+                    <button
+                      class="flex items-center text-gray-700 hover:text-primary"
+                    >
+                      <i class="ri-file-text-line mr-2"></i>
+                      <span>Transcript</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery Agent Tab Content -->
+        <div class="user-tab-content hidden" id="delivery-content">
+          <div class="bg-white rounded-lg shadow-md overflow-hidden p-8">
+            <div class="flex flex-col lg:flex-row gap-12">
+              <div class="w-full lg:w-1/2">
+                <h3 class="text-2xl font-bold mb-6">Delivery Agent Journey</h3>
+                <div class="space-y-8 relative">
+                  <div class="progress-line"></div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-primary rounded-full text-white font-bold"
+                      >
+                        1
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">
+                        Apply & Get Verified
+                      </h4>
+                      <p class="text-gray-700 mb-3">
+                        Submit an application with required documents, complete
+                        background check, and receive approval to start
+                        delivering.
+                      </p>
+                      <div class="flex items-center text-sm text-gray-500">
+                        <i class="ri-time-line mr-2"></i>
+                        <span>Typical approval time: 1-3 business days</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-primary rounded-full text-white font-bold"
+                      >
+                        2
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Set Availability</h4>
+                      <p class="text-gray-700 mb-3">
+                        Define your working hours, service area, and delivery
+                        capacity to receive orders that match your preferences.
+                      </p>
+                      <div class="flex items-center text-sm text-gray-500">
+                        <i class="ri-calendar-line mr-2"></i>
+                        <span>Flexible schedule - work when you want</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-primary rounded-full text-white font-bold"
+                      >
+                        3
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Accept Orders</h4>
+                      <p class="text-gray-700 mb-3">
+                        Receive order notifications, review details including
+                        pickup location, delivery address, and compensation
+                        before accepting.
+                      </p>
+                      <div
+                        class="flex items-center text-sm text-green-600 font-medium"
+                      >
+                        <i class="ri-notification-4-line mr-2"></i>
+                        <span>Real-time notifications for nearby orders</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-primary rounded-full text-white font-bold"
+                      >
+                        4
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Pickup & Deliver</h4>
+                      <p class="text-gray-700 mb-3">
+                        Collect orders from retailers, confirm item accuracy,
+                        and deliver to customers following the optimized route.
+                      </p>
+                      <div class="flex items-center text-sm text-gray-500">
+                        <i class="ri-route-line mr-2"></i>
+                        <span
+                          >AI-powered route optimization saves time and
+                          fuel</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="process-step flex">
+                    <div class="mr-4">
+                      <div
+                        class="w-12 h-12 flex items-center justify-center bg-primary rounded-full text-white font-bold"
+                      >
+                        5
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="text-xl font-bold mb-2">Get Paid & Rated</h4>
+                      <p class="text-gray-700 mb-3">
+                        Receive payment for completed deliveries, collect tips,
+                        and build your rating through positive customer
+                        feedback.
+                      </p>
+                      <div
+                        class="flex items-center text-sm text-primary font-medium"
+                      >
+                        <i class="ri-bank-card-line mr-2"></i>
+                        <span
+                          >Weekly payouts with instant options available</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="w-full lg:w-1/2">
+                <div class="bg-gray-50 rounded-lg p-6 mb-8">
+                  <h4 class="text-xl font-bold mb-4">
+                    Delivery Agent Benefits
+                  </h4>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i
+                          class="ri-money-dollar-circle-line text-green-600"
+                        ></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Flexible Income</h5>
+                        <p class="text-sm text-gray-700">
+                          Earn competitive rates plus tips on your schedule
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i class="ri-time-line text-blue-600"></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Flexible Hours</h5>
+                        <p class="text-sm text-gray-700">
+                          Work when you want with no minimum hours
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i class="ri-route-line text-purple-600"></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Optimized Routes</h5>
+                        <p class="text-sm text-gray-700">
+                          Efficient delivery paths save time and fuel
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex items-start">
+                      <div
+                        class="w-8 h-8 flex items-center justify-center bg-yellow-100 rounded-full mr-3 flex-shrink-0"
+                      >
+                        <i class="ri-earth-line text-yellow-600"></i>
+                      </div>
+                      <div>
+                        <h5 class="font-medium mb-1">Environmental Impact</h5>
+                        <p class="text-sm text-gray-700">
+                          Help reduce food waste in your community
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="video-thumbnail w-full h-64 bg-gray-200 rounded-lg mb-4"
+                  style="background-image: url('https://readdy.ai/api/search-image?query=A%2520delivery%2520agent%2520using%2520the%2520ClearX%2520app%2520on%2520their%2520smartphone%2520while%2520standing%2520next%2520to%2520their%2520delivery%2520vehicle.%2520The%2520phone%2520shows%2520a%2520map%2520with%2520delivery%2520routes.%2520The%2520agent%2520is%2520wearing%2520casual%2520professional%2520attire%2520and%2520looks%2520focused.%2520The%2520scene%2520is%2520in%2520a%2520city%2520street%2520with%2520good%2520lighting.&width=800&height=450&seq=5&orientation=landscape'); background-size: cover; background-position: center;"
+                ></div>
+
+                <div class="text-center">
+                  <h4 class="font-medium mb-2">
+                    Video Tutorial: Delivery Agent Basics
+                  </h4>
+                  <p class="text-sm text-gray-700 mb-4">
+                    Learn how to maximize earnings and efficiency as a delivery
+                    agent
+                  </p>
+                  <div class="flex justify-center gap-4">
+                    <button
+                      class="flex items-center text-gray-700 hover:text-primary"
+                    >
+                      <i class="ri-download-line mr-2"></i>
+                      <span>Download</span>
+                    </button>
+                    <button
+                      class="flex items-center text-gray-700 hover:text-primary"
+                    >
+                      <i class="ri-file-text-line mr-2"></i>
+                      <span>Transcript</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Complete Process Flow Section -->
+    <section id="process-flow" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">Complete Process Flow</h2>
+          <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+            See how all three user types interact in our ecosystem to create a
+            seamless experience.
+          </p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg shadow-md p-8">
+          <div class="relative overflow-x-auto">
+            <div class="min-w-[900px]">
+              <div class="flex justify-between items-center mb-8">
+                <div class="w-1/3 text-center">
+                  <div
+                    class="w-16 h-16 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mx-auto mb-3"
+                  >
+                    <i class="ri-store-2-line ri-xl text-primary"></i>
+                  </div>
+                  <h3 class="text-xl font-bold">Retailer</h3>
+                </div>
+                <div class="w-1/3 text-center">
+                  <div
+                    class="w-16 h-16 flex items-center justify-center bg-secondary bg-opacity-10 rounded-full mx-auto mb-3"
+                  >
+                    <i class="ri-user-3-line ri-xl text-secondary"></i>
+                  </div>
+                  <h3 class="text-xl font-bold">Customer</h3>
+                </div>
+                <div class="w-1/3 text-center">
+                  <div
+                    class="w-16 h-16 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mx-auto mb-3"
+                  >
+                    <i class="ri-truck-line ri-xl text-primary"></i>
+                  </div>
+                  <h3 class="text-xl font-bold">Delivery Agent</h3>
+                </div>
+              </div>
+
+              <!-- Flow Steps -->
+              <div class="space-y-8">
+                <!-- Step 1 -->
+                <div class="flex">
+                  <div class="w-1/3 border-r border-gray-300 pr-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          1
+                        </div>
+                        <h4 class="font-bold">List Products</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Retailer adds near-expiry products to the platform with
+                        discounted prices
+                      </p>
+                    </div>
+                    <div
+                      class="h-16 border-r border-dashed border-gray-300 ml-4 mt-4"
+                    ></div>
+                  </div>
+                  <div class="w-1/3 px-6 opacity-50">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <p class="text-sm text-gray-500 italic">
+                        Waiting for products to be listed
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-1/3 pl-6 opacity-50">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <p class="text-sm text-gray-500 italic">
+                        Not yet involved in the process
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex">
+                  <div class="w-1/3 border-r border-gray-300 pr-6 opacity-50">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <p class="text-sm text-gray-500 italic">
+                        Waiting for customer orders
+                      </p>
+                    </div>
+                    <div
+                      class="h-16 border-r border-dashed border-gray-300 ml-4 mt-4"
+                    ></div>
+                  </div>
+                  <div class="w-1/3 px-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-secondary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          2
+                        </div>
+                        <h4 class="font-bold">Browse & Order</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Customer browses discounted items, selects products, and
+                        places an order
+                      </p>
+                    </div>
+                    <div
+                      class="h-16 border-r border-dashed border-gray-300 ml-4 mt-4"
+                    ></div>
+                  </div>
+                  <div class="w-1/3 pl-6 opacity-50">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <p class="text-sm text-gray-500 italic">
+                        Not yet involved in the process
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex">
+                  <div class="w-1/3 border-r border-gray-300 pr-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          3
+                        </div>
+                        <h4 class="font-bold">Receive & Prepare</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Retailer receives order notification and prepares items
+                        for pickup
+                      </p>
+                    </div>
+                    <div
+                      class="h-16 border-r border-dashed border-gray-300 ml-4 mt-4"
+                    ></div>
+                  </div>
+                  <div class="w-1/3 px-6 opacity-50">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <p class="text-sm text-gray-500 italic">
+                        Waiting for order preparation
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-1/3 pl-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          3
+                        </div>
+                        <h4 class="font-bold">Accept Delivery</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Delivery agent receives notification and accepts the
+                        delivery job
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flex">
+                  <div class="w-1/3 border-r border-gray-300 pr-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          4
+                        </div>
+                        <h4 class="font-bold">Handover Items</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Retailer verifies and hands over items to the delivery
+                        agent
+                      </p>
+                    </div>
+                    <div
+                      class="h-16 border-r border-dashed border-gray-300 ml-4 mt-4"
+                    ></div>
+                  </div>
+                  <div class="w-1/3 px-6 opacity-50">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <p class="text-sm text-gray-500 italic">
+                        Waiting for delivery
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-1/3 pl-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          4
+                        </div>
+                        <h4 class="font-bold">Pickup & Verify</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Delivery agent picks up the order and verifies item
+                        accuracy
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="flex">
+                  <div class="w-1/3 border-r border-gray-300 pr-6 opacity-50">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <p class="text-sm text-gray-500 italic">
+                        Order in transit
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-1/3 px-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-secondary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          5
+                        </div>
+                        <h4 class="font-bold">Track Order</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Customer tracks the delivery in real-time through the
+                        app
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-1/3 pl-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          5
+                        </div>
+                        <h4 class="font-bold">Deliver Order</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Delivery agent transports the order following the
+                        optimized route
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="flex">
+                  <div class="w-1/3 border-r border-gray-300 pr-6 opacity-50">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <p class="text-sm text-gray-500 italic">
+                        Waiting for delivery completion
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-1/3 px-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-secondary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          6
+                        </div>
+                        <h4 class="font-bold">Receive & Confirm</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Customer receives the order and confirms successful
+                        delivery
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-1/3 pl-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          6
+                        </div>
+                        <h4 class="font-bold">Complete Delivery</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Delivery agent hands over the order and marks it as
+                        delivered
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Step 7 -->
+                <div class="flex">
+                  <div class="w-1/3 border-r border-gray-300 pr-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          7
+                        </div>
+                        <h4 class="font-bold">Receive Payment</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Retailer receives payment for the sold items minus
+                        platform fees
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-1/3 px-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-secondary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          7
+                        </div>
+                        <h4 class="font-bold">Rate & Review</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Customer rates the products and delivery service,
+                        earning loyalty points
+                      </p>
+                    </div>
+                  </div>
+                  <div class="w-1/3 pl-6">
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                      <div class="flex items-center mb-2">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white font-bold text-sm mr-3"
+                        >
+                          7
+                        </div>
+                        <h4 class="font-bold">Receive Payment</h4>
+                      </div>
+                      <p class="text-sm text-gray-700">
+                        Delivery agent receives payment and tips for the
+                        completed delivery
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+   
+              
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+          <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+            Find answers to common questions about how ClearX works.
+          </p>
+        </div>
+
+        <!-- FAQ Tabs -->
+        <div class="flex justify-center mb-8">
+          <div class="inline-flex bg-gray-100 p-1 rounded-full shadow-sm">
+            <button
+              class="faq-tab-btn px-6 py-2 rounded-full bg-primary text-white font-medium !rounded-full whitespace-nowrap"
+              data-tab="general"
+            >
+              General
+            </button>
+            <button
+              class="faq-tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap"
+              data-tab="retailer-faq"
+            >
+              Retailers
+            </button>
+            <button
+              class="faq-tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap"
+              data-tab="customer-faq"
+            >
+              Customers
+            </button>
+            <button
+              class="faq-tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap"
+              data-tab="delivery-faq"
+            >
+              Delivery
+            </button>
+          </div>
+        </div>
+
+        <!-- General FAQs -->
+        <div class="faq-tab-content max-w-3xl mx-auto" id="general-content">
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium">What is ClearX?</span>
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  ClearX is a platform that connects retailers with excess
+                  inventory to budget-conscious shoppers through efficient
+                  delivery agents. We help reduce food waste by offering
+                  discounted prices on quality products that are approaching
+                  their expiration dates.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium">How does ClearX make money?</span>
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  ClearX generates revenue through a small service fee on
+                  each transaction. Retailers pay a commission on sales made
+                  through our platform, while customers pay a small service fee
+                  and delivery charge. This sustainable business model allows us
+                  to maintain and improve our service while keeping costs low
+                  for all users.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >Is ClearX available in my area?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  ClearX is currently available in major metropolitan areas
+                  and expanding rapidly. You can download our app or visit our
+                  website and enter your location to check if we're operating in
+                  your area. If we're not there yet, you can join our waiting
+                  list to be notified when we launch near you.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How does ClearX help reduce food waste?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  ClearX helps reduce food waste by creating a market for
+                  products that would otherwise be discarded due to approaching
+                  expiration dates. By connecting retailers with customers
+                  willing to purchase these items at discounted prices, we
+                  prevent perfectly good food from ending up in landfills. Our
+                  platform has already helped save thousands of pounds of food
+                  from being wasted.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >Is the food on ClearX safe to eat?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Absolutely. All food available through ClearX is perfectly
+                  safe to consume. The products are simply approaching their
+                  best-by or sell-by dates, which are often conservative
+                  estimates set by manufacturers. Retailers on our platform
+                  maintain high standards for food safety and quality. We
+                  recommend consuming or freezing products soon after purchase
+                  for optimal quality.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Retailer FAQs -->
+        <div
+          class="faq-tab-content max-w-3xl mx-auto hidden"
+          id="retailer-faq-content"
+        >
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium">How do I sign up as a retailer?</span>
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  To sign up as a retailer, visit our website or download the
+                  ClearX Business app. Click on "Sign Up as Retailer" and
+                  follow the registration process. You'll need to provide
+                  business details, location information, and complete a
+                  verification process. Our team will review your application
+                  and typically approve it within 1-3 business days.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What types of products can I sell on ClearX?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  You can sell a wide range of food products on ClearX,
+                  including fresh produce, dairy, bakery items, meat, seafood,
+                  prepared foods, and packaged goods. All products must be safe
+                  for consumption and clearly labeled with accurate expiration
+                  dates. Non-food perishable items like flowers may also be
+                  eligible in some markets.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How much does it cost to use ClearX as a retailer?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  ClearX operates on a commission-based model, charging a
+                  percentage of each sale made through the platform. The
+                  standard commission rate is 15%, though this may vary based on
+                  volume and product category. There are no upfront costs,
+                  monthly fees, or long-term contracts. You only pay when you
+                  sell.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How do I manage inventory on ClearX?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Our retailer dashboard provides comprehensive inventory
+                  management tools. You can add products individually or use our
+                  bulk upload feature for larger inventories. For each product,
+                  you'll specify details like regular price, discounted price,
+                  expiration date, quantity available, and product images. You
+                  can also set up automatic discount tiers based on how close
+                  items are to expiration.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium">When and how do I get paid?</span>
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Payments are processed weekly for all completed orders. The
+                  total amount (minus our commission) is transferred directly to
+                  your registered bank account. You can view detailed sales
+                  reports and payment history in your dashboard. For high-volume
+                  retailers, we offer more frequent payment options.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer FAQs -->
+        <div
+          class="faq-tab-content max-w-3xl mx-auto hidden"
+          id="customer-faq-content"
+        >
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How do I place an order on ClearX?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  To place an order, download the ClearX app or visit our
+                  website. Create an account, browse available products in your
+                  area, add items to your cart, and proceed to checkout. You'll
+                  need to select a delivery time slot, provide your delivery
+                  address, and complete payment. Once your order is confirmed,
+                  you can track its status in real-time.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What payment methods are accepted?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  ClearX accepts all major credit and debit cards, including
+                  Visa, Mastercard, American Express, and Discover. We also
+                  support digital payment methods like Apple Pay, Google Pay,
+                  and PayPal. Some markets may offer additional local payment
+                  options. All transactions are processed securely through our
+                  encrypted payment system.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium">How much are the delivery fees?</span>
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Delivery fees typically range from ₹399 to ₹599, depending
+                  on your location and the delivery distance. We offer free
+                  delivery on orders above ₹300 in most areas. During checkout,
+                  you'll see the exact delivery fee before confirming your
+                  order. ClearX+ members enjoy free delivery on all orders
+                  with no minimum purchase requirement.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What if I'm not satisfied with my order?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Customer satisfaction is our priority. If you're not happy
+                  with your order, you can report issues through the app or
+                  website within 24 hours of delivery. Depending on the
+                  situation, we offer refunds, credits, or replacements. While
+                  the products are near their best-by dates, they should still
+                  meet quality standards. We review each case individually to
+                  ensure fair resolution.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How does the loyalty program work?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Our loyalty program rewards you for every purchase and action
+                  on ClearX. You earn points when you place orders, provide
+                  ratings and reviews, refer friends, and complete other
+                  activities. These points can be redeemed for discounts on
+                  future orders, free delivery, or exclusive offers. You can
+                  track your points balance and available rewards in the app
+                  under "My Rewards."
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery Agent FAQs -->
+        <div
+          class="faq-tab-content max-w-3xl mx-auto hidden"
+          id="delivery-faq-content"
+        >
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How do I become a delivery agent?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  To become a delivery agent, download the ClearX Delivery
+                  app or visit our website and click "Become a Delivery Agent."
+                  You'll need to complete an application, provide required
+                  documents (ID, driver's license, vehicle registration if
+                  applicable), and pass a background check. Once approved, you
+                  can set your availability and start accepting delivery
+                  requests.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What are the requirements to be a delivery agent?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Requirements include being at least 18 years old, having a
+                  valid ID, passing a background check, and having access to a
+                  reliable mode of transportation (car, bike, scooter, etc.).
+                  You'll need a smartphone to run the delivery app and a bank
+                  account for payments. In some areas, additional requirements
+                  may apply based on local regulations.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How much can I earn as a delivery agent?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Earnings vary based on your location, the number of deliveries
+                  you complete, and the distances involved. On average, delivery
+                  agents earn ₹150-250 per hour, including base pay, distance
+                  fees, and tips. Our transparent payment structure shows you
+                  the exact earning potential before you accept each delivery.
+                  Top-performing agents can earn bonuses and incentives during
+                  peak hours.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium">When and how do I get paid?</span>
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Payments are processed weekly for all completed deliveries.
+                  The total amount is transferred directly to your registered
+                  bank account. You can view detailed earnings reports in your
+                  dashboard. We also offer an Instant Pay feature that allows
+                  you to cash out your earnings up to 5 times per day for a
+                  small fee.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >Do I need to wear a uniform or use branded materials?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  While a uniform is not required, we recommend wearing clean,
+                  professional attire. ClearX provides optional branded
+                  t-shirts, caps, and delivery bags that can help you be
+                  recognized by retailers and customers. Using these items can
+                  improve your delivery experience and may positively impact
+                  your ratings and tips.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="bg-primary rounded-lg overflow-hidden shadow-lg">
+          <div class="flex flex-col md:flex-row">
+            <div class="w-full md:w-2/3 p-8 md:p-12">
+              <h2 class="text-3xl font-bold text-white mb-4">
+                Ready to Join the ClearX Community?
+              </h2>
+              <p class="text-white text-opacity-90 mb-8">
+                Choose your role and start making a difference today. Together,
+                we can reduce waste and save money.
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg p-6 text-center">
+                  <div
+                    class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mx-auto mb-4"
+                  >
+                    <i class="ri-store-2-line ri-lg text-primary"></i>
+                  </div>
+                  <h3 class="font-bold mb-2">Retailers</h3>
+                  <p class="text-sm text-gray-700 mb-4">
+                    List your excess inventory and recover costs
+                  </p>
+                  <a
+                    href="aboutus.html"
+                    class="block bg-primary text-white px-4 py-2 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap"
+                    >Sign Up</a
+                  >
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center">
+                  <div
+                    class="w-12 h-12 flex items-center justify-center bg-secondary bg-opacity-10 rounded-full mx-auto mb-4"
+                  >
+                    <i class="ri-user-3-line ri-lg text-secondary"></i>
+                  </div>
+                  <h3 class="font-bold mb-2">Customers</h3>
+                  <p class="text-sm text-gray-700 mb-4">
+                    Save money on quality products near you
+                  </p>
+                  <a
+                    href="aboutus.html"
+                    class="block bg-secondary text-white px-4 py-2 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap"
+                    >Sign Up</a
+                  >
+                </div>
+
+                <div class="bg-white rounded-lg p-6 text-center">
+                  <div
+                    class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mx-auto mb-4"
+                  >
+                    <i class="ri-truck-line ri-lg text-primary"></i>
+                  </div>
+                  <h3 class="font-bold mb-2">Delivery Agents</h3>
+                  <p class="text-sm text-gray-700 mb-4">
+                    Earn money with flexible delivery work
+                  </p>
+                  <a
+                    href="aboutus.html"
+                    class="block bg-primary text-white px-4 py-2 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap"
+                    >Sign Up</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div
+              class="w-full md:w-1/3 bg-white p-8 md:p-12 flex flex-col justify-center"
+            >
+              <h3 class="text-xl font-bold mb-4">Download Our App</h3>
+              <p class="text-gray-700 mb-6">
+                Get the full ClearX experience on your mobile device.
+              </p>
+              <div class="flex flex-col space-y-4">
+                <a
+                  href="#"
+                  class="flex items-center bg-black text-white px-4 py-2 rounded-lg"
+                >
+                  <i class="ri-apple-fill text-2xl mr-3"></i>
+                  <div>
+                    <div class="text-xs">Download on the</div>
+                    <div class="text-sm font-medium">App Store</div>
+                  </div>
+                </a>
+                <a
+                  href="#"
+                  class="flex items-center bg-black text-white px-4 py-2 rounded-lg"
+                >
+                  <i class="ri-google-play-fill text-2xl mr-3"></i>
+                  <div>
+                    <div class="text-xs">Get it on</div>
+                    <div class="text-sm font-medium">Google Play</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h1 class="text-2xl font-['Pacifico'] mb-4">ClearX</h1>
+            <p class="text-gray-400">
+              Connecting retailers, customers, and delivery agents to reduce
+              waste and save money.
+            </p>
+            <div class="flex mt-4 space-x-4">
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition"
+              >
+                <i class="ri-twitter-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition"
+              >
+                <i class="ri-instagram-line"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition"
+              >
+                <i class="ri-linkedin-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  data-readdy="true"
+                  class="text-gray-400 hover:text-white transition"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >How It Works</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Pricing</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">For Users</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Retailer Dashboard</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Customer Shopping</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Delivery Portal</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Help Center</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >FAQs</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">Contact Us</h3>
+            <ul class="space-y-2">
+              <li class="flex items-center">
+                <i class="ri-map-pin-line mr-2"></i>
+                <span class="text-gray-400"
+                  >Vignan's institute of information technology,vizag </span
+                >
+              </li>
+              <li class="flex items-center">
+                <i class="ri-mail-line mr-2"></i>
+                <a
+                  href="mailto:info@ClearX.com"
+                  class="text-gray-400 hover:text-white transition"
+                  >info@ClearX.com</a
+                >
+              </li>
+              <li class="flex items-center">
+                <i class="ri-phone-line mr-2"></i>
+                <a
+                  href="tel:+1234567890"
+                  class="text-gray-400 hover:text-white transition"
+                  >+91 9014820490</a
+                >
+              </li>
+            </ul>
+            <div class="mt-4">
+              <h4 class="text-sm font-medium mb-2">Payment Methods</h4>
+              <div class="flex space-x-3">
+                <i class="ri-visa-fill text-2xl text-gray-400"></i>
+                <i class="ri-mastercard-fill text-2xl text-gray-400"></i>
+                <i class="ri-paypal-fill text-2xl text-gray-400"></i>
+                <i class="ri-apple-fill text-2xl text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-sm">
+            © 2025 ClearX. All rights reserved.
+          </p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+            <a
+              href="#"
+              class="text-gray-400 hover:text-white text-sm transition"
+              >Privacy Policy</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 hover:text-white text-sm transition"
+              >Terms of Service</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 hover:text-white text-sm transition"
+              >Cookie Policy</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // User Type Tabs
+        const userTabBtns = document.querySelectorAll(".user-tab-btn");
+        const userTabContents = document.querySelectorAll(".user-tab-content");
+
+        userTabBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const tabId = btn.dataset.tab;
+
+            // Update active tab button
+            userTabBtns.forEach((b) => {
+              if (b.dataset.tab === tabId) {
+                b.classList.add("bg-primary", "text-white");
+                b.classList.remove("text-gray-700");
+              } else {
+                b.classList.remove("bg-primary", "text-white");
+                b.classList.add("text-gray-700");
+              }
+            });
+
+            // Show active tab content
+            userTabContents.forEach((content) => {
+              if (content.id === `${tabId}-content`) {
+                content.classList.remove("hidden");
+              } else {
+                content.classList.add("hidden");
+              }
+            });
+          });
+        });
+
+        // FAQ Tabs
+        const faqTabBtns = document.querySelectorAll(".faq-tab-btn");
+        const faqTabContents = document.querySelectorAll(".faq-tab-content");
+
+        faqTabBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const tabId = btn.dataset.tab;
+
+            // Update active tab button
+            faqTabBtns.forEach((b) => {
+              if (b.dataset.tab === tabId) {
+                b.classList.add("bg-primary", "text-white");
+                b.classList.remove("text-gray-700");
+              } else {
+                b.classList.remove("bg-primary", "text-white");
+                b.classList.add("text-gray-700");
+              }
+            });
+
+            // Show active tab content
+            faqTabContents.forEach((content) => {
+              if (content.id === `${tabId}-content`) {
+                content.classList.remove("hidden");
+              } else {
+                content.classList.add("hidden");
+              }
+            });
+          });
+        });
+
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll(".faq-question");
+
+        faqQuestions.forEach((question) => {
+          question.addEventListener("click", () => {
+            const answer = question.nextElementSibling;
+            const icon = question.querySelector("i");
+
+            if (answer.classList.contains("hidden")) {
+              answer.classList.remove("hidden");
+              icon.classList.remove("ri-add-line");
+              icon.classList.add("ri-subtract-line");
+            } else {
+              answer.classList.add("hidden");
+              icon.classList.remove("ri-subtract-line");
+              icon.classList.add("ri-add-line");
+            }
+          });
+        });
+
+        // Auto-expand first FAQ in each tab
+        document.querySelectorAll(".faq-tab-content").forEach((content) => {
+          const firstQuestion = content.querySelector(".faq-question");
+          if (firstQuestion) {
+            const firstAnswer = firstQuestion.nextElementSibling;
+            const firstIcon = firstQuestion.querySelector("i");
+
+            firstAnswer.classList.remove("hidden");
+            firstIcon.classList.remove("ri-add-line");
+            firstIcon.classList.add("ri-subtract-line");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

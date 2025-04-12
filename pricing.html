@@ -1,0 +1,2260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing - ClearX</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#4F46E5", secondary: "#10B981" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+          font-family: 'Inter', sans-serif;
+          background-color: #f9fafb;
+          color: #1f2937;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+      }
+      .custom-checkbox {
+          position: relative;
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          border-radius: 4px;
+          border: 2px solid #d1d5db;
+          background-color: white;
+      }
+      .custom-checkbox.checked {
+          background-color: #4F46E5;
+          border-color: #4F46E5;
+      }
+      .custom-checkbox.checked::after {
+          content: "";
+          position: absolute;
+          top: 2px;
+          left: 6px;
+          width: 5px;
+          height: 10px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+      }
+      .custom-switch {
+          position: relative;
+          display: inline-block;
+          width: 44px;
+          height: 24px;
+      }
+      .custom-switch input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+      }
+      .switch-slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #e5e7eb;
+          transition: .4s;
+          border-radius: 34px;
+      }
+      .switch-slider:before {
+          position: absolute;
+          content: "";
+          height: 18px;
+          width: 18px;
+          left: 3px;
+          bottom: 3px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+      }
+      input:checked + .switch-slider {
+          background-color: #4F46E5;
+      }
+      input:checked + .switch-slider:before {
+          transform: translateX(20px);
+      }
+      .sticky-nav {
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          background-color: white;
+      }
+      .pricing-toggle {
+          position: relative;
+          display: inline-block;
+          width: 210px;
+          height: 40px;
+          border-radius: 20px;
+          background-color: #f3f4f6;
+          cursor: pointer;
+      }
+      .pricing-toggle-slider {
+          position: absolute;
+          width: 105px;
+          height: 34px;
+          top: 3px;
+          left: 3px;
+          background-color: white;
+          border-radius: 17px;
+          transition: transform 0.3s ease;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .pricing-toggle.annual .pricing-toggle-slider {
+          transform: translateX(100%);
+      }
+      .pricing-toggle-option {
+          position: absolute;
+          top: 0;
+          width: 105px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          font-weight: 500;
+          z-index: 1;
+      }
+      .pricing-toggle-option.monthly {
+          left: 0;
+      }
+      .pricing-toggle-option.annual {
+          right: 0;
+      }
+      .pricing-toggle.annual .pricing-toggle-option.annual {
+          color: #4F46E5;
+      }
+      .pricing-toggle.monthly .pricing-toggle-option.monthly {
+          color: #4F46E5;
+      }
+      .pricing-card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .pricing-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .feature-check {
+          color: #10B981;
+      }
+      .feature-unavailable {
+          color: #9ca3af;
+      }
+      .pricing-tab-active {
+          color: #4F46E5;
+          border-bottom: 2px solid #4F46E5;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky-nav">
+      <div
+        class="container mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <div class="flex items-center">
+          <h1 class="text-2xl font-['Pacifico'] text-primary">ClearX</h1>
+          
+
+<nav class="hidden md:flex ml-10">
+  <a href="index.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">Home</a>
+  <a href="how-it-works.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">How it Works</a>
+  <a href="pricing.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">Pricing</a>
+  <a href="aboutus.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">login</a>
+</nav>
+
+
+        </div>
+        <div class="flex items-center space-x-4">
+          <a
+            href="aboutus.html"
+            class="text-gray-700 hover:text-primary font-medium whitespace-nowrap"
+            >Sign In</a
+          >
+          <a
+            href="aboutus.html"
+            class="bg-primary text-white px-4 py-2 rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap"
+            >Get Started</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="bg-gray-50 border-b border-gray-200">
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex items-center text-sm text-gray-600">
+          <a
+            href="#"
+            data-readdy="true"
+            class="hover:text-primary"
+            >Home</a
+          >
+          <i class="ri-arrow-right-s-line mx-2"></i>
+          <span class="text-gray-900 font-medium">Pricing</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section
+      class="relative w-full"
+      style="background-image: url('https://readdy.ai/api/search-image?query=A%2520modern%2520pricing%2520page%2520background%2520with%2520a%2520gradient%2520from%2520light%2520blue%2520to%2520white.%2520The%2520left%2520side%2520has%2520space%2520for%2520text%2520content%2520with%2520a%2520clean%2520white%2520background.%2520The%2520right%2520side%2520shows%2520subtle%2520abstract%2520shapes%2520representing%2520value%2520and%2520savings%2520with%2520soft%2520blue%2520and%2520green%2520colors.%2520The%2520transition%2520between%2520text%2520area%2520and%2520image%2520is%2520seamless%2520and%2520natural.%2520The%2520overall%2520aesthetic%2520is%2520professional%2520with%2520soft%2520lighting.&width=1600&height=500&seq=1&orientation=landscape'); background-size: cover; background-position: center;"
+    >
+      <div class="container mx-auto px-4 py-16 w-full">
+        <div class="flex flex-col md:flex-row items-center">
+          <div
+            class="w-full md:w-1/2 text-left z-10 bg-white bg-opacity-90 p-8 rounded-lg shadow-lg"
+          >
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+              Simple, Transparent Pricing
+            </h1>
+            <p class="text-lg md:text-xl text-gray-700 mb-8">
+              Choose the plan that works best for your needs. Save money and
+              reduce waste with our flexible pricing options for retailers,
+              customers, and delivery agents.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a
+                href="#pricing-plans"
+                class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-opacity-90 transition text-center !rounded-button whitespace-nowrap"
+                >View Plans</a
+              >
+              <a
+                href="#pricing-faq"
+                class="bg-white text-primary border border-primary px-6 py-3 rounded-button font-medium hover:bg-gray-50 transition text-center !rounded-button whitespace-nowrap"
+                >Pricing FAQ</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Toggle Section -->
+    <section class="py-12 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">Choose Your Plan</h2>
+          <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-8">
+            Select the perfect plan for your role in the ClearX ecosystem.
+          </p>
+
+          <div class="flex justify-center items-center mb-8">
+            <div class="pricing-toggle monthly" id="pricing-toggle">
+              <div class="pricing-toggle-slider"></div>
+              <div class="pricing-toggle-option monthly">Monthly</div>
+              <div class="pricing-toggle-option annual">Annual</div>
+            </div>
+            <div
+              class="ml-3 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium"
+            >
+              Save 20%
+            </div>
+          </div>
+
+          <!-- User Type Tabs -->
+          <div class="flex justify-center mb-8">
+            <div class="border-b border-gray-200 w-full max-w-2xl">
+              <div class="flex justify-center">
+                <button
+                  class="user-type-tab px-6 py-3 font-medium pricing-tab-active"
+                  data-tab="retailer"
+                >
+                  For Retailers
+                </button>
+                <button
+                  class="user-type-tab px-6 py-3 font-medium text-gray-500"
+                  data-tab="customer"
+                >
+                  For Customers
+                </button>
+                <button
+                  class="user-type-tab px-6 py-3 font-medium text-gray-500"
+                  data-tab="delivery"
+                >
+                  For Delivery Agents
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Retailer Pricing -->
+        <div id="retailer-pricing" class="user-type-content">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Basic Plan -->
+            <div
+              class="pricing-card bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Basic</h3>
+                <p class="text-gray-600 mb-4">
+                  Perfect for small retailers just getting started
+                </p>
+                <div class="flex items-end mb-6">
+                  <span class="text-4xl font-bold">₹0</span>
+                  <span class="text-gray-500 ml-2 mb-1">/month</span>
+                </div>
+                <ul class="space-y-3 mb-6">
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>List up to 50 items per month</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Basic inventory management</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Standard 18% commission rate</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Email support</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-close-line mr-2 feature-unavailable"></i>
+                    <span class="text-gray-500">Advanced analytics</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-close-line mr-2 feature-unavailable"></i>
+                    <span class="text-gray-500">Priority placement</span>
+                  </li>
+                </ul>
+                <a
+                  href="#"
+                  class="block w-full bg-gray-100 text-gray-800 text-center px-4 py-3 rounded-button font-medium hover:bg-gray-200 transition !rounded-button whitespace-nowrap"
+                  >Get Started</a
+                >
+              </div>
+            </div>
+
+            <!-- Professional Plan -->
+            <div
+              class="pricing-card bg-white rounded-lg shadow-lg overflow-hidden border-2 border-primary relative"
+            >
+              <div
+                class="absolute top-0 right-0 bg-primary text-white px-3 py-1 text-sm font-medium"
+              >
+                Popular
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Professional</h3>
+                <p class="text-gray-600 mb-4">
+                  Ideal for established retailers with regular inventory
+                </p>
+                <div class="monthly-price">
+                  <div class="flex items-end mb-6">
+                    <span class="text-4xl font-bold">₹350</span>
+                    <span class="text-gray-500 ml-2 mb-1">/month</span>
+                  </div>
+                </div>
+                <div class="annual-price hidden">
+                  <div class="flex items-end mb-6">
+                    <span class="text-4xl font-bold">₹300</span>
+                    <span class="text-gray-500 ml-2 mb-1">/month</span>
+                  </div>
+                </div>
+                <ul class="space-y-3 mb-6">
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Unlimited item listings</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Advanced inventory management</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Reduced 15% commission rate</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Priority email & phone support</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Basic sales analytics</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Enhanced listing visibility</span>
+                  </li>
+                </ul>
+                <a
+                  href="#"
+                  class="block w-full bg-primary text-white text-center px-4 py-3 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap"
+                  >Get Started</a
+                >
+              </div>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div
+              class="pricing-card bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Enterprise</h3>
+                <p class="text-gray-600 mb-4">
+                  For large retailers with high-volume inventory
+                </p>
+                <div class="monthly-price">
+                  <div class="flex items-end mb-6">
+                    <span class="text-4xl font-bold">₹600</span>
+                    <span class="text-gray-500 ml-2 mb-1">/month</span>
+                  </div>
+                </div>
+                <div class="annual-price hidden">
+                  <div class="flex items-end mb-6">
+                    <span class="text-4xl font-bold">₹6009</span>
+                    <span class="text-gray-500 ml-2 mb-1">/month</span>
+                  </div>
+                </div>
+                <ul class="space-y-3 mb-6">
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Everything in Professional</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Lowest 12% commission rate</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Advanced analytics dashboard</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Dedicated account manager</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>API access for inventory integration</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Top placement in search results</span>
+                  </li>
+                </ul>
+                <a
+                  href="#"
+                  class="block w-full bg-gray-800 text-white text-center px-4 py-3 rounded-button font-medium hover:bg-gray-700 transition !rounded-button whitespace-nowrap"
+                  >Contact Sales</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Pricing -->
+        <div id="customer-pricing" class="user-type-content hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <!-- Basic Plan -->
+            <div
+              class="pricing-card bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Basic</h3>
+                <p class="text-gray-600 mb-4">
+                  Free access to discounted products
+                </p>
+                <div class="flex items-end mb-6">
+                  <span class="text-4xl font-bold">₹0</span>
+                  <span class="text-gray-500 ml-2 mb-1">/month</span>
+                </div>
+                <ul class="space-y-3 mb-6">
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Access to all discounted items</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Standard delivery fees (₹399-₹499)</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Standard reward points (1x)</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Email support</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-close-line mr-2 feature-unavailable"></i>
+                    <span class="text-gray-500">Free delivery</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-close-line mr-2 feature-unavailable"></i>
+                    <span class="text-gray-500">Early access to deals</span>
+                  </li>
+                </ul>
+                <a
+                  href="#"
+                  class="block w-full bg-gray-100 text-gray-800 text-center px-4 py-3 rounded-button font-medium hover:bg-gray-200 transition !rounded-button whitespace-nowrap"
+                  >Sign Up Free</a
+                >
+              </div>
+            </div>
+
+            <!-- ClearX+ Plan -->
+            <div
+              class="pricing-card bg-white rounded-lg shadow-lg overflow-hidden border-2 border-secondary relative"
+            >
+              <div
+                class="absolute top-0 right-0 bg-secondary text-white px-3 py-1 text-sm font-medium"
+              >
+                Best Value
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">ClearX+</h3>
+                <p class="text-gray-600 mb-4">
+                  Premium benefits for regular shoppers
+                </p>
+                <div class="monthly-price">
+                  <div class="flex items-end mb-6">
+                    <span class="text-4xl font-bold">₹300</span>
+                    <span class="text-gray-500 ml-2 mb-1">/month</span>
+                  </div>
+                </div>
+                <div class="annual-price hidden">
+                  <div class="flex items-end mb-6">
+                    <span class="text-4xl font-bold">₹199</span>
+                    <span class="text-gray-500 ml-2 mb-1">/month</span>
+                  </div>
+                </div>
+                <ul class="space-y-3 mb-6">
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Everything in Basic</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Free delivery on all orders</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>2x reward points on all purchases</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Priority customer support</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>30-minute early access to new deals</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Exclusive member-only offers</span>
+                  </li>
+                </ul>
+                <a
+                  href="#"
+                  class="block w-full bg-secondary text-white text-center px-4 py-3 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap"
+                  >Get ClearX+</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery Agent Pricing -->
+        <div id="delivery-pricing" class="user-type-content hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <!-- Standard Plan -->
+            <div
+              class="pricing-card bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+            >
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Standard</h3>
+                <p class="text-gray-600 mb-4">
+                  Basic plan for part-time delivery agents
+                </p>
+                <div class="flex items-end mb-6">
+                  <span class="text-4xl font-bold">₹0</span>
+                  <span class="text-gray-500 ml-2 mb-1">/month</span>
+                </div>
+                <ul class="space-y-3 mb-6">
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Access to delivery opportunities</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Standard commission (75% of delivery fee)</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Basic route optimization</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Weekly payments</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-close-line mr-2 feature-unavailable"></i>
+                    <span class="text-gray-500">Priority order access</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-close-line mr-2 feature-unavailable"></i>
+                    <span class="text-gray-500">Instant cashout</span>
+                  </li>
+                </ul>
+                <a
+                  href="#"
+                  class="block w-full bg-gray-100 text-gray-800 text-center px-4 py-3 rounded-button font-medium hover:bg-gray-200 transition !rounded-button whitespace-nowrap"
+                  >Sign Up Free</a
+                >
+              </div>
+            </div>
+
+            <!-- Premium Plan -->
+            <div
+              class="pricing-card bg-white rounded-lg shadow-lg overflow-hidden border-2 border-primary relative"
+            >
+              <div
+                class="absolute top-0 right-0 bg-primary text-white px-3 py-1 text-sm font-medium"
+              >
+                Top Earners
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Premium</h3>
+                <p class="text-gray-600 mb-4">
+                  For full-time delivery professionals
+                </p>
+                <div class="monthly-price">
+                  <div class="flex items-end mb-6">
+                    <span class="text-4xl font-bold">₹1299</span>
+                    <span class="text-gray-500 ml-2 mb-1">/month</span>
+                  </div>
+                </div>
+                <div class="annual-price hidden">
+                  <div class="flex items-end mb-6">
+                    <span class="text-4xl font-bold">₹999</span>
+                    <span class="text-gray-500 ml-2 mb-1">/month</span>
+                  </div>
+                </div>
+                <ul class="space-y-3 mb-6">
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Everything in Standard</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Higher commission (85% of delivery fee)</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Advanced route optimization</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Priority access to high-value orders</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Instant cashout (5 free per week)</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-check-line mr-2 feature-check"></i>
+                    <span>Accident insurance coverage</span>
+                  </li>
+                </ul>
+                <a
+                  href="#"
+                  class="block w-full bg-primary text-white text-center px-4 py-3 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap"
+                  >Upgrade Now</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Tables Section -->
+    <section id="pricing-plans" class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">Detailed Feature Comparison</h2>
+          <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+            Compare all features across our different plans to find the perfect
+            fit for your needs.
+          </p>
+        </div>
+
+        <!-- Comparison Tabs -->
+        <div class="flex justify-center mb-8">
+          <div class="inline-flex bg-white p-1 rounded-full shadow-sm">
+            <button
+              class="comparison-tab-btn px-6 py-2 rounded-full bg-primary text-white font-medium !rounded-full whitespace-nowrap"
+              data-tab="retailer-table"
+            >
+              Retailers
+            </button>
+            <button
+              class="comparison-tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap"
+              data-tab="customer-table"
+            >
+              Customers
+            </button>
+            <button
+              class="comparison-tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap"
+              data-tab="delivery-table"
+            >
+              Delivery Agents
+            </button>
+          </div>
+        </div>
+
+        <!-- Retailer Comparison Table -->
+        <div
+          class="comparison-tab-content overflow-x-auto"
+          id="retailer-table-content"
+        >
+          <div
+            class="min-w-[768px] bg-white rounded-lg shadow-md overflow-hidden"
+          >
+            <table class="w-full">
+              <thead>
+                <tr class="bg-gray-50">
+                  <th
+                    class="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider border-b"
+                  >
+                    Feature
+                  </th>
+                  <th
+                    class="px-6 py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider border-b"
+                  >
+                    Basic
+                  </th>
+                  <th
+                    class="px-6 py-4 text-center text-sm font-medium text-primary uppercase tracking-wider border-b"
+                  >
+                    Professional
+                  </th>
+                  <th
+                    class="px-6 py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider border-b"
+                  >
+                    Enterprise
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Monthly Price
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    ₹0
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                  ₹490
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    ₹1999
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Commission Rate
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    18%
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    15%
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    12%
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Monthly Item Listings
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    50
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    Unlimited
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Unlimited
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Inventory Management
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Basic
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    Advanced
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Advanced
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Analytics Dashboard
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <i class="ri-close-line text-red-500"></i>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    Basic
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Advanced
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Listing Visibility
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Standard
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    Enhanced
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Top Priority
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Customer Support
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Email
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    Email & Phone
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Dedicated Manager
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    API Access
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <i class="ri-close-line text-red-500"></i>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    <i class="ri-close-line text-red-500"></i>
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <i class="ri-check-line text-green-500"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Bulk Upload
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <i class="ri-close-line text-red-500"></i>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    <i class="ri-check-line text-green-500"></i>
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <i class="ri-check-line text-green-500"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Auto-Pricing
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Basic
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    Advanced
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Custom Rules
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Customer Comparison Table -->
+        <div
+          class="comparison-tab-content overflow-x-auto hidden"
+          id="customer-table-content"
+        >
+          <div
+            class="min-w-[768px] bg-white rounded-lg shadow-md overflow-hidden"
+          >
+            <table class="w-full">
+              <thead>
+                <tr class="bg-gray-50">
+                  <th
+                    class="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider border-b"
+                  >
+                    Feature
+                  </th>
+                  <th
+                    class="px-6 py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider border-b"
+                  >
+                    Basic
+                  </th>
+                  <th
+                    class="px-6 py-4 text-center text-sm font-medium text-secondary uppercase tracking-wider border-b"
+                  >
+                    ClearX+
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Monthly Price
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    ₹0
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-green-50"
+                  >
+                  ₹999
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Delivery Fee
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    ₹399-₹599
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-green-50"
+                  >
+                    Free
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Reward Points Multiplier
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    1x
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-green-50"
+                  >
+                    2x
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Early Access to Deals
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <i class="ri-close-line text-red-500"></i>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-green-50"
+                  >
+                    30 minutes
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Exclusive Offers
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <i class="ri-close-line text-red-500"></i>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-green-50"
+                  >
+                    <i class="ri-check-line text-green-500"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Customer Support
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Standard
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-green-50"
+                  >
+                    Priority
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Order Scheduling
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Same-day only
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-green-50"
+                  >
+                    Up to 3 days
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Delivery Time Slots
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Standard
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-green-50"
+                  >
+                    Premium
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Order Minimum
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    ₹1200
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-green-50"
+                  >
+                    None
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Birthday Reward
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <i class="ri-close-line text-red-500"></i>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-green-50"
+                  >
+                  ₹850 Credit
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Delivery Agent Comparison Table -->
+        <div
+          class="comparison-tab-content overflow-x-auto hidden"
+          id="delivery-table-content"
+        >
+          <div
+            class="min-w-[768px] bg-white rounded-lg shadow-md overflow-hidden"
+          >
+            <table class="w-full">
+              <thead>
+                <tr class="bg-gray-50">
+                  <th
+                    class="px-6 py-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider border-b"
+                  >
+                    Feature
+                  </th>
+                  <th
+                    class="px-6 py-4 text-center text-sm font-medium text-gray-500 uppercase tracking-wider border-b"
+                  >
+                    Standard
+                  </th>
+                  <th
+                    class="px-6 py-4 text-center text-sm font-medium text-primary uppercase tracking-wider border-b"
+                  >
+                    Premium
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Monthly Price
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    ₹0
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                  ₹1799
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Commission Rate
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    75% of delivery fee
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    85% of delivery fee
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Route Optimization
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Basic
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    Advanced
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Order Priority
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Standard
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    High Priority
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Instant Cashout
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    ₹50 per cashout
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    5 free per week
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Accident Insurance
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <i class="ri-close-line text-red-500"></i>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    <i class="ri-check-line text-green-500"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Minimum Guaranteed Pay
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    <i class="ri-close-line text-red-500"></i>
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    <i class="ri-check-line text-green-500"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Bonus Opportunities
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Basic
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    Enhanced
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Customer Ratings Visibility
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Limited
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    Full Access
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                    Support Priority
+                  </td>
+                  <td class="px-6 py-4 text-center text-sm text-gray-500">
+                    Standard
+                  </td>
+                  <td
+                    class="px-6 py-4 text-center text-sm text-gray-900 bg-blue-50"
+                  >
+                    Priority
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="pricing-faq" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold mb-4">Pricing FAQ</h2>
+          <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+            Find answers to common questions about our pricing plans.
+          </p>
+        </div>
+
+        <!-- FAQ Tabs -->
+        <div class="flex justify-center mb-8">
+          <div class="inline-flex bg-gray-100 p-1 rounded-full shadow-sm">
+            <button
+              class="faq-tab-btn px-6 py-2 rounded-full bg-primary text-white font-medium !rounded-full whitespace-nowrap"
+              data-tab="general-faq"
+            >
+              General
+            </button>
+            <button
+              class="faq-tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap"
+              data-tab="retailer-pricing-faq"
+            >
+              Retailers
+            </button>
+            <button
+              class="faq-tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap"
+              data-tab="customer-pricing-faq"
+            >
+              Customers
+            </button>
+            <button
+              class="faq-tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap"
+              data-tab="delivery-pricing-faq"
+            >
+              Delivery
+            </button>
+          </div>
+        </div>
+
+        <!-- General Pricing FAQs -->
+        <div class="faq-tab-content max-w-3xl mx-auto" id="general-faq-content">
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium">Can I change plans at any time?</span>
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Yes, you can upgrade or downgrade your plan at any time.
+                  Changes to your subscription will take effect immediately. If
+                  you upgrade mid-billing cycle, we'll prorate the difference.
+                  If you downgrade, the changes will apply at the start of your
+                  next billing cycle.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium">Do you offer any discounts?</span>
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  We offer a 20% discount on all paid plans when you choose
+                  annual billing instead of monthly. We also have special
+                  discounts for non-profit organizations and educational
+                  institutions. Contact our sales team for more information
+                  about special pricing options.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What payment methods do you accept?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  We accept all major credit and debit cards, including Visa,
+                  Mastercard, American Express, and Discover. We also support
+                  payments through PayPal, Apple Pay, and Google Pay. For
+                  enterprise customers, we can arrange direct bank transfers or
+                  invoicing as needed.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >Is there a free trial available?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Yes, we offer a 14-day free trial for all paid plans. This
+                  gives you full access to all features so you can determine if
+                  the plan meets your needs. No credit card is required to start
+                  a trial. At the end of your trial, you can choose to subscribe
+                  or downgrade to a free plan.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What happens if I cancel my subscription?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  You can cancel your subscription at any time. If you cancel,
+                  you'll continue to have access to your paid features until the
+                  end of your current billing period. After that, your account
+                  will revert to the free plan. We don't offer refunds for
+                  partial months, but you're welcome to use the service until
+                  your paid period ends.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Retailer Pricing FAQs -->
+        <div
+          class="faq-tab-content max-w-3xl mx-auto hidden"
+          id="retailer-pricing-faq-content"
+        >
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium">How are commissions calculated?</span>
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Commissions are calculated as a percentage of the final sale
+                  price of each item sold through our platform. For example, if
+                  you sell an item for ₹100 on the Basic plan with an 18%
+                  commission rate, we would take ₹180, and you would receive
+                  $8.20. Commission rates vary by plan: Basic (18%),
+                  Professional (15%), and Enterprise (12%).
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What happens if I exceed my monthly item limit on the Basic
+                  plan?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  On the Basic plan, you can list up to 50 items per month. If
+                  you reach this limit, you won't be able to add new items until
+                  the next billing cycle begins. You can still manage and sell
+                  your existing listings. If you regularly need to list more
+                  than 50 items, we recommend upgrading to the Professional
+                  plan, which offers unlimited listings.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What's included in the advanced inventory management?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Advanced inventory management includes features like batch
+                  operations, automated inventory adjustments based on
+                  expiration dates, category management, inventory forecasting,
+                  and detailed inventory reports. It also includes tools to help
+                  you track waste reduction metrics and optimize your pricing
+                  strategy based on historical sales data.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How does enhanced listing visibility work?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Enhanced listing visibility gives your products priority
+                  placement in search results and browsing pages. Professional
+                  plan listings appear higher than Basic plan listings, while
+                  Enterprise plan listings receive top priority. This increased
+                  visibility typically results in 30-50% more views and higher
+                  sales conversion rates compared to standard visibility.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >Is there a contract for paid plans?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  No, there are no long-term contracts required. All plans
+                  operate on a month-to-month basis, or you can choose annual
+                  billing for a 20% discount. You can cancel at any time without
+                  penalty. For Enterprise customers with custom requirements, we
+                  may offer special contract terms, but these are always
+                  optional.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Pricing FAQs -->
+        <div
+          class="faq-tab-content max-w-3xl mx-auto hidden"
+          id="customer-pricing-faq-content"
+        >
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >Is ClearX+ worth it if I don't order frequently?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  ClearX+ typically pays for itself if you place at least 2-3
+                  orders per month. With free delivery (normally ₹399-₹599 per
+                  order), you can recoup the ₹999 monthly fee with just 2
+                  orders. Additionally, you'll benefit from 2x reward points,
+                  early access to deals, and exclusive offers, which provide
+                  even more value. We recommend trying our 14-day free trial to
+                  see if it works for your shopping habits.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium">How do reward points work?</span>
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  You earn 10 points for every ₹85 spent on ClearX. Basic
+                  members earn at the standard 1x rate, while ClearX+ members
+                  earn at 2x (20 points per ₹85). Points can be redeemed for
+                  discounts on future orders at a rate of 1,000 points = ₹500 off.
+                  Points expire after 12 months of inactivity. You can check
+                  your points balance and available rewards in your account
+                  dashboard.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What are the exclusive member-only offers?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  ClearX+ members receive exclusive offers not available to
+                  Basic members. These include special discounts from premium
+                  retailers, flash sales with deeper discounts, seasonal
+                  promotions, and occasional free items with qualifying
+                  purchases. We typically release 3-5 exclusive offers each
+                  week, which are highlighted in the "Member Exclusives" section
+                  of the app.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >Can I share my ClearX+ membership with family
+                  members?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Yes, your ClearX+ membership can be shared with up to 4
+                  additional family members living at the same address. To add
+                  family members, go to your account settings and select "Manage
+                  Family Members." Each person will need to create their own
+                  ClearX account and verify their address. All orders placed
+                  by family members will earn 2x points and enjoy free delivery.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How does the 30-minute early access work?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  ClearX+ members receive notifications and access to new
+                  deals 30 minutes before they become available to Basic
+                  members. This is particularly valuable for limited-quantity
+                  items from popular retailers, which often sell out quickly.
+                  You'll receive a push notification when early access begins,
+                  allowing you to browse and purchase these items before they're
+                  available to everyone else.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delivery Agent Pricing FAQs -->
+        <div
+          class="faq-tab-content max-w-3xl mx-auto hidden"
+          id="delivery-pricing-faq-content"
+        >
+          <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How much can I expect to earn as a delivery agent?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Earnings vary based on your location, hours worked, and
+                  delivery volume. Standard plan agents typically earn ₹15-20
+                  per hour, while Premium plan agents average ₹18-25 per hour
+                  due to higher commission rates and priority access to
+                  high-value orders. In busy urban areas, earnings can be
+                  higher. You'll also receive 100% of customer tips in addition
+                  to your delivery earnings.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What's the difference between basic and advanced route
+                  optimization?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Basic route optimization provides simple point-to-point
+                  directions between pickup and delivery locations. Advanced
+                  route optimization uses AI to analyze traffic patterns,
+                  delivery windows, and order grouping to create the most
+                  efficient routes. It can handle multiple pickups and
+                  deliveries in a single trip, helping Premium agents complete
+                  more deliveries per hour and maximize earnings while
+                  minimizing travel time and fuel costs.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >What does the accident insurance cover?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  The accident insurance included with the Premium plan covers
+                  you while you're actively delivering orders on the ClearX
+                  platform. It provides up to ₹1 million in liability coverage,
+                  as well as coverage for medical expenses resulting from
+                  accidents during deliveries. It also includes coverage for
+                  damaged goods. This insurance is supplemental to your personal
+                  auto insurance and helps protect you financially while working
+                  as a delivery agent.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >How does the minimum guaranteed pay work?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  Premium plan members receive minimum guaranteed pay during
+                  scheduled delivery blocks. If you earn less than the
+                  guaranteed minimum (typically ₹18 per hour in most markets)
+                  during your scheduled hours due to low order volume, we'll
+                  make up the difference. To qualify, you must be available and
+                  accept at least 85% of offered deliveries during your
+                  scheduled block.
+                </p>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <button
+                class="faq-question w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <span class="font-medium"
+                  >Is the Premium plan worth it for part-time delivery
+                  agents?</span
+                >
+                <i class="ri-add-line text-lg"></i>
+              </button>
+              <div class="faq-answer p-4 bg-white hidden">
+                <p class="text-gray-700">
+                  The Premium plan is typically worth it if you deliver at least
+                  15-20 hours per week. The higher commission rate (85% vs 75%)
+                  means you earn approximately ₹2-3 more per hour, which quickly
+                  covers the ₹19.99 monthly fee. Additionally, priority access
+                  to high-value orders, advanced route optimization, and
+                  accident insurance provide significant value. We recommend
+                  starting with the Standard plan and upgrading once you're
+                  consistently delivering 15+ hours weekly.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Enterprise Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div class="flex flex-col md:flex-row">
+            <div class="w-full md:w-1/2 p-8 md:p-12">
+              <h2 class="text-3xl font-bold mb-4">Need a Custom Solution?</h2>
+              <p class="text-gray-700 mb-6">
+                For large retailers, restaurant chains, or grocery networks, we
+                offer tailored enterprise solutions with custom features,
+                dedicated support, and volume-based pricing.
+              </p>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start">
+                  <i class="ri-check-line mr-2 text-primary"></i>
+                  <span
+                    >Custom integration with your existing inventory
+                    systems</span
+                  >
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line mr-2 text-primary"></i>
+                  <span>Volume-based commission rates as low as 8%</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line mr-2 text-primary"></i>
+                  <span>Dedicated account management team</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line mr-2 text-primary"></i>
+                  <span>Custom reporting and analytics dashboards</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="ri-check-line mr-2 text-primary"></i>
+                  <span>White-label options available</span>
+                </li>
+              </ul>
+              <a
+                href="#"
+                class="inline-block bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap"
+                >Contact Our Sales Team</a
+              >
+            </div>
+            <div class="w-full md:w-1/2 bg-gray-50 p-8 md:p-12">
+              <form class="space-y-4">
+                <div>
+                  <label
+                    for="name"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Full Name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-primary focus:border-primary"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="company"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Company</label
+                  >
+                  <input
+                    type="text"
+                    id="company"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-primary focus:border-primary"
+                    placeholder="Your company"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Business Email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-primary focus:border-primary"
+                    placeholder="you@company.com"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="phone"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Phone Number</label
+                  >
+                  <input
+                    type="tel"
+                    id="phone"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-primary focus:border-primary"
+                    placeholder="Your phone number"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="message"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Tell us about your needs</label
+                  >
+                  <textarea
+                    id="message"
+                    rows="3"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-primary focus:border-primary"
+                    placeholder="Brief description of your requirements"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="w-full bg-primary text-white px-4 py-3 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap"
+                >
+                  Request Information
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Money Back Guarantee -->
+    <section class="py-12 bg-white">
+      <div class="container mx-auto px-4">
+        <div
+          class="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto bg-blue-50 rounded-lg p-8"
+        >
+          <div class="w-full md:w-2/3 mb-6 md:mb-0">
+            <h3 class="text-2xl font-bold mb-2">30-Day Money Back Guarantee</h3>
+            <p class="text-gray-700">
+              Not satisfied with your paid plan? We offer a full refund within
+              30 days of your first payment. No questions asked.
+            </p>
+          </div>
+          <div class="w-full md:w-1/3 flex justify-center md:justify-end">
+            <div
+              class="w-24 h-24 flex items-center justify-center bg-primary bg-opacity-10 rounded-full"
+            >
+              <i class="ri-shield-check-line ri-3x text-primary"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center max-w-3xl mx-auto">
+          <h2 class="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+          <p class="text-lg text-gray-700 mb-8">
+            Join thousands of users who are reducing waste and saving money with
+            ClearX.
+          </p>
+          <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="aboutus.html"
+              class="bg-primary text-white px-8 py-3 rounded-button font-medium hover:bg-opacity-90 transition text-center !rounded-button whitespace-nowrap"
+              >Sign Up Now</a
+            >
+            <a
+              href="#"
+              class="bg-white text-primary border border-primary px-8 py-3 rounded-button font-medium hover:bg-gray-50 transition text-center !rounded-button whitespace-nowrap"
+              >Contact Sales</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h1 class="text-2xl font-['Pacifico'] mb-4">ClearX</h1>
+            <p class="text-gray-400">
+              Connecting retailers, customers, and delivery agents to reduce
+              waste and save money.
+            </p>
+            <div class="flex mt-4 space-x-4">
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition"
+              >
+                <i class="ri-twitter-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition"
+              >
+                <i class="ri-instagram-line"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition"
+              >
+                <i class="ri-linkedin-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  data-readdy="true"
+                  class="text-gray-400 hover:text-white transition"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  data-readdy="true"
+                  class="text-gray-400 hover:text-white transition"
+                  >How It Works</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Pricing</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">For Users</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Retailer Dashboard</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Customer Shopping</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Delivery Portal</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >Help Center</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  >FAQs</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">Contact Us</h3>
+            <ul class="space-y-2">
+              <li class="flex items-center">
+                <i class="ri-map-pin-line mr-2"></i>
+                <span class="text-gray-400"
+                  >Vignan's institute of information technology,vizag
+                  </span
+                >
+              </li>
+              <li class="flex items-center">
+                <i class="ri-mail-line mr-2"></i>
+                <a
+                  href="mailto:info@ClearX.com"
+                  class="text-gray-400 hover:text-white transition"
+                  >info@ClearX.com</a
+                >
+              </li>
+              <li class="flex items-center">
+                <i class="ri-phone-line mr-2"></i>
+                <a
+                  href="tel:+1234567890"
+                  class="text-gray-400 hover:text-white transition"
+                  >+91 9014820490</a
+                >
+              </li>
+            </ul>
+            <div class="mt-4">
+              <h4 class="text-sm font-medium mb-2">Payment Methods</h4>
+              <div class="flex space-x-3">
+                <i class="ri-visa-fill text-2xl text-gray-400"></i>
+                <i class="ri-mastercard-fill text-2xl text-gray-400"></i>
+                <i class="ri-paypal-fill text-2xl text-gray-400"></i>
+                <i class="ri-apple-fill text-2xl text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-sm">
+            © 2025 ClearX. All rights reserved.
+          </p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+            <a
+              href="#"
+              class="text-gray-400 hover:text-white text-sm transition"
+              >Privacy Policy</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 hover:text-white text-sm transition"
+              >Terms of Service</a
+            >
+            <a
+              href="#"
+              class="text-gray-400 hover:text-white text-sm transition"
+              >Cookie Policy</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Pricing Toggle
+        const pricingToggle = document.getElementById("pricing-toggle");
+        const monthlyPrices = document.querySelectorAll(".monthly-price");
+        const annualPrices = document.querySelectorAll(".annual-price");
+
+        pricingToggle.addEventListener("click", function () {
+          if (this.classList.contains("monthly")) {
+            this.classList.remove("monthly");
+            this.classList.add("annual");
+            monthlyPrices.forEach((price) => price.classList.add("hidden"));
+            annualPrices.forEach((price) => price.classList.remove("hidden"));
+          } else {
+            this.classList.remove("annual");
+            this.classList.add("monthly");
+            monthlyPrices.forEach((price) => price.classList.remove("hidden"));
+            annualPrices.forEach((price) => price.classList.add("hidden"));
+          }
+        });
+
+        // User Type Tabs
+        const userTypeTabs = document.querySelectorAll(".user-type-tab");
+        const userTypeContents = document.querySelectorAll(".user-type-content");
+
+        userTypeTabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            const tabId = tab.dataset.tab;
+
+            // Update active tab
+            userTypeTabs.forEach((t) => {
+              if (t.dataset.tab === tabId) {
+                t.classList.add("pricing-tab-active");
+                t.classList.remove("text-gray-500");
+              } else {
+                t.classList.remove("pricing-tab-active");
+                t.classList.add("text-gray-500");
+              }
+            });
+
+            // Show active content
+            userTypeContents.forEach((content) => {
+              if (content.id === `${tabId}-pricing`) {
+                content.classList.remove("hidden");
+              } else {
+                content.classList.add("hidden");
+              }
+            });
+          });
+        });
+
+        // Comparison Tabs
+        const comparisonTabBtns = document.querySelectorAll(".comparison-tab-btn");
+        const comparisonTabContents = document.querySelectorAll(
+          ".comparison-tab-content",
+        );
+
+        comparisonTabBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const tabId = btn.dataset.tab;
+
+            // Update active tab button
+            comparisonTabBtns.forEach((b) => {
+              if (b.dataset.tab === tabId) {
+                b.classList.add("bg-primary", "text-white");
+                b.classList.remove("text-gray-700");
+              } else {
+                b.classList.remove("bg-primary", "text-white");
+                b.classList.add("text-gray-700");
+              }
+            });
+
+            // Show active tab content
+            comparisonTabContents.forEach((content) => {
+              if (content.id === `${tabId}-content`) {
+                content.classList.remove("hidden");
+              } else {
+                content.classList.add("hidden");
+              }
+            });
+          });
+        });
+
+        // FAQ Tabs
+        const faqTabBtns = document.querySelectorAll(".faq-tab-btn");
+        const faqTabContents = document.querySelectorAll(".faq-tab-content");
+
+        faqTabBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const tabId = btn.dataset.tab;
+
+            // Update active tab button
+            faqTabBtns.forEach((b) => {
+              if (b.dataset.tab === tabId) {
+                b.classList.add("bg-primary", "text-white");
+                b.classList.remove("text-gray-700");
+              } else {
+                b.classList.remove("bg-primary", "text-white");
+                b.classList.add("text-gray-700");
+              }
+            });
+
+            // Show active tab content
+            faqTabContents.forEach((content) => {
+              if (content.id === `${tabId}-content`) {
+                content.classList.remove("hidden");
+              } else {
+                content.classList.add("hidden");
+              }
+            });
+          });
+        });
+
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll(".faq-question");
+
+        faqQuestions.forEach((question) => {
+          question.addEventListener("click", () => {
+            const answer = question.nextElementSibling;
+            const icon = question.querySelector("i");
+
+            if (answer.classList.contains("hidden")) {
+              answer.classList.remove("hidden");
+              icon.classList.remove("ri-add-line");
+              icon.classList.add("ri-subtract-line");
+            } else {
+              answer.classList.add("hidden");
+              icon.classList.remove("ri-subtract-line");
+              icon.classList.add("ri-add-line");
+            }
+          });
+        });
+
+        // Auto-expand first FAQ in each tab
+        document.querySelectorAll(".faq-tab-content").forEach((content) => {
+          const firstQuestion = content.querySelector(".faq-question");
+          if (firstQuestion) {
+            const firstAnswer = firstQuestion.nextElementSibling;
+            const firstIcon = firstQuestion.querySelector("i");
+
+            firstAnswer.classList.remove("hidden");
+            firstIcon.classList.remove("ri-add-line");
+            firstIcon.classList.add("ri-subtract-line");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

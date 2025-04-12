@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClearX - Connecting Retailers, Customers & Delivery Agents</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#4F46E5',secondary:'#10B981'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f9fafb;
+color: #1f2937;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.custom-checkbox {
+position: relative;
+display: inline-block;
+width: 18px;
+height: 18px;
+border-radius: 4px;
+border: 2px solid #d1d5db;
+background-color: white;
+}
+.custom-checkbox.checked {
+background-color: #4F46E5;
+border-color: #4F46E5;
+}
+.custom-checkbox.checked::after {
+content: "";
+position: absolute;
+top: 2px;
+left: 6px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 44px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.switch-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #e5e7eb;
+transition: .4s;
+border-radius: 34px;
+}
+.switch-slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .switch-slider {
+background-color: #4F46E5;
+}
+input:checked + .switch-slider:before {
+transform: translateX(20px);
+}
+
+/* Added Animation Styles */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-box {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.stat-box:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stat-box:nth-child(3) {
+  animation-delay: 0.4s;
+}
+</style>
+</head>
+<body class="min-h-screen">
+<!-- Header -->
+<header class="bg-white shadow-sm">
+<div class="container mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center">
+<h1 class="text-2xl font-['Pacifico'] text-primary">ClearX</h1>
+<nav class="hidden md:flex ml-10">
+  <a href="index.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">Home</a>
+  <a href="how-it-works.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">How it Works</a>
+  <a href="pricing.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">Pricing</a>
+  <a href="aboutus.html" class="px-4 py-2 text-gray-700 hover:text-primary font-medium">login</a>
+</nav>
+</div>  
+<div class="flex items-center space-x-4">
+<a href="aboutus.html" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Sign In</a>
+<a href="aboutus.html" class="bg-primary text-white px-4 py-2 rounded-button font-medium hover:bg-opacity-90 transition whitespace-nowrap">Get Started</a>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative w-full bg-green-50 py-20" style="background-image: linear-gradient(to bottom, #f0fff4, #e8f8e9);">
+<div class="container mx-auto px-4">
+<div class="text-center">
+<div class="text-green-500 font-medium mb-4">Sustainability</div>
+<h1 class="text-4xl md:text-5xl font-bold mb-8">Shop Smart, Save the Planet</h1>
+<p class="text-lg md:text-xl text-gray-700 mb-12 max-w-2xl mx-auto">ClearX helps reduce waste by connecting consumers with soon-to-expire and clearance items that would otherwise be discarded.</p>
+</div>
+<div class="flex flex-col md:flex-row gap-6 mt-12 justify-center">
+<div class="bg-white p-8 rounded-lg shadow-sm flex-1 max-w-xs stat-box">
+<h3 class="text-4xl text-orange-500 font-bold mb-2">30%</h3>
+<p class="text-gray-600">of food in India is wasted annually</p>
+</div>
+<div class="bg-white p-8 rounded-lg shadow-sm flex-1 max-w-xs stat-box">
+<h3 class="text-4xl text-orange-500 font-bold mb-2">₹92,000 Cr</h3>
+<p class="text-gray-600">worth of food wasted each year</p>
+</div>
+<div class="bg-white p-8 rounded-lg shadow-sm flex-1 max-w-xs stat-box">
+<h3 class="text-4xl text-orange-500 font-bold mb-2">77%</h3>
+<p class="text-gray-600">of unsold fashion items end up in landfills</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Rest of your page content -->
+<!-- How It Works Section -->
+<section class="py-16 bg-white">
+<div class="container mx-auto px-4">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold mb-4">How ClearX Works</h2>
+<p class="text-lg text-gray-700 max-w-2xl mx-auto">Our platform connects three key stakeholders in a seamless ecosystem to reduce waste and save money.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition">
+<div class="w-16 h-16 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6">
+<i class="ri-store-2-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-bold mb-3">Retailers</h3>
+<p class="text-gray-700 mb-4">List excess or near-expiry products at discounted prices, manage inventory, and track sales through a dedicated dashboard.</p>
+<a href="#" class="text-primary font-medium flex items-center">
+Learn more
+<i class="ri-arrow-right-line ml-2"></i>
+</a>
+</div>
+<div class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition">
+<div class="w-16 h-16 flex items-center justify-center bg-secondary bg-opacity-10 rounded-full mb-6">
+<i class="ri-user-3-line ri-xl text-secondary"></i>
+</div>
+<h3 class="text-xl font-bold mb-3">Customers</h3>
+<p class="text-gray-700 mb-4">Browse discounted products, add items to cart, and complete checkout with secure payment options and delivery preferences.</p>
+<a href="#" class="text-primary font-medium flex items-center">
+Learn more
+<i class="ri-arrow-right-line ml-2"></i>
+</a>
+</div>
+<div class="bg-gray-50 p-8 rounded-lg shadow-sm hover:shadow-md transition">
+<div class="w-16 h-16 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6">
+<i class="ri-truck-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-bold mb-3">Delivery Agents</h3>
+<p class="text-gray-700 mb-4">Receive order details, manage deliveries, update status in real-time, and optimize routes for efficient fulfillment.</p>
+<a href="#" class="text-primary font-medium flex items-center">
+Learn more
+<i class="ri-arrow-right-line ml-2"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Dashboard Previews Section -->
+<section class="py-16 bg-gray-50">
+<div class="container mx-auto px-4">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold mb-4">Powerful Dashboards for Every User</h2>
+<p class="text-lg text-gray-700 max-w-2xl mx-auto">Each stakeholder gets a dedicated interface designed specifically for their needs.</p>
+</div>
+<!-- Tabs -->
+<div class="flex justify-center mb-8">
+<div class="inline-flex bg-white p-1 rounded-full shadow-sm">
+<button class="tab-btn px-6 py-2 rounded-full bg-primary text-white font-medium !rounded-full whitespace-nowrap" data-tab="retailer">Retailer</button>
+<button class="tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap" data-tab="customer">Customer</button>
+<button class="tab-btn px-6 py-2 rounded-full text-gray-700 font-medium !rounded-full whitespace-nowrap" data-tab="delivery">Delivery Agent</button>
+</div>
+</div>
+<!-- Dashboard Previews -->
+<div class="tab-content bg-white rounded-lg shadow-md overflow-hidden" id="retailer-tab">
+<div class="p-6 bg-gray-800 text-white flex items-center justify-between">
+<div class="flex items-center">
+<h3 class="text-xl font-medium">Retailer Dashboard</h3>
+</div>
+<div class="flex items-center space-x-4">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700">
+<i class="ri-notification-3-line text-white"></i>
+</div>
+<div class="flex items-center">
+<span class="mr-2">John's Grocery</span>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary">
+<i class="ri-user-line text-white"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-gray-50 p-6 rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<h4 class="text-gray-500 font-medium">Total Sales</h4>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary bg-opacity-10">
+<i class="ri-money-dollar-circle-line text-primary"></i>
+</div>
+</div>
+<p class="text-3xl font-bold">₹428,532</p>
+<p class="text-green-500 text-sm flex items-center mt-2">
+<i class="ri-arrow-up-line mr-1"></i> 12.5% from last month
+</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<h4 class="text-gray-500 font-medium">Active Products</h4>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-secondary bg-opacity-10">
+<i class="ri-shopping-bag-line text-secondary"></i>
+</div>
+</div>
+<p class="text-3xl font-bold">78</p>
+<p class="text-green-500 text-sm flex items-center mt-2">
+<i class="ri-arrow-up-line mr-1"></i> 5 new today
+</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<h4 class="text-gray-500 font-medium">Low Stock Items</h4>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-red-100">
+<i class="ri-alert-line text-red-500"></i>
+</div>
+</div>
+<p class="text-3xl font-bold">12</p>
+<p class="text-red-500 text-sm flex items-center mt-2">
+<i class="ri-arrow-up-line mr-1"></i> 3 more than yesterday
+</p>
+</div>
+</div>
+<div class="mb-8">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-xl font-bold">Product Management</h3>
+<button class="flex items-center bg-primary text-white px-4 py-2 rounded-button !rounded-button whitespace-nowrap">
+<i class="ri-add-line mr-2"></i> Add New Product
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="min-w-full bg-white">
+<thead>
+<tr class="bg-gray-100">
+<th class="py-3 px-4 text-left">Product</th>
+<th class="py-3 px-4 text-left">Price</th>
+<th class="py-3 px-4 text-left">Expiry Date</th>
+<th class="py-3 px-4 text-left">Stock</th>
+<th class="py-3 px-4 text-left">Status</th>
+<th class="py-3 px-4 text-left">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b">
+<td class="py-3 px-4">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded bg-gray-200 mr-3"></div>
+<span>Organic Bananas</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<div>
+<span class="line-through text-gray-500 text-sm">₹399</span>
+<span class="font-medium">₹199</span>
+</div>
+</td>
+<td class="py-3 px-4 text-red-500">Apr 14, 2025</td>
+<td class="py-3 px-4">42 units</td>
+<td class="py-3 px-4">
+<span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Active</span>
+</td>
+<td class="py-3 px-4">
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center rounded bg-blue-100 text-blue-600">
+<i class="ri-edit-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-red-100 text-red-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</td>
+</tr>
+<tr class="border-b">
+<td class="py-3 px-4">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded bg-gray-200 mr-3"></div>
+<span>Whole Grain Bread</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<div>
+<span class="line-through text-gray-500 text-sm">₹450</span>
+<span class="font-medium">₹225</span>
+</div>
+</td>
+<td class="py-3 px-4 text-red-500">Apr 12, 2025</td>
+<td class="py-3 px-4">18 units</td>
+<td class="py-3 px-4">
+<span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Active</span>
+</td>
+<td class="py-3 px-4">
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center rounded bg-blue-100 text-blue-600">
+<i class="ri-edit-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-red-100 text-red-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</td>
+</tr>
+<tr class="border-b">
+<td class="py-3 px-4">
+<div class="flex items-center">
+<div class="w-10 h-10 rounded bg-gray-200 mr-3"></div>
+<span>Greek Yogurt</span>
+</div>
+</td>
+<td class="py-3 px-4">
+<div>
+<span class="line-through text-gray-500 text-sm">₹599</span>
+<span class="font-medium">₹299</span>
+</div>
+</td>
+<td class="py-3 px-4 text-red-500">Apr 13, 2025</td>
+<td class="py-3 px-4">24 units</td>
+<td class="py-3 px-4">
+<span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Active</span>
+</td>
+<td class="py-3 px-4">
+<div class="flex space-x-2">
+<button class="w-8 h-8 flex items-center justify-center rounded bg-blue-100 text-blue-600">
+<i class="ri-edit-line"></i>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-red-100 text-red-600">
+<i class="ri-delete-bin-line"></i>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div>
+<h3 class="text-xl font-bold mb-4">Sales Performance</h3>
+<div class="bg-white p-4 rounded-lg shadow-sm" style="height: 300px;" id="retailer-chart"></div>
+</div>
+</div>
+</div>
+<div class="tab-content bg-white rounded-lg shadow-md overflow-hidden hidden" id="customer-tab">
+<div class="p-6 bg-gray-800 text-white flex items-center justify-between">
+<div class="flex-1">
+<div class="relative">
+<input type="text" placeholder="Search for products..." class="w-full py-2 pl-10 pr-4 rounded-lg bg-gray-700 border-none text-white placeholder-gray-400">
+<div class="absolute left-3 top-2.5">
+<i class="ri-search-line text-gray-400"></i>
+</div>
+</div>
+</div>
+<div class="flex items-center ml-4 space-x-4">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 relative">
+<i class="ri-heart-line text-white"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 relative">
+<i class="ri-shopping-cart-line text-white"></i>
+<span class="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center bg-primary rounded-full text-xs">3</span>
+</div>
+<div class="flex items-center">
+<span class="mr-2">Emma Wilson</span>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary">
+<i class="ri-user-line text-white"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="flex">
+<!-- Filters Sidebar -->
+<div class="w-64 p-6 border-r hidden md:block">
+<h3 class="font-bold mb-4">Filters</h3>
+<div class="mb-6">
+<h4 class="font-medium mb-2">Categories</h4>
+<div class="space-y-2">
+<div class="flex items-center">
+<div class="custom-checkbox checked mr-2"></div>
+<span>Dairy & Eggs</span>
+</div>
+<div class="flex items-center">
+<div class="custom-checkbox mr-2"></div>
+<span>Bakery</span>
+</div>
+<div class="flex items-center">
+<div class="custom-checkbox mr-2"></div>
+<span>Fruits & Vegetables</span>
+</div>
+<div class="flex items-center">
+<div class="custom-checkbox mr-2"></div>
+<span>Meat & Seafood</span>
+</div>
+<div class="flex items-center">
+<div class="custom-checkbox mr-2"></div>
+<span>Snacks & Beverages</span>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<h4 class="font-medium mb-2">Price Range</h4>
+<input type="range" min="0" max="100" value="70" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+<div class="flex justify-between mt-2">
+<span class="text-sm">₹0</span>
+<span class="text-sm">₹1000</span>
+</div>
+</div>
+<div class="mb-6">
+<h4 class="font-medium mb-2">Expiry Date</h4>
+<div class="space-y-2">
+<div class="flex items-center">
+<div class="custom-checkbox checked mr-2"></div>
+<span>Today</span>
+</div>
+<div class="flex items-center">
+<div class="custom-checkbox checked mr-2"></div>
+<span>Within 3 days</span>
+</div>
+<div class="flex items-center">
+<div class="custom-checkbox mr-2"></div>
+<span>Within a week</span>
+</div>
+<div class="flex items-center">
+<div class="custom-checkbox mr-2"></div>
+<span>Within 2 weeks</span>
+</div>
+</div>
+</div>
+<div>
+<h4 class="font-medium mb-2">Discount</h4>
+<div class="space-y-2">
+<div class="flex items-center">
+<div class="custom-checkbox checked mr-2"></div>
+<span>50% or more</span>
+</div>
+<div class="flex items-center">
+<div class="custom-checkbox mr-2"></div>
+<span>30% or more</span>
+</div>
+<div class="flex items-center">
+<div class="custom-checkbox mr-2"></div>
+<span>20% or more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Products Grid -->
+<div class="flex-1 p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xl font-bold">Discounted Products</h3>
+<div class="flex items-center">
+<span class="mr-2 text-sm">Sort by:</span>
+<div class="relative">
+<button class="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm flex items-center">
+Highest Discount
+<i class="ri-arrow-down-s-line ml-2"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition">
+<div class="relative">
+<div class="h-48 bg-gray-200"></div>
+<div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">-50%</div>
+</div>
+<div class="p-4">
+<h4 class="font-medium">Organic Strawberries</h4>
+<div class="flex items-center mt-1">
+<span class="text-gray-500 line-through text-sm mr-2">₹599</span>
+<span class="text-primary font-bold">₹299</span>
+</div>
+<div class="flex items-center mt-2 text-sm text-gray-500">
+<i class="ri-calendar-line mr-1"></i>
+<span>Expires: Apr 13, 2025</span>
+</div>
+<button class="w-full mt-3 bg-primary text-white py-2 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap">Add to Cart</button>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition">
+<div class="relative">
+<div class="h-48 bg-gray-200"></div>
+<div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">-40%</div>
+</div>
+<div class="p-4">
+<h4 class="font-medium">Fresh Salmon Fillet</h4>
+<div class="flex items-center mt-1">
+<span class="text-gray-500 line-through text-sm mr-2">₹1099</span>
+<span class="text-primary font-bold">₹679</span>
+</div>
+<div class="flex items-center mt-2 text-sm text-gray-500">
+<i class="ri-calendar-line mr-1"></i>
+<span>Expires: Apr 12, 2025</span>
+</div>
+<button class="w-full mt-3 bg-primary text-white py-2 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap">Add to Cart</button>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition">
+<div class="relative">
+<div class="h-48 bg-gray-200"></div>
+<div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">-65%</div>
+</div>
+<div class="p-4">
+<h4 class="font-medium">Artisan Sourdough Bread</h4>
+<div class="flex items-center mt-1">
+<span class="text-gray-500 line-through text-sm mr-2">₹650</span>
+<span class="text-primary font-bold">₹228</span>
+</div>
+<div class="flex items-center mt-2 text-sm text-gray-500">
+<i class="ri-calendar-line mr-1"></i>
+<span>Expires: Today</span>
+</div>
+<button class="w-full mt-3 bg-primary text-white py-2 rounded-button font-medium hover:bg-opacity-90 transition !rounded-button whitespace-nowrap">Add to Cart</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-content bg-white rounded-lg shadow-md overflow-hidden hidden" id="delivery-tab">
+<div class="p-6 bg-gray-800 text-white flex items-center justify-between">
+<div class="flex items-center">
+<h3 class="text-xl font-medium">Delivery Dashboard</h3>
+</div>
+<div class="flex items-center space-x-4">
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700">
+<i class="ri-notification-3-line text-white"></i>
+</div>
+<div class="flex items-center">
+<span class="mr-2">Michael Chen</span>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary">
+<i class="ri-user-line text-white"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="bg-gray-50 p-6 rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<h4 class="text-gray-500 font-medium">Active Deliveries</h4>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100">
+<i class="ri-truck-line text-blue-600"></i>
+</div>
+</div>
+<p class="text-3xl font-bold">4</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<h4 class="text-gray-500 font-medium">Pending Pickups</h4>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-100">
+<i class="ri-store-line text-yellow-600"></i>
+</div>
+</div>
+<p class="text-3xl font-bold">2</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<h4 class="text-gray-500 font-medium">Completed Today</h4>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-green-100">
+<i class="ri-check-line text-green-600"></i>
+</div>
+</div>
+<p class="text-3xl font-bold">7</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<h4 class="text-gray-500 font-medium">Earnings Today</h4>
+<div class="w-8 h-8 flex items-center justify-center rounded-full bg-primary bg-opacity-10">
+<i class="ri-money-dollar-circle-line text-primary"></i>
+</div>
+</div>
+<p class="text-3xl font-bold">₹870</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="md:col-span-2">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-xl font-bold">Delivery Map</h3>
+<button class="bg-primary text-white px-4 py-2 rounded-button !rounded-button whitespace-nowrap">
+<i class="ri-route-line mr-2"></i> Optimize Route
+</button>
+</div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden" style="height: 400px; background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png'); background-size: cover; background-position: center;"></div>
+</div>
+<div>
+<h3 class="text-xl font-bold mb-4">Active Orders</h3>
+<div class="space-y-4">
+<div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-medium">Order #8294</h4>
+<p class="text-sm text-gray-500 mt-1">Emma Wilson</p>
+<p class="text-sm text-gray-500">3 items • 1.2 miles away</p>
+</div>
+<span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">In Transit</span>
+</div>
+<div class="flex justify-between mt-4">
+<button class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded text-sm !rounded-button whitespace-nowrap">
+<i class="ri-phone-line mr-1"></i> Call
+</button>
+<button class="bg-green-500 text-white px-3 py-1.5 rounded text-sm !rounded-button whitespace-nowrap">
+<i class="ri-check-line mr-1"></i> Complete
+</button>
+</div>
+</div>
+<div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-yellow-500">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-medium">Order #8295</h4>
+<p class="text-sm text-gray-500 mt-1">Robert Johnson</p>
+<p class="text-sm text-gray-500">5 items • 2.4 miles away</p>
+</div>
+<span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Pickup Ready</span>
+</div>
+<div class="flex justify-between mt-4">
+<button class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded text-sm !rounded-button whitespace-nowrap">
+<i class="ri-store-line mr-1"></i> Store Info
+</button>
+<button class="bg-blue-500 text-white px-3 py-1.5 rounded text-sm !rounded-button whitespace-nowrap">
+<i class="ri-shopping-bag-line mr-1"></i> Picked Up
+</button>
+</div>
+</div>
+<div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-medium">Order #8293</h4>
+<p class="text-sm text-gray-500 mt-1">Sarah Miller</p>
+<p class="text-sm text-gray-500">2 items • 0.8 miles away</p>
+</div>
+<span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">In Transit</span>
+</div>
+<div class="flex justify-between mt-4">
+<button class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded text-sm !rounded-button whitespace-nowrap">
+<i class="ri-phone-line mr-1"></i> Call
+</button>
+<button class="bg-green-500 text-white px-3 py-1.5 rounded text-sm !rounded-button whitespace-nowrap">
+<i class="ri-check-line mr-1"></i> Complete
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section -->
+<section class="py-16 bg-white">
+<div class="container mx-auto px-4">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold mb-4">Key Features</h2>
+<p class="text-lg text-gray-700 max-w-2xl mx-auto">Our platform offers a comprehensive set of features designed to streamline the entire process.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="p-6">
+<div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-4">
+<i class="ri-store-2-line ri-lg text-primary"></i>
+</div>
+<h3 class="text-xl font-bold mb-2">Inventory Management</h3>
+<p class="text-gray-700">Retailers can easily track stock levels, set expiration dates, and manage product listings from a centralized dashboard.</p>
+</div>
+<div class="p-6">
+<div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-4">
+<i class="ri-price-tag-3-line ri-lg text-primary"></i>
+</div>
+<h3 class="text-xl font-bold mb-2">Dynamic Pricing</h3>
+<p class="text-gray-700">Set discount rates based on expiration dates, with automatic price adjustments as products near their expiry date.</p>
+</div>
+<div class="p-6">
+<div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-4">
+<i class="ri-search-line ri-lg text-primary"></i>
+</div>
+<h3 class="text-xl font-bold mb-2">Advanced Search</h3>
+<p class="text-gray-700">Customers can search and filter products by category, price range, expiration date, and discount percentage.</p>
+</div>
+<div class="p-6">
+<div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-4">
+<i class="ri-secure-payment-line ri-lg text-primary"></i>
+</div>
+<h3 class="text-xl font-bold mb-2">Secure Checkout</h3>
+<p class="text-gray-700">Safe and streamlined payment processing with multiple payment options and encrypted transaction handling.</p>
+</div>
+<div class="p-6">
+<div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-4">
+<i class="ri-route-line ri-lg text-primary"></i>
+</div>
+<h3 class="text-xl font-bold mb-2">Route Optimization</h3>
+<p class="text-gray-700">Delivery agents benefit from intelligent route planning that minimizes travel time and maximizes delivery efficiency.</p>
+</div>
+<div class="p-6">
+<div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-4">
+<i class="ri-notification-4-line ri-lg text-primary"></i>
+</div>
+<h3 class="text-xl font-bold mb-2">Real-time Notifications</h3>
+<p class="text-gray-700">All users receive timely updates about order status, delivery progress, and special promotions.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-12">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div>
+<h1 class="text-2xl font-['Pacifico'] mb-4">ClearX</h1>
+<p class="text-gray-400">Connecting retailers, customers, and delivery agents to reduce waste and save money.</p>
+<div class="flex mt-4 space-x-4">
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition">
+<i class="ri-facebook-fill"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition">
+<i class="ri-twitter-fill"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition">
+<i class="ri-instagram-line"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-primary transition">
+<i class="ri-linkedin-fill"></i>
+</a>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">Quick Links</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition">Home</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">How It Works</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">For Users</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition">Retailer Dashboard</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Customer Shopping</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Delivery Portal</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Help Center</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">FAQs</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">Contact Us</h3>
+<ul class="space-y-2">
+<li class="flex items-center">
+<i class="ri-map-pin-line mr-2"></i>
+<span class="text-gray-400">Vignan's institute of information technology,vizag
+</span>
+</li>
+<li class="flex items-center">
+<i class="ri-mail-line mr-2"></i>
+<a href="mailto:info@ClearX.com" class="text-gray-400 hover:text-white transition">info@ClearX.com</a>
+</li>
+<li class="flex items-center">
+<i class="ri-phone-line mr-2"></i>
+<a href="tel:+1234567890" class="text-gray-400 hover:text-white transition">+91 9014820490</a>
+</li>
+</ul>
+<div class="mt-4">
+<h4 class="text-sm font-medium mb-2">Payment Methods</h4>
+<div class="flex space-x-3">
+<i class="ri-visa-fill text-2xl text-gray-400"></i>
+<i class="ri-mastercard-fill text-2xl text-gray-400"></i>
+<i class="ri-paypal-fill text-2xl text-gray-400"></i>
+<i class="ri-apple-fill text-2xl text-gray-400"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-400 text-sm">© 2025 ClearX. All rights reserved.</p>
+<div class="flex space-x-6 mt-4 md:mt-0">
+<a href="#" class="text-gray-400 hover:text-white text-sm transition">Privacy Policy</a>
+<a href="#" class="text-gray-400 hover:text-white text-sm transition">Terms of Service</a>
+<a href="#" class="text-gray-400 hover:text-white text-sm transition">Cookie Policy</a>
+</div>
+</div>
+</div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>
+// Tab switching functionality
+document.addEventListener('DOMContentLoaded', function() {
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+tabBtns.forEach(btn => {
+btn.addEventListener('click', () => {
+const tabId = btn.dataset.tab;
+// Update active tab button
+tabBtns.forEach(b => {
+if (b.dataset.tab === tabId) {
+b.classList.add('bg-primary', 'text-white');
+b.classList.remove('text-gray-700');
+} else {
+b.classList.remove('bg-primary', 'text-white');
+b.classList.add('text-gray-700');
+}
+});
+// Show active tab content
+tabContents.forEach(content => {
+if (content.id === `${tabId}-tab`) {
+content.classList.remove('hidden');
+} else {
+content.classList.add('hidden');
+}
+});
+// Initialize chart if retailer tab is active
+if (tabId === 'retailer') {
+initRetailerChart();
+}
+});
+});
+// Initialize retailer chart on page load
+initRetailerChart();
+// Initialize custom checkboxes
+document.querySelectorAll('.custom-checkbox').forEach(checkbox => {
+checkbox.addEventListener('click', function() {
+this.classList.toggle('checked');
+});
+});
+// Initialize custom switches
+document.querySelectorAll('.custom-switch input').forEach(switchInput => {
+switchInput.addEventListener('change', function() {
+// Switch functionality is handled by CSS
+});
+});
+});
+function initRetailerChart() {
+const chartDom = document.getElementById('retailer-chart');
+if (!chartDom) return;
+const myChart = echarts.init(chartDom);
+const option = {
+animation: false,
+tooltip: {
+trigger: 'axis',
+backgroundColor: 'rgba(255, 255, 255, 0.8)',
+textStyle: {
+color: '#1f2937'
+}
+},
+legend: {
+data: ['Sales', 'Orders'],
+textStyle: {
+color: '#1f2937'
+}
+},
+grid: {
+left: '3%',
+right: '4%',
+bottom: '3%',
+containLabel: true
+},
+xAxis: {
+type: 'category',
+boundaryGap: false,
+data: ['Apr 5', 'Apr 6', 'Apr 7', 'Apr 8', 'Apr 9', 'Apr 10', 'Apr 11'],
+axisLine: {
+lineStyle: {
+color: '#d1d5db'
+}
+},
+axisLabel: {
+color: '#1f2937'
+}
+},
+yAxis: {
+type: 'value',
+axisLine: {
+lineStyle: {
+color: '#d1d5db'
+}
+},
+axisLabel: {
+color: '#1f2937',
+formatter: '${value}'
+},
+splitLine: {
+lineStyle: {
+color: '#e5e7eb'
+}
+}
+},
+series: [
+{
+name: 'Sales',
+type: 'line',
+smooth: true,
+lineStyle: {
+width: 3,
+color: 'rgba(87, 181, 231, 1)'
+},
+areaStyle: {
+color: {
+type: 'linear',
+x: 0,
+y: 0,
+x2: 0,
+y2: 1,
+colorStops: [
+{
+offset: 0,
+color: 'rgba(87, 181, 231, 0.2)'
+},
+{
+offset: 1,
+color: 'rgba(87, 181, 231, 0.05)'
+}
+]
+}
+},
+data: [520, 632, 501, 834, 1290, 830, 1120],
+showSymbol: false
+},
+{
+name: 'Orders',
+type: 'line',
+smooth: true,
+lineStyle: {
+width: 3,
+color: 'rgba(141, 211, 199, 1)'
+},
+areaStyle: {
+color: {
+type: 'linear',
+x: 0,
+y: 0,
+x2: 0,
+y2: 1,
+colorStops: [
+{
+offset: 0,
+color: 'rgba(141, 211, 199, 0.2)'
+},
+{
+offset: 1,
+color: 'rgba(141, 211, 199, 0.05)'
+}
+]
+}
+},
+data: [15, 22, 18, 29, 42, 30, 38],
+showSymbol: false
+}
+]
+};
+myChart.setOption(option);
+window.addEventListener('resize', function() {
+myChart.resize();
+});
+}
+</script>
+</body>
+</html>
