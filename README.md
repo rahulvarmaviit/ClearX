@@ -3,7 +3,7 @@
 [![Node.js CI](https://github.com/yourusername/freshsave/actions/workflows/node.js.yml/badge.svg)](https://github.com/yourusername/freshsave/actions) 
 ![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/yourusername/freshsave)
 
-**Sustainable marketplace reducing food waste through AI-powered inventory management and optimized delivery**
+**Sustainable marketplace reducing food waste through AI-powered inventory management and optimized delivery*
 
 ## Table of Contents
 - [Features](#features-)
